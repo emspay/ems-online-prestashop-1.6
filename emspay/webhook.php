@@ -35,10 +35,6 @@ if (!$row) {
     die("WEBHOOK: Error - No row found for ginger_order_id: ".htmlentities($ginger_order_id));
 }
 
-if ($row['payment_method'] == "emspaycashondelivery") {
-    die("WEBHOOK: Nothing to do for COD");
-}
-
 echo "WEBHOOK: Payment method: " . $row['payment_method'] . "\n";
 
 include dirname(__FILE__).'/../'.$row['payment_method'].'/'.$row['payment_method'].'.php';

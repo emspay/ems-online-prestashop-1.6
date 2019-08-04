@@ -16,7 +16,6 @@ final class PaymentMethod
     const BANK_TRANSFER = 'bank-transfer';
     const SOFORT = 'sofort';
     const BANCONTACT = 'bancontact';
-    const COD = 'cash-on-delivery';
     const KLARNA = 'klarna';
     const PAYPAL = 'paypal';
     const HOMEPAY = 'homepay';
@@ -34,7 +33,6 @@ final class PaymentMethod
             self::BANK_TRANSFER,
             self::SOFORT,
             self::BANCONTACT,
-            self::COD,
             self::KLARNA,
             self::PAYPAL,
             self::HOMEPAY,
@@ -81,14 +79,6 @@ final class PaymentMethod
     public function isBancontact()
     {
         return $this->value === self::BANCONTACT;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isCashOnDelivery()
-    {
-        return $this->value === self::COD;
     }
 
     /**

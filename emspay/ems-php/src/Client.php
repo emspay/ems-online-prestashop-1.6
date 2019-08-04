@@ -93,7 +93,6 @@ final class Client
             'ideal' => 'ideal',
             'bank-transfer' => 'banktransfer',
             'bancontact' => 'bancontact',
-            'cash-on-delivery' => 'cashondelivery',
             'credit-card' => 'creditcard',
             'paypal' => 'paypal',
             'homepay' => 'homepay',
