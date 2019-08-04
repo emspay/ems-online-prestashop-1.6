@@ -28,10 +28,6 @@ final class PaymentMethodDetailsFactory
             return BancontactPaymentMethodDetails::fromArray($paymentMethodDetails);
         }
 
-        if ($paymentMethod->isCashOnDelivery()) {
-            return CashOnDeliveryPaymentMethodDetails::fromArray($paymentMethodDetails);
-        }
-
         if ($paymentMethod->isKlarna()) {
             return KlarnaPaymentMethodDetails::fromArray($paymentMethodDetails);
         }
