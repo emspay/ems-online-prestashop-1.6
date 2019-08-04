@@ -7,9 +7,9 @@ class Payment extends PaymentModule
 {
     public function execPayment()
     {
-        include_once(_PS_MODULE_DIR_.'ingpspbancontact/ingpspbancontact.php');
-        $ingpspbc = new ingpspbancontact();
-        $ingpspbc->execPayment($this->context->cart);
+        include_once(_PS_MODULE_DIR_.'emspaybancontact/emspaybancontact.php');
+        $emspaybc = new emspaybancontact();
+        $emspaybc->execPayment($this->context->cart);
     }
 }
 

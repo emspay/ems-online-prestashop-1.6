@@ -1,5 +1,5 @@
 <style>
-a.ingpspbancontact::after {
+a.emspaybancontact::after {
       display: block;
       content: "\f054";
       position: absolute;
@@ -12,15 +12,15 @@ a.ingpspbancontact::after {
       width: 14px;
       color: #777; 
 }
-a.ingpspbancontact {
-      background: url({$base_dir}modules/ingpspbancontact/logo_bestelling.png) 15px 12px no-repeat
+a.emspaybancontact {
+      background: url({$base_dir}modules/emspaybancontact/logo_bestelling.png) 15px 12px no-repeat
 }
 </style>
 <div class="row">
       <div class="col-xs-12">
             <p class="payment_module">
-                  <a class="ingpspbancontact" href="{$link->getModuleLink('ingpspbancontact', 'payment')|escape:'html'}" title="{l s='Pay by Bancontact' mod='ingpspbancontact'}">
-                        {l s='Pay by Bancontact' mod='ingpspbancontact'}</span>
+                  <a class="emspaybancontact" href="{$link->getModuleLink('emspaybancontact', 'payment')|escape:'html'}" title="{l s='Pay by Bancontact' mod='emspaybancontact'}">
+                        {l s='Pay by Bancontact' mod='emspaybancontact'}</span>
                   </a>
             </p>
       </div>
