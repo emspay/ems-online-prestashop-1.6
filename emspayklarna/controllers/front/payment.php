@@ -1,6 +1,6 @@
 <?php
 
-class ingpspKlarnaPaymentModuleFrontController extends ModuleFrontController
+class emspayKlarnaPaymentModuleFrontController extends ModuleFrontController
 {
     public $ssl = true;
     public $display_column_left = false;

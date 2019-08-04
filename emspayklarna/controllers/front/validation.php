@@ -1,17 +1,17 @@
 <?php
 
-require_once(_PS_MODULE_DIR_.'/ingpsp/ing-php/vendor/autoload.php');
+require_once(_PS_MODULE_DIR_.'/emspay/ems-php/vendor/autoload.php');
 
-class ingpspKlarnaValidationModuleFrontController extends ModuleFrontController
+class emspayKlarnaValidationModuleFrontController extends ModuleFrontController
 {
     public function postProcess()
     {
-        $apiKey = Configuration::get('ING_PSP_APIKEY_TEST') ?: Configuration::get('ING_PSP_APIKEY');
+        $apiKey = Configuration::get('EMS_PAY_APIKEY_TEST') ?: Configuration::get('EMS_PAY_APIKEY');
         $ginger = \GingerPayments\Payment\Ginger::createClient(
             $apiKey,
-            Configuration::get('ING_PSP_PRODUCT')
+            Configuration::get('EMS_PAY_PRODUCT')
         );
-        if (Configuration::get('ING_PSP_BUNDLE_CA')) {
+        if (Configuration::get('EMS_PAY_BUNDLE_CA')) {
             $ginger->useBundledCA();
         }
         $ginger_order_status = $ginger->getOrder(Tools::getValue('order_id'))->getStatus();

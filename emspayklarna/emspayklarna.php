@@ -4,10 +4,10 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-require_once(_PS_MODULE_DIR_.'/ingpsp/ing-php/vendor/autoload.php');
-require_once(_PS_MODULE_DIR_.'/ingpsp/ingpsp.php');
+require_once(_PS_MODULE_DIR_.'/emspay/ems-php/vendor/autoload.php');
+require_once(_PS_MODULE_DIR_.'/emspay/emspay.php');
 
-class ingpspKlarna extends PaymentModule
+class emspayKlarna extends PaymentModule
 {
     private $_html = '';
     private $_postErrors = array();
@@ -16,7 +16,7 @@ class ingpspKlarna extends PaymentModule
 
     public function __construct()
     {
-        $this->name = 'ingpspklarna';
+        $this->name = 'emspayklarna';
         $this->tab = 'payments_gateways';
         $this->version = '1.7.1';
         $this->author = 'Ginger Payments';
@@ -28,15 +28,15 @@ class ingpspKlarna extends PaymentModule
 
         parent::__construct();
 
-        $apiKey = Configuration::get('ING_PSP_APIKEY_TEST') ?: Configuration::get('ING_PSP_APIKEY');
+        $apiKey = Configuration::get('EMS_PAY_APIKEY_TEST') ?: Configuration::get('EMS_PAY_APIKEY');
 
         if ($apiKey) {
             try {
                 $this->ginger = \GingerPayments\Payment\Ginger::createClient(
                     $apiKey,
-                    Configuration::get('ING_PSP_PRODUCT')
+                    Configuration::get('EMS_PAY_PRODUCT')
                 );
-                if (Configuration::get('ING_PSP_BUNDLE_CA')) {
+                if (Configuration::get('EMS_PAY_BUNDLE_CA')) {
                     $this->ginger->useBundledCA();
                 }
             } catch (\Assert\InvalidArgumentException $exception) {
@@ -44,8 +44,8 @@ class ingpspKlarna extends PaymentModule
             }
         }
 
-        $this->displayName = $this->l('ING PSP Klarna');
-        $this->description = $this->l('Accept payments for your products using ING PSP Klarna');
+        $this->displayName = $this->l('EMS PAY Klarna');
+        $this->description = $this->l('Accept payments for your products using EMS PAY Klarna');
         $this->confirmUninstall = $this->l('Are you sure about removing these details?');
 
         if (!count(Currency::checkPaymentCurrencies($this->id))) {
@@ -60,7 +60,7 @@ class ingpspKlarna extends PaymentModule
             || !$this->registerHook('displayPaymentEU')
             || !$this->registerHook('paymentReturn')
             || !$this->registerHook('updateOrderStatus')
-            || !Configuration::get('ING_PSP_APIKEY')
+            || !Configuration::get('EMS_PAY_APIKEY')
         ) {
             return false;
         }
@@ -75,7 +75,7 @@ class ingpspKlarna extends PaymentModule
         return true;
     }
 
-    private function _displayingpsp()
+    private function _displayemspay()
     {
         return $this->display(__FILE__, 'infos.tpl');
     }
@@ -88,7 +88,7 @@ class ingpspKlarna extends PaymentModule
             $this->_html .= '<br />';
         }
 
-        $this->_html .= $this->_displayingpsp();
+        $this->_html .= $this->_displayemspay();
         $this->_html .= $this->renderForm();
 
         return $this->_html;
@@ -97,7 +97,7 @@ class ingpspKlarna extends PaymentModule
     private function _postProcess()
     {
         if (Tools::isSubmit('btnSubmit')) {
-            Configuration::updateValue('ING_KLARNA_SHOW_FOR_IP', trim(Tools::getValue('ING_KLARNA_SHOW_FOR_IP')));
+            Configuration::updateValue('EMS_KLARNA_SHOW_FOR_IP', trim(Tools::getValue('EMS_KLARNA_SHOW_FOR_IP')));
         }
         $this->_html .= $this->displayConfirmation($this->l('Settings updated'));
     }
@@ -105,16 +105,16 @@ class ingpspKlarna extends PaymentModule
     
     public function hookUpdateOrderStatus($params) 
     { 
-        $ingpsp = $this->getOrderDetails($params['cart']->id);
-        if (isset($ingpsp['payment_method'])
-                 && $ingpsp['payment_method'] == $this->name
+        $emspay = $this->getOrderDetails($params['cart']->id);
+        if (isset($emspay['payment_method'])
+                 && $emspay['payment_method'] == $this->name
                      && isset($params['newOrderStatus'])
                          && isset($params['newOrderStatus']->id)
                              && intval($params['newOrderStatus']->id) === intval(Configuration::get('PS_OS_SHIPPING'))
             ) {  
                 try {
                      $this->ginger->setOrderCapturedStatus(
-                             $this->ginger->getOrder($ingpsp['ginger_order_id'])
+                             $this->ginger->getOrder($emspay['ginger_order_id'])
                              );
                      return true;
                 } catch (\Exception $ex) {
@@ -133,10 +133,10 @@ class ingpspKlarna extends PaymentModule
             return;
         }
 
-        // check if the ING_KLARNA_SHOW_FOR_IP is set, if so, only display if user is from that IP
-        $ing_klarna_show_for_ip = Configuration::get('ING_KLARNA_SHOW_FOR_IP');
-        if (strlen($ing_klarna_show_for_ip)) {
-            $ip_whitelist = array_map('trim', explode(",", $ing_klarna_show_for_ip));
+        // check if the EMS_KLARNA_SHOW_FOR_IP is set, if so, only display if user is from that IP
+        $ems_klarna_show_for_ip = Configuration::get('EMS_KLARNA_SHOW_FOR_IP');
+        if (strlen($ems_klarna_show_for_ip)) {
+            $ip_whitelist = array_map('trim', explode(",", $ems_klarna_show_for_ip));
             if (!in_array($_SERVER['REMOTE_ADDR'], $ip_whitelist)) {
                 return;
             }
@@ -163,7 +163,7 @@ class ingpspKlarna extends PaymentModule
 
         return array(
             'cta_text' => $this->l('Pay by Klarna'),
-            'logo' => Media::getMediaPath(dirname(__FILE__).'/ingpsp.png'),
+            'logo' => Media::getMediaPath(dirname(__FILE__).'/emspay.png'),
             'action' => $this->context->link->getModuleLink($this->name, 'validation', array(), true)
         );
     }
@@ -211,14 +211,14 @@ class ingpspKlarna extends PaymentModule
         $fields_form = array(
             'form' => array(
                 'legend' => array(
-                    'title' => $this->l('ING PSP Settings'),
+                    'title' => $this->l('EMS PAY Settings'),
                     'icon' => 'icon-envelope'
                 ),
                 'input' => array(
                     array(
                         'type' => 'text',
                         'label' => $this->l('IP address(es) for testing.'),
-                        'name' => 'ING_KLARNA_SHOW_FOR_IP',
+                        'name' => 'EMS_KLARNA_SHOW_FOR_IP',
                         'required' => true,
                         'desc' => $this->l('You can specify specific IP addresses for which Klarna is visible, for example if you want to test Klarna you can type IP addresses as 128.0.0.1, 255.255.255.255. If you fill in nothing, then, Klarna is visible to all IP addresses.'),
                     ),
@@ -255,9 +255,9 @@ class ingpspKlarna extends PaymentModule
     public function getConfigFieldsValues()
     {
         return array(
-            'ING_KLARNA_SHOW_FOR_IP' => Tools::getValue(
-                'ING_KLARNA_SHOW_FOR_IP',
-                Configuration::get('ING_KLARNA_SHOW_FOR_IP')
+            'EMS_KLARNA_SHOW_FOR_IP' => Tools::getValue(
+                'EMS_KLARNA_SHOW_FOR_IP',
+                Configuration::get('EMS_KLARNA_SHOW_FOR_IP')
             ),
         );
     }
@@ -305,7 +305,7 @@ class ingpspKlarna extends PaymentModule
             $this->context->customer->secure_key
         );
 
-        $this->saveINGOrderId($response, $cart);
+        $this->saveEMSOrderId($response, $cart);
         $orderData = $this->ginger->getOrder($response->getId());
         $orderData->merchantOrderId($this->currentOrder);
         $this->ginger->updateOrder($orderData);
@@ -317,19 +317,19 @@ class ingpspKlarna extends PaymentModule
      * @param $response
      * @param $cart
      */
-    public function saveINGOrderId($response, $cart)
+    public function saveEMSOrderId($response, $cart)
     {
         if ($response->id()->toString()) {
             $db = Db::getInstance();
-            $db->Execute("DELETE FROM `"._DB_PREFIX_."ingpsp` WHERE `id_cart` = ".$cart->id);
+            $db->Execute("DELETE FROM `"._DB_PREFIX_."emspay` WHERE `id_cart` = ".$cart->id);
             $db->Execute("
-                INSERT INTO `"._DB_PREFIX_."ingpsp`
+                INSERT INTO `"._DB_PREFIX_."emspay`
 		            (`id_cart`, `ginger_order_id`, `key`, `payment_method`, `id_order`)
 		        VALUES (
 		            '".$cart->id."', 
 		            '".$response->getId()."', 
 		            '".$this->context->customer->secure_key."', 
-		            'ingpspklarna', 
+		            'emspayklarna', 
 		            '".$this->currentOrder."'
 		        );
             ");
@@ -352,7 +352,7 @@ class ingpspKlarna extends PaymentModule
                 .'&order_id='.$response->getId();
         } else {
             $returnURL = Context::getContext()->link->getModuleLink(
-                'ingpspklarna',
+                'emspayklarna',
                 'validation',
                 [
                     'id_cart' => $cart->id,
@@ -513,8 +513,8 @@ class ingpspKlarna extends PaymentModule
      */
     public static function getWebHookUrl()
     {
-        return Configuration::get('ING_PSP_USE_WEBHOOK')
-            ? _PS_BASE_URL_.__PS_BASE_URI__.'modules/ingpsp/webhook.php'
+        return Configuration::get('EMS_PAY_USE_WEBHOOK')
+            ? _PS_BASE_URL_.__PS_BASE_URI__.'modules/emspay/webhook.php'
             : null;
     }
     
@@ -527,7 +527,7 @@ class ingpspKlarna extends PaymentModule
     
     
     /**
-     * fetch ingpsp order by cart id
+     * fetch emspay order by cart id
      * 
      * @param int $cartID
      * @return array
@@ -536,7 +536,7 @@ class ingpspKlarna extends PaymentModule
         return Db::getInstance()->getRow(
                 sprintf(
                     'SELECT * FROM `%s` WHERE `%s` = \'%s\'',
-                    _DB_PREFIX_.'ingpsp',
+                    _DB_PREFIX_.'emspay',
                     'id_cart',
                      $cartID
                 )
