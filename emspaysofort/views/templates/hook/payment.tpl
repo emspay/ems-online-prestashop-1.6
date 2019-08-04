@@ -1,5 +1,5 @@
 <style>
-a.ingpspsofort::after {
+a.emspaysofort::after {
       display: block;
       content: "\f054";
       position: absolute;
@@ -12,15 +12,15 @@ a.ingpspsofort::after {
       width: 14px;
       color: #777; 
 }
-a.ingpspsofort {
-      background: url({$base_dir}modules/ingpspsofort/logo_bestelling.png) 15px 12px no-repeat
+a.emspaysofort {
+      background: url({$base_dir}modules/emspaysofort/logo_bestelling.png) 15px 12px no-repeat
 }
 </style>
 <div class="row">
       <div class="col-xs-12">
             <p class="payment_module">
-                  <a class="ingpspsofort" href="{$link->getModuleLink('ingpspsofort', 'payment')|escape:'html'}" title="{l s='Pay by SOFORT' mod='ingpspsofort'}">
-                        {l s='Pay by SOFORT' mod='ingpspsofort'}</span>
+                  <a class="emspaysofort" href="{$link->getModuleLink('emspaysofort', 'payment')|escape:'html'}" title="{l s='Pay by SOFORT' mod='emspaysofort'}">
+                        {l s='Pay by SOFORT' mod='emspaysofort'}</span>
                   </a>
             </p>
       </div>

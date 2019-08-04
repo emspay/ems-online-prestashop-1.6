@@ -4,10 +4,10 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-require_once(_PS_MODULE_DIR_.'/ingpsp/ing-php/vendor/autoload.php');
-require_once(_PS_MODULE_DIR_.'/ingpsp/ingpsp.php');
+require_once(_PS_MODULE_DIR_.'/emspay/ems-php/vendor/autoload.php');
+require_once(_PS_MODULE_DIR_.'/emspay/emspay.php');
 
-class ingpspsofort extends PaymentModule
+class emspaysofort extends PaymentModule
 {
     private $_html = '';
     private $_postErrors = array();
@@ -16,7 +16,7 @@ class ingpspsofort extends PaymentModule
 
     public function __construct()
     {
-        $this->name = 'ingpspsofort';
+        $this->name = 'emspaysofort';
         $this->tab = 'payments_gateways';
         $this->version = '1.7.1';
         $this->author = 'Ginger Payments';
@@ -28,13 +28,13 @@ class ingpspsofort extends PaymentModule
 
         parent::__construct();
 
-        if (Configuration::get('ING_PSP_APIKEY')) {
+        if (Configuration::get('EMS_PAY_APIKEY')) {
             try {
                 $this->ginger = \GingerPayments\Payment\Ginger::createClient(
-                    Configuration::get('ING_PSP_APIKEY'),
-                    Configuration::get('ING_PSP_PRODUCT')
+                    Configuration::get('EMS_PAY_APIKEY'),
+                    Configuration::get('EMS_PAY_PRODUCT')
                 );
-                if (Configuration::get('ING_PSP_BUNDLE_CA')) {
+                if (Configuration::get('EMS_PAY_BUNDLE_CA')) {
                     $this->ginger->useBundledCA();
                 }
             } catch (\Assert\InvalidArgumentException $exception) {
@@ -42,7 +42,7 @@ class ingpspsofort extends PaymentModule
             }
         }
 
-        $this->displayName = $this->l('ING PSP SOFORT');
+        $this->displayName = $this->l('EMS PAY SOFORT');
         $this->description = $this->l('Accept payments for your products using SOFORT.');
         $this->confirmUninstall = $this->l('Are you sure about removing these details?');
 
@@ -57,7 +57,7 @@ class ingpspsofort extends PaymentModule
             || !$this->registerHook('payment')
             || !$this->registerHook('displayPaymentEU')
             || !$this->registerHook('paymentReturn')
-            || !Configuration::get('ING_PSP_APIKEY')
+            || !Configuration::get('EMS_PAY_APIKEY')
         ) {
             return false;
         }
@@ -102,7 +102,7 @@ class ingpspsofort extends PaymentModule
 
         return array(
             'cta_text' => $this->l('Pay by SOFORT'),
-            'logo' => Media::getMediaPath(dirname(__FILE__).'/ing.png'),
+            'logo' => Media::getMediaPath(dirname(__FILE__).'/ems.png'),
             'action' => $this->context->link->getModuleLink($this->name, 'validation', array(), true)
         );
     }
@@ -150,8 +150,8 @@ class ingpspsofort extends PaymentModule
         $description = sprintf($this->l('Your order at')." %s", Configuration::get('PS_SHOP_NAME'));
         $totalInCents = self::getAmountInCents($cart->getOrderTotal(true));
         $currency = \GingerPayments\Payment\Currency::EUR;
-        $webhookUrl = Configuration::get('ING_PSP_USE_WEBHOOK')
-            ? _PS_BASE_URL_.__PS_BASE_URI__.'modules/ingpsp/webhook.php'
+        $webhookUrl = Configuration::get('EMS_PAY_USE_WEBHOOK')
+            ? _PS_BASE_URL_.__PS_BASE_URI__.'modules/emspay/webhook.php'
             : null;
         $returnURL = $this->getReturnURL($cart);
 
@@ -184,7 +184,7 @@ class ingpspsofort extends PaymentModule
             return Tools::displayError("Error: Response did not include payment url!");
         }
 
-        $this->saveINGOrderId($response, $cart);
+        $this->saveEMSOrderId($response, $cart);
 
         header('Location: '.$response->firstTransactionPaymentUrl()->toString());
     }
@@ -193,19 +193,19 @@ class ingpspsofort extends PaymentModule
      * @param $response
      * @param $cart
      */
-    public function saveINGOrderId($response, $cart)
+    public function saveEMSOrderId($response, $cart)
     {
         if ($response->id()->toString()) {
             $db = Db::getInstance();
-            $db->Execute("DELETE FROM `"._DB_PREFIX_."ingpsp` WHERE `id_cart` = ".$cart->id);
+            $db->Execute("DELETE FROM `"._DB_PREFIX_."emspay` WHERE `id_cart` = ".$cart->id);
             $db->Execute("
-		        INSERT INTO `"._DB_PREFIX_."ingpsp`
+		        INSERT INTO `"._DB_PREFIX_."emspay`
 		            (`id_cart`, `ginger_order_id`, `key`, `payment_method`)
 		        VALUES
 		            ('".$cart->id."', 
 		            '".$response->id()->toString()."', 
 		            '".$this->context->customer->secure_key."', 
-		            'ingpspsofort'
+		            'emspaysofort'
 		        );
             ");
         }
@@ -225,7 +225,7 @@ class ingpspsofort extends PaymentModule
                 .'&id_order='.$this->currentOrder;
         } else {
             $returnURL = Context::getContext()->link->getModuleLink(
-                'ingpsp',
+                'emspay',
                 'validation',
                 [
                     'id_cart' => $cart->id,
