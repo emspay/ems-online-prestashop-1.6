@@ -1,9 +1,9 @@
 <?php
 
-require_once(_PS_MODULE_DIR_.'/ingpsp/ing-php/vendor/autoload.php');
-require_once(_PS_MODULE_DIR_.'/ingpsp/lib/clientfactory.php');
+require_once(_PS_MODULE_DIR_.'/emspay/ems-php/vendor/autoload.php');
+require_once(_PS_MODULE_DIR_.'/emspay/lib/clientfactory.php');
 
-class ingpspAfterpayValidationModuleFrontController extends ModuleFrontController
+class emspayAfterpayValidationModuleFrontController extends ModuleFrontController
 {
     public function postProcess()
     {

@@ -4,12 +4,12 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-require_once(_PS_MODULE_DIR_.'/ingpsp/ing-php/vendor/autoload.php');
-require_once(_PS_MODULE_DIR_.'/ingpsp/ingpsp.php');
-require_once(_PS_MODULE_DIR_.'/ingpsp/lib/ingpsphelper.php');
-require_once(_PS_MODULE_DIR_.'/ingpsp/lib/clientfactory.php');
+require_once(_PS_MODULE_DIR_.'/emspay/ems-php/vendor/autoload.php');
+require_once(_PS_MODULE_DIR_.'/emspay/emspay.php');
+require_once(_PS_MODULE_DIR_.'/emspay/lib/emspayhelper.php');
+require_once(_PS_MODULE_DIR_.'/emspay/lib/clientfactory.php');
 
-class ingpspAfterpay extends PaymentModule
+class emspayAfterpay extends PaymentModule
 {
     const TERMS_CONDITION_URL_NL = 'https://www.afterpay.nl/nl/algemeen/betalen-met-afterpay/betalingsvoorwaarden';
     const TERMS_CONDITION_URL_BE = 'https://www.afterpay.be/be/footer/betalen-met-afterpay/betalingsvoorwaarden';
@@ -21,7 +21,7 @@ class ingpspAfterpay extends PaymentModule
 
     public function __construct()
     {
-        $this->name = 'ingpspafterpay';
+        $this->name = 'emspayafterpay';
         $this->tab = 'payments_gateways';
         $this->version = '1.7.1';
         $this->author = 'Ginger Payments';
@@ -33,7 +33,7 @@ class ingpspAfterpay extends PaymentModule
 
         parent::__construct();
         
-        $apiKey = Configuration::get('ING_PSP_AFTERPAY_APIKEY_TEST') ?: Configuration::get('ING_PSP_APIKEY');
+        $apiKey = Configuration::get('EMS_PAY_AFTERPAY_APIKEY_TEST') ?: Configuration::get('EMS_PAY_APIKEY');
         
         if ($apiKey) {
             try {
@@ -43,8 +43,8 @@ class ingpspAfterpay extends PaymentModule
             }
         }
         
-        $this->displayName = $this->l('ING PSP AfterPay');
-        $this->description = $this->l('Accept payments for your products using ING PSP AfterPay');
+        $this->displayName = $this->l('EMS PAY AfterPay');
+        $this->description = $this->l('Accept payments for your products using EMS PAY AfterPay');
         $this->confirmUninstall = $this->l('Are you sure about removing these details?');
 
         if (!count(Currency::checkPaymentCurrencies($this->id))) {
@@ -59,7 +59,7 @@ class ingpspAfterpay extends PaymentModule
             || !$this->registerHook('displayPaymentEU')
             || !$this->registerHook('paymentReturn')
             || !$this->registerHook('actionOrderStatusUpdate')
-            || !Configuration::get('ING_PSP_APIKEY')
+            || !Configuration::get('EMS_PAY_APIKEY')
         ) {
             return false;
         }
@@ -74,7 +74,7 @@ class ingpspAfterpay extends PaymentModule
             $html = $this->postProcess();
         }
 
-        $html .= $this->displayingpsp();
+        $html .= $this->displayemspay();
         $html .= $this->renderForm();
 
         return $html;
@@ -83,12 +83,12 @@ class ingpspAfterpay extends PaymentModule
     private function postProcess()
     {
         if (Tools::isSubmit('btnSubmit')) {
-            Configuration::updateValue('ING_AFTERPAY_SHOW_FOR_IP', trim(Tools::getValue('ING_AFTERPAY_SHOW_FOR_IP')));
+            Configuration::updateValue('EMS_AFTERPAY_SHOW_FOR_IP', trim(Tools::getValue('EMS_AFTERPAY_SHOW_FOR_IP')));
         }
         return $this->displayConfirmation($this->l('Settings updated'));
     }
     
-    private function displayingpsp()
+    private function displayemspay()
     {
         return $this->display(__FILE__, 'infos.tpl');
     }
@@ -98,14 +98,14 @@ class ingpspAfterpay extends PaymentModule
         $fields_form = array(
             'form' => array(
                 'legend' => array(
-                    'title' => $this->l('ING PSP Settings'),
+                    'title' => $this->l('EMS PAY Settings'),
                     'icon' => 'icon-envelope'
                 ),
                 'input' => array(
                     array(
                         'type' => 'text',
                         'label' => $this->l('IP address(es) for testing.'),
-                        'name' => 'ING_AFTERPAY_SHOW_FOR_IP',
+                        'name' => 'EMS_AFTERPAY_SHOW_FOR_IP',
                         'required' => true,
                         'desc' => $this->l('You can specify specific IP addresses for which AfterPay is visible, for example if you want to test AfterPay you can type IP addresses as 128.0.0.1, 255.255.255.255. If you fill in nothing, then, AfterPay is visible to all IP addresses.'),
                     ),
@@ -144,9 +144,9 @@ class ingpspAfterpay extends PaymentModule
     public function getConfigFieldsValues()
     {
         return array(
-            'ING_AFTERPAY_SHOW_FOR_IP' => Tools::getValue(
-                'ING_AFTERPAY_SHOW_FOR_IP',
-                Configuration::get('ING_AFTERPAY_SHOW_FOR_IP')
+            'EMS_AFTERPAY_SHOW_FOR_IP' => Tools::getValue(
+                'EMS_AFTERPAY_SHOW_FOR_IP',
+                Configuration::get('EMS_AFTERPAY_SHOW_FOR_IP')
             ),
         );
     }
@@ -227,16 +227,16 @@ class ingpspAfterpay extends PaymentModule
     }
 
     /**
-     * check if the ING_AFTERPAY_SHOW_FOR_IP is set,
+     * check if the EMS_AFTERPAY_SHOW_FOR_IP is set,
      * if so, only display if user is from that IP
      *
      * @return boolean
      */
     protected function isSetShowForIpFilter()
     {
-        $ing_afterpay_show_for_ip = Configuration::get('ING_AFTERPAY_SHOW_FOR_IP');
-        if (strlen($ing_afterpay_show_for_ip)) {
-            $ip_whitelist = array_map('trim', explode(",", $ing_afterpay_show_for_ip));
+        $ems_afterpay_show_for_ip = Configuration::get('EMS_AFTERPAY_SHOW_FOR_IP');
+        if (strlen($ems_afterpay_show_for_ip)) {
+            $ip_whitelist = array_map('trim', explode(",", $ems_afterpay_show_for_ip));
             if (!in_array($_SERVER['REMOTE_ADDR'], $ip_whitelist)) {
                 return true;
             }
@@ -256,7 +256,7 @@ class ingpspAfterpay extends PaymentModule
 
         return array(
             'cta_text' => $this->l('Pay by AfterPay'),
-            'logo' => Media::getMediaPath(dirname(__FILE__).'/ingpspafterpay.png'),
+            'logo' => Media::getMediaPath(dirname(__FILE__).'/emspayafterpay.png'),
             'action' => $this->context->link->getModuleLink($this->name, 'validation', array(), true)
         );
     }
@@ -281,9 +281,9 @@ class ingpspAfterpay extends PaymentModule
         $customer = $this->getCustomerInformation($cart, $locale);
         $orderLines = $this->getOrderLines($cart);
         $description = $this->getOrderDescription();
-        $totalInCents = IngpspHelper::getAmountInCents($cart->getOrderTotal(true));
+        $totalInCents = EmspayHelper::getAmountInCents($cart->getOrderTotal(true));
         $currency = \GingerPayments\Payment\Currency::EUR;
-        $webhookUrl = IngpspHelper::getWebHookUrl();
+        $webhookUrl = EmspayHelper::getWebHookUrl();
  
         try {
             $response = $this->ginger->createAfterPayOrder(
@@ -294,7 +294,7 @@ class ingpspAfterpay extends PaymentModule
                 null,                                                               // Return URL
                 null,                                                               // Expiration Period
                 $customer,                                                          // Customer information
-                ['plugin' => IngpspHelper::getPluginVersionText($this->version)],   // Extra information
+                ['plugin' => EmspayHelper::getPluginVersionText($this->version)],   // Extra information
                 $webhookUrl,                                                        // Webhook URL
                 $orderLines                                                         // Order lines
             );
@@ -310,7 +310,7 @@ class ingpspAfterpay extends PaymentModule
             return Tools::displayError("Error: Response did not include id!");
         }
         
-        $this->saveINGOrderId($response, $cart);
+        $this->saveEMSOrderId($response, $cart);
         $orderData = $this->ginger->getOrder($response->getId());
         $orderData->merchantOrderId($this->currentOrder);
         $this->ginger->updateOrder($orderData);
@@ -341,7 +341,7 @@ class ingpspAfterpay extends PaymentModule
             'first_name' => $presta_customer->firstname,
             'last_name' => $presta_customer->lastname,
             'merchant_customer_id' => $cart->id_customer,
-            'phone_numbers' => IngpspHelper::getArrayWithoutNullValues([
+            'phone_numbers' => EmspayHelper::getArrayWithoutNullValues([
                         (string) $presta_address->phone,
                         (string) $presta_address->phone_mobile
                     ]),
@@ -366,7 +366,7 @@ class ingpspAfterpay extends PaymentModule
                 'url' => $this->getProductURL($product),
                 'name' => $product['name'],
                 'type' => \GingerPayments\Payment\Order\OrderLine\Type::PHYSICAL,
-                'amount' => IngpspHelper::getAmountInCents(Tools::ps_round($product['price_wt'], 2)),
+                'amount' => EmspayHelper::getAmountInCents(Tools::ps_round($product['price_wt'], 2)),
                 'currency' => \GingerPayments\Payment\Currency::EUR,
                 'quantity' => $product['cart_quantity'],
                 'image_url' => $this->getProductCoverImage($product),
@@ -396,9 +396,9 @@ class ingpspAfterpay extends PaymentModule
         return [
             'name' => $this->l("Shipping Fee"),
             'type' => \GingerPayments\Payment\Order\OrderLine\Type::SHIPPING_FEE,
-            'amount' => IngpspHelper::getAmountInCents($shippingFee),
+            'amount' => EmspayHelper::getAmountInCents($shippingFee),
             'currency' => \GingerPayments\Payment\Currency::EUR,
-            'vat_percentage' => IngpspHelper::getAmountInCents($this->getShippingTaxRate($cart)),
+            'vat_percentage' => EmspayHelper::getAmountInCents($this->getShippingTaxRate($cart)),
             'quantity' => 1,
             'merchant_order_line_id' => count($cart->getProducts()) + 1
         ];
@@ -458,11 +458,11 @@ class ingpspAfterpay extends PaymentModule
      */
     public function hookActionOrderStatusUpdate($params)
     {
-        $ingpsp = $this->getOrderDetails($params['cart']->id);
-        if ($this->isNewOrderStatusIsShipping($params, $ingpsp)) {
+        $emspay = $this->getOrderDetails($params['cart']->id);
+        if ($this->isNewOrderStatusIsShipping($params, $emspay)) {
             try {
                 $this->ginger->setOrderCapturedStatus(
-                         $this->ginger->getOrder($ingpsp['ginger_order_id'])
+                         $this->ginger->getOrder($emspay['ginger_order_id'])
                          );
                 return true;
             } catch (\Exception $ex) {
@@ -474,7 +474,7 @@ class ingpspAfterpay extends PaymentModule
     }
 
     /**
-    * fetch ingpsp order by cart id
+    * fetch emspay order by cart id
     *
     * @param int $cartID
     * @return array
@@ -484,7 +484,7 @@ class ingpspAfterpay extends PaymentModule
         return Db::getInstance()->getRow(
                 sprintf(
                     'SELECT * FROM `%s` WHERE `%s` = \'%s\'',
-                    _DB_PREFIX_.'ingpsp',
+                    _DB_PREFIX_.'emspay',
                     'id_cart',
                      $cartID
                 )
@@ -495,11 +495,11 @@ class ingpspAfterpay extends PaymentModule
      * @param array $params
      * @return boolean
      */
-    protected function isNewOrderStatusIsShipping($params, $ingpsp)
+    protected function isNewOrderStatusIsShipping($params, $emspay)
     {
         return (bool)  (
-            isset($ingpsp['payment_method']) &&
-            $ingpsp['payment_method'] == $this->name &&
+            isset($emspay['payment_method']) &&
+            $emspay['payment_method'] == $this->name &&
             isset($params['newOrderStatus']) &&
             isset($params['newOrderStatus']->id) &&
             intval($params['newOrderStatus']->id) === intval(Configuration::get('PS_OS_SHIPPING'))
@@ -510,13 +510,13 @@ class ingpspAfterpay extends PaymentModule
      * @param $response
      * @param $cart
      */
-    public function saveINGOrderId($response, $cart)
+    public function saveEMSOrderId($response, $cart)
     {
         if ($response->id()->toString()) {
             $db = Db::getInstance();
-            $db->Execute("DELETE FROM `"._DB_PREFIX_."ingpsp` WHERE `id_cart` = ".$cart->id);
+            $db->Execute("DELETE FROM `"._DB_PREFIX_."emspay` WHERE `id_cart` = ".$cart->id);
             $db->Execute("
-                        INSERT INTO `"._DB_PREFIX_."ingpsp`
+                        INSERT INTO `"._DB_PREFIX_."emspay`
 		            (`id_cart`, `ginger_order_id`, `key`, `payment_method`, `id_order`)
 		        VALUES (
 		            '".$cart->id."', 
@@ -565,7 +565,7 @@ class ingpspAfterpay extends PaymentModule
     protected function getReturnUrlForV16($cartId, $responseId)
     {
         return Context::getContext()->link->getModuleLink(
-                'ingpspafterpay',
+                'emspayafterpay',
                 'validation',
                 [
                     'id_cart' => $cartId,
