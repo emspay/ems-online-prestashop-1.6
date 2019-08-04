@@ -4,10 +4,10 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-require_once(_PS_MODULE_DIR_.'/ingpsp/ing-php/vendor/autoload.php');
-require_once(_PS_MODULE_DIR_.'/ingpsp/ingpsp.php');
+require_once(_PS_MODULE_DIR_.'/emspay/ems-php/vendor/autoload.php');
+require_once(_PS_MODULE_DIR_.'/emspay/emspay.php');
 
-class ingpspBanktransfer extends PaymentModule
+class emspayBanktransfer extends PaymentModule
 {
     private $_html = '';
     private $_postErrors = array();
@@ -16,7 +16,7 @@ class ingpspBanktransfer extends PaymentModule
 
     public function __construct()
     {
-        $this->name = 'ingpspbanktransfer';
+        $this->name = 'emspaybanktransfer';
         $this->tab = 'payments_gateways';
         $this->version = '1.7.1';
         $this->author = 'Ginger Payments';
@@ -28,13 +28,13 @@ class ingpspBanktransfer extends PaymentModule
 
         parent::__construct();
 
-        if (Configuration::get('ING_PSP_APIKEY')) {
+        if (Configuration::get('EMS_PAY_APIKEY')) {
             try {
                 $this->ginger = \GingerPayments\Payment\Ginger::createClient(
-                    Configuration::get('ING_PSP_APIKEY'),
-                    Configuration::get('ING_PSP_PRODUCT')
+                    Configuration::get('EMS_PAY_APIKEY'),
+                    Configuration::get('EMS_PAY_PRODUCT')
                 );
-                if (Configuration::get('ING_PSP_BUNDLE_CA')) {
+                if (Configuration::get('EMS_PAY_BUNDLE_CA')) {
                     $this->ginger->useBundledCA();
                 }
             } catch (\Assert\InvalidArgumentException $exception) {
@@ -42,8 +42,8 @@ class ingpspBanktransfer extends PaymentModule
             }
         }
 
-        $this->displayName = $this->l('ING PSP Banktransfer');
-        $this->description = $this->l('Accept payments for your products using ING PSP Banktransfer');
+        $this->displayName = $this->l('EMS PAY Banktransfer');
+        $this->description = $this->l('Accept payments for your products using EMS PAY Banktransfer');
         $this->confirmUninstall = $this->l('Are you sure about removing these details?');
 
         if (!count(Currency::checkPaymentCurrencies($this->id))) {
@@ -57,7 +57,7 @@ class ingpspBanktransfer extends PaymentModule
             || !$this->registerHook('payment')
             || !$this->registerHook('displayPaymentEU')
             || !$this->registerHook('paymentReturn')
-            || !Configuration::get('ING_PSP_APIKEY')
+            || !Configuration::get('EMS_PAY_APIKEY')
         ) {
             return false;
         }
@@ -103,7 +103,7 @@ class ingpspBanktransfer extends PaymentModule
 
         return array(
             'cta_text' => $this->l('Pay by bank transfer'),
-            'logo' => Media::getMediaPath(dirname(__FILE__).'/ingpsp.png'),
+            'logo' => Media::getMediaPath(dirname(__FILE__).'/emspay.png'),
             'action' => $this->context->link->getModuleLink($this->name, 'validation', array(), true)
         );
     }
@@ -123,7 +123,7 @@ class ingpspBanktransfer extends PaymentModule
             $row = Db::getInstance()->getRow(
                 sprintf(
                     'SELECT * FROM `%s` WHERE `%s` = \'%s\'',
-                    _DB_PREFIX_.'ingpsp',
+                    _DB_PREFIX_.'emspay',
                     'id_cart',
                     $params['objOrder']->id_cart
                 )
@@ -131,9 +131,9 @@ class ingpspBanktransfer extends PaymentModule
 
             $this->smarty->assign(array(
                 'total_to_pay' => Tools::displayPrice($params['total_to_pay'], $params['currencyObj'], false),
-                'gingerbanktransferIBAN' => 'NL13INGB0005300060',
+                'gingerbanktransferIBAN' => 'NL79ABNA0842577610',
                 'gingerbanktransferAddress' => '',
-                'gingerbanktransferOwner' => 'ING PSP',
+                'gingerbanktransferOwner' => 'EMS PAY',
                 'status' => 'ok',
                 'reference' => $row['reference'],
             ));
@@ -193,8 +193,8 @@ class ingpspBanktransfer extends PaymentModule
         $description = sprintf($this->l('Your order at')." %s", Configuration::get('PS_SHOP_NAME'));
         $totalInCents = self::getAmountInCents($cart->getOrderTotal(true));
         $currency = \GingerPayments\Payment\Currency::EUR;
-        $webhookUrl = Configuration::get('ING_PSP_USE_WEBHOOK')
-            ? _PS_BASE_URL_.__PS_BASE_URI__.'modules/ingpsp/webhook.php'
+        $webhookUrl = Configuration::get('EMS_PAY_USE_WEBHOOK')
+            ? _PS_BASE_URL_.__PS_BASE_URI__.'modules/emspay/webhook.php'
             : null;
 
         try {
@@ -225,7 +225,7 @@ class ingpspBanktransfer extends PaymentModule
         $bankReference = $response->transactions()->current()->paymentMethodDetails()->reference()->toString();
 
         $extra_vars = array(
-            '{bankwire_owner}' => "ING PSP",
+            '{bankwire_owner}' => "EMS PAY",
             '{bankwire_details}' => "NL13INGB0005300060",
             '{bankwire_address}' => $this->l('Use the following reference when paying for your order:')." ".$bankReference,
         );
@@ -242,7 +242,7 @@ class ingpspBanktransfer extends PaymentModule
             $this->context->customer->secure_key
         );
 
-        $this->saveINGOrderId($response, $cart);
+        $this->saveEMSOrderId($response, $cart);
         $orderData = $this->ginger->getOrder($response->getId());
         $orderData->merchantOrderId($this->currentOrder);
         $this->ginger->updateOrder($orderData);
@@ -257,7 +257,7 @@ class ingpspBanktransfer extends PaymentModule
     public function sendPrivateMessage($bankReference)
     {
         $new_message = new Message();
-        $new_message->message = $this->l('ING PSP Bank Transfer Reference: ').$bankReference;
+        $new_message->message = $this->l('EMS PAY Bank Transfer Reference: ').$bankReference;
         $new_message->id_order = $this->currentOrder;
         $new_message->private = 1;
         $new_message->add();
@@ -267,19 +267,19 @@ class ingpspBanktransfer extends PaymentModule
      * @param $response
      * @param $cart
      */
-    public function saveINGOrderId($response, $cart)
+    public function saveEMSOrderId($response, $cart)
     {
         if ($response->id()->toString()) {
             $db = Db::getInstance();
-            $db->Execute("DELETE FROM `"._DB_PREFIX_."ingpsp` WHERE `id_cart` = ".$cart->id);
+            $db->Execute("DELETE FROM `"._DB_PREFIX_."emspay` WHERE `id_cart` = ".$cart->id);
             $db->Execute("
-                INSERT INTO `"._DB_PREFIX_."ingpsp`
+                INSERT INTO `"._DB_PREFIX_."emspay`
 		            (`id_cart`, `ginger_order_id`, `key`, `payment_method`, `id_order`, `reference`)
 		        VALUES (
 		            '".$cart->id."', 
 		            '".$response->getId()."', 
 		            '".$this->context->customer->secure_key."', 
-		            'ingpspbanktransfer', 
+		            'emspaybanktransfer', 
 		            '".$this->currentOrder."', 
 		            '".$response->transactions()->current()->paymentMethodDetails()->reference()->toString()."'
 		        );
@@ -303,7 +303,7 @@ class ingpspBanktransfer extends PaymentModule
                 .'&order_id='.$response->getId();
         } else {
             $returnURL = Context::getContext()->link->getModuleLink(
-                'ingpspbanktransfer',
+                'emspaybanktransfer',
                 'validation',
                 [
                     'id_cart' => $cart->id,
