@@ -18,7 +18,6 @@ final class PaymentMethod
     const BANCONTACT = 'bancontact';
     const KLARNA = 'klarna';
     const PAYPAL = 'paypal';
-    const HOMEPAY = 'homepay';
     const PAYCONIQ = 'payconiq';
     const AFTERPAY = 'afterpay';
 
@@ -35,7 +34,6 @@ final class PaymentMethod
             self::BANCONTACT,
             self::KLARNA,
             self::PAYPAL,
-            self::HOMEPAY,
             self::PAYCONIQ,
             self::AFTERPAY
         ];
@@ -95,14 +93,6 @@ final class PaymentMethod
     public function isPayPal()
     {
         return $this->value === self::PAYPAL;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isHomePay()
-    {
-        return $this->value === self::HOMEPAY;
     }
     
     /**

@@ -95,7 +95,6 @@ final class Client
             'bancontact' => 'bancontact',
             'credit-card' => 'creditcard',
             'paypal' => 'paypal',
-            'homepay' => 'homepay',
             'klarna' => 'klarna',
             'sofort' => 'sofort',
             'payconiq' => 'payconiq',
@@ -520,49 +519,6 @@ final class Client
     ) {
         return $this->postOrder(
             Order::createWithPaypal(
-                $amount,
-                $currency,
-                $paymentMethodDetails,
-                $description,
-                $merchantOrderId,
-                $returnUrl,
-                $expirationPeriod,
-                $customer,
-                $extra,
-                $webhookUrl
-            )
-        );
-    }
-
-    /**
-     * Create a new Home'Pay order.
-     *
-     * @param integer $amount Amount in cents.
-     * @param string $currency A valid currency code.
-     * @param array $paymentMethodDetails An array of extra payment method details.
-     * @param string $description A description of the order.
-     * @param string $merchantOrderId A merchant-defined order identifier.
-     * @param string $returnUrl The return URL.
-     * @param string $expirationPeriod The expiration period as an ISO 8601 duration
-     * @param array $customer Customer information.
-     * @param array $extra Extra information.
-     *
-     * @return Order The newly created order.
-     */
-    public function createHomepayOrder(
-        $amount,
-        $currency,
-        array $paymentMethodDetails = [],
-        $description = null,
-        $merchantOrderId = null,
-        $returnUrl = null,
-        $expirationPeriod = null,
-        $customer = null,
-        $extra = null,
-        $webhookUrl = null
-    ) {
-        return $this->postOrder(
-            Order::createWithHomepay(
                 $amount,
                 $currency,
                 $paymentMethodDetails,

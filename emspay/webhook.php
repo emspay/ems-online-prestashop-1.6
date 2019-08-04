@@ -8,7 +8,6 @@ $payment_method_mapping = array(
     "bancontact" => "Bancontact",
     "sofort" => "SOFORT",
     "klarna" => "Klarna",
-    "homepay" => "Homepay",
     "paypal" => "PayPal",
     "payconiq" => "Payconiq",
     "afterpay" => "Afterpay"

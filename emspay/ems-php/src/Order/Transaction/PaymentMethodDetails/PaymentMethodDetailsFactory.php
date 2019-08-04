@@ -39,10 +39,6 @@ final class PaymentMethodDetailsFactory
         if ($paymentMethod->isPayPal()) {
             return PayPalPaymentMethodDetails::fromArray($paymentMethodDetails);
         }
-
-        if ($paymentMethod->isHomePay()) {
-            return HomePayPaymentMethodDetails::fromArray($paymentMethodDetails);
-        }
         
         if ($paymentMethod->isPayconiq()) { 
             return PayconiqPaymentMethodDetails::fromArray($paymentMethodDetails);
