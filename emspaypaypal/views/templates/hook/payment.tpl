@@ -1,5 +1,5 @@
 <style>
-a.ingpsppaypal::after {
+a.emspaypaypal::after {
       display: block;
       content: "\f054";
       position: absolute;
@@ -12,15 +12,15 @@ a.ingpsppaypal::after {
       width: 14px;
       color: #777; 
 }
-a.ingpsppaypal {
-      background: url({$base_dir}modules/ingpsppaypal/logo_bestelling.png) 15px 12px no-repeat
+a.emspaypaypal {
+      background: url({$base_dir}modules/emspaypaypal/logo_bestelling.png) 15px 12px no-repeat
 }
 </style>
 <div class="row">
       <div class="col-xs-12">
             <p class="payment_module">
-                  <a class="ingpsppaypal" href="{$link->getModuleLink('ingpsppaypal', 'payment')|escape:'html'}" title="{l s='Pay by PayPal' mod='ingpsppaypal'}">
-                        {l s='Pay by PayPal' mod='ingpsppaypal'}</span>
+                  <a class="emspaypaypal" href="{$link->getModuleLink('emspaypaypal', 'payment')|escape:'html'}" title="{l s='Pay by PayPal' mod='emspaypaypal'}">
+                        {l s='Pay by PayPal' mod='emspaypaypal'}</span>
                   </a>
             </p>
       </div>

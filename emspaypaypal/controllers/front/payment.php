@@ -1,6 +1,6 @@
 <?php
 
-class ingpspPaypalPaymentModuleFrontController extends ModuleFrontController
+class emspayPaypalPaymentModuleFrontController extends ModuleFrontController
 {
     public $ssl = true;
     public $display_column_left = false;
