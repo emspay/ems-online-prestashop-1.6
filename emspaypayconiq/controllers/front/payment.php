@@ -1,6 +1,6 @@
 <?php
 
-class ingpspPayconiqPaymentModuleFrontController extends ModuleFrontController
+class emspayPayconiqPaymentModuleFrontController extends ModuleFrontController
 {
     public $ssl = true;
     public $display_column_left = false;

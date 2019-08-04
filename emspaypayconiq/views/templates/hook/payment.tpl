@@ -1,5 +1,5 @@
 <style>
-a.ingpsppayconiq::after {
+a.emspaypayconiq::after {
       display: block;
       content: "\f054";
       position: absolute;
@@ -13,16 +13,16 @@ a.ingpsppayconiq::after {
       color: #777; 
 }
 
-a.ingpsppayconiq {
-      background: url({$base_dir}modules/ingpsppayconiq/logo_bestelling.png) 15px 12px no-repeat;
+a.emspaypayconiq {
+      background: url({$base_dir}modules/emspaypayconiq/logo_bestelling.png) 15px 12px no-repeat;
 }
 </style>
 
 <div class="row">
       <div class="col-xs-12">
             <p class="payment_module">
-                  <a class="ingpsppayconiq" href="{$link->getModuleLink('ingpsppayconiq', 'payment')|escape:'html'}" title="{l s='Pay by PAYCONIQ' mod='ingpsppayconiq'}">
-                        <span>{l s='Pay by PAYCONIQ' mod='ingpsppayconiq'}</span>
+                  <a class="emspaypayconiq" href="{$link->getModuleLink('emspaypayconiq', 'payment')|escape:'html'}" title="{l s='Pay by PAYCONIQ' mod='emspaypayconiq'}">
+                        <span>{l s='Pay by PAYCONIQ' mod='emspaypayconiq'}</span>
                   </a>
             </p>
       </div>
