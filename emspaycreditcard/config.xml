@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <module>
-	<name>ingpspcreditcard</name>
-	<displayName><![CDATA[ ING PSP Creditcard]]></displayName>
+	<name>emspaycreditcard</name>
+	<displayName><![CDATA[ EMS PAY Creditcard]]></displayName>
 	<version><![CDATA[1.7.1]]></version>
 	<description><![CDATA[Accept payments for your products using creditcard.]]></description>
 	<author><![CDATA[Ginger Payments]]></author>
