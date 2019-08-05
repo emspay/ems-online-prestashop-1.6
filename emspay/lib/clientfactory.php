@@ -31,10 +31,7 @@ class ClientFactory
                 break;
         }
         
-        $ginger = \GingerPayments\Payment\Ginger::createClient(
-                $apiKey,
-                Configuration::get('EMS_PAY_PRODUCT')
-        );
+        $ginger = \GingerPayments\Payment\Ginger::createClient($apiKey);
         if (Configuration::get('EMS_PAY_BUNDLE_CA')) {
             $ginger->useBundledCA();
         }

@@ -8,8 +8,7 @@ class emspayKlarnaValidationModuleFrontController extends ModuleFrontController
     {
         $apiKey = Configuration::get('EMS_PAY_APIKEY_TEST') ?: Configuration::get('EMS_PAY_APIKEY');
         $ginger = \GingerPayments\Payment\Ginger::createClient(
-            $apiKey,
-            Configuration::get('EMS_PAY_PRODUCT')
+            $apiKey
         );
         if (Configuration::get('EMS_PAY_BUNDLE_CA')) {
             $ginger->useBundledCA();

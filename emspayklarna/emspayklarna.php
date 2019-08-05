@@ -33,8 +33,7 @@ class emspayKlarna extends PaymentModule
         if ($apiKey) {
             try {
                 $this->ginger = \GingerPayments\Payment\Ginger::createClient(
-                    $apiKey,
-                    Configuration::get('EMS_PAY_PRODUCT')
+                    $apiKey
                 );
                 if (Configuration::get('EMS_PAY_BUNDLE_CA')) {
                     $this->ginger->useBundledCA();

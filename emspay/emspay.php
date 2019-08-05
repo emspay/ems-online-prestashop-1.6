@@ -47,10 +47,9 @@ class emspay extends PaymentModule
      */
     protected function initiateAllowedProducts()
     {
-        if (Configuration::get('EMS_PAY_APIKEY') && Configuration::get('EMS_PAY_PRODUCT')) {
+        if (Configuration::get('EMS_PAY_APIKEY')) {
             $this->ginger = \GingerPayments\Payment\Ginger::createClient(
-                Configuration::get('EMS_PAY_APIKEY'),
-                Configuration::get('EMS_PAY_PRODUCT')
+                Configuration::get('EMS_PAY_APIKEY')
             );
             if (Configuration::get('EMS_PAY_BUNDLE_CA')) {
                 $this->ginger->useBundledCA();
@@ -78,7 +77,6 @@ class emspay extends PaymentModule
     public function uninstall()
     {
         if (!Configuration::deleteByName('EMS_PAY_APIKEY')
-            || !Configuration::deleteByName('EMS_PAY_PRODUCT')
             || !parent::uninstall()
         ) {
             return false;
@@ -92,9 +90,6 @@ class emspay extends PaymentModule
             if (!Tools::getValue('EMS_PAY_APIKEY')) {
                 $this->_postErrors[] = $this->l('API key should be set.');
             }
-            if (!Tools::getValue('EMS_PAY_PRODUCT')) {
-                $this->_postErrors[] = $this->l('Type of product should be set.');
-            }
         }
     }
 
@@ -104,7 +99,6 @@ class emspay extends PaymentModule
             Configuration::updateValue('EMS_PAY_APIKEY', trim(Tools::getValue('EMS_PAY_APIKEY')));
             Configuration::updateValue('EMS_PAY_APIKEY_TEST', trim(Tools::getValue('EMS_PAY_APIKEY_TEST')));
             Configuration::updateValue('EMS_PAY_AFTERPAY_APIKEY_TEST', trim(Tools::getValue('EMS_PAY_AFTERPAY_APIKEY_TEST')));
-            Configuration::updateValue('EMS_PAY_PRODUCT', Tools::getValue('EMS_PAY_PRODUCT'));
             Configuration::updateValue('EMS_PAY_USE_WEBHOOK', Tools::getValue('EMS_PAY_USE_WEBHOOK'));
             Configuration::updateValue('EMS_PAY_BUNDLE_CA', Tools::getValue('EMS_PAY_BUNDLE_CA'));
         }
@@ -147,28 +141,6 @@ class emspay extends PaymentModule
                     'icon' => 'icon-envelope'
                 ),
                 'input' => array(
-                    array(
-                        'type' => 'radio',
-                        'label' => $this->l('Type'),
-                        'name' => 'EMS_PAY_PRODUCT',
-                        'values' => array(
-                            array(
-                                'id' => 'kassacompleet',
-                                'value' => 'kassacompleet',
-                                'label' => $this->l('Kassa Compleet')
-                            ),
-                            array(
-                                'id' => 'emscheckout',
-                                'value' => 'emscheckout',
-                                'label' => $this->l('EMS Checkout')
-                            ),
-                            array(
-                                'id' => 'epay',
-                                'value' => 'epay',
-                                'label' => $this->l('EMS ePay')
-                            )
-                        ),
-                    ),
                     array(
                         'type' => 'checkbox',
                         'name' => 'EMS_PAY',
@@ -257,7 +229,6 @@ class emspay extends PaymentModule
             'EMS_PAY_APIKEY' => Tools::getValue('EMS_PAY_APIKEY', Configuration::get('EMS_PAY_APIKEY')),
             'EMS_PAY_APIKEY_TEST' => Tools::getValue('EMS_PAY_APIKEY_TEST', Configuration::get('EMS_PAY_APIKEY_TEST')),
             'EMS_PAY_AFTERPAY_APIKEY_TEST' => Tools::getValue('EMS_PAY_AFTERPAY_APIKEY_TEST', Configuration::get('EMS_PAY_AFTERPAY_APIKEY_TEST')),
-            'EMS_PAY_PRODUCT' => Tools::getValue('EMS_PAY_PRODUCT', Configuration::get('EMS_PAY_PRODUCT')),
             'EMS_PAY_BUNDLE_CA' => Tools::getValue('EMS_PAY_BUNDLE_CA', Configuration::get('EMS_PAY_BUNDLE_CA')),
             'EMS_PAY_USE_WEBHOOK' => Tools::getValue('EMS_PAY_USE_WEBHOOK', Configuration::get('EMS_PAY_USE_WEBHOOK'))
         );

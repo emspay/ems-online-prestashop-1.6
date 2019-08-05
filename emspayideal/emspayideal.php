@@ -31,8 +31,7 @@ class emspayIdeal extends PaymentModule
         if (Configuration::get('EMS_PAY_APIKEY')) {
             try {
                 $this->ginger = \GingerPayments\Payment\Ginger::createClient(
-                    Configuration::get('EMS_PAY_APIKEY'),
-                    Configuration::get('EMS_PAY_PRODUCT')
+                    Configuration::get('EMS_PAY_APIKEY')
                 );
                 if (Configuration::get('EMS_PAY_BUNDLE_CA')) {
                     $this->ginger->useBundledCA();
