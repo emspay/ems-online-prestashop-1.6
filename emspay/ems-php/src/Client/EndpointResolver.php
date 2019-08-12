@@ -23,29 +23,7 @@ class EndpointResolver {
     /**
      * @return string
      */
-    public function getEndpointGinger() {
-        return false !== getenv('ENDPOINT_GINGER') ? getenv('ENDPOINT_GINGER') : self::ENDPOINT_GINGER;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEndpointKassa() {
-        return false !== getenv('ENDPOINT_KASSA') ? getenv('ENDPOINT_KASSA') : self::ENDPOINT_KASSA;
-    }
-
-    /**
-     * @return string
-     */
     public function getEndpointEms() {
         return false !== getenv('ENDPOINT_EMS') ? getenv('ENDPOINT_EMS') : self::ENDPOINT_EMS;
     }
-
-    /**
-     * @return string
-     */
-    public function getEndpointEpay() {
-        return false !== getenv('ENDPOINT_EPAY') ? getenv('ENDPOINT_EPAY') : self::ENDPOINT_EPAY;
-    }
-
 }
