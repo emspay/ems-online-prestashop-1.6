@@ -7,24 +7,9 @@ use Dotenv\Dotenv;
 class EndpointResolver {
 
     /**
-     * API endpoint Ginger Payments
-     */
-    const ENDPOINT_GINGER = 'https://api.gingerpayments.com/{version}/';
-
-    /**
-     * API Kassa Compleet endpoint
-     */
-    const ENDPOINT_KASSA = 'https://api.kassacompleet.nl/{version}/';
-
-    /**
      * API endpoint EMS
      */
-    const ENDPOINT_EMS = 'https://api.ems-checkout.com/{version}/';
-
-    /**
-     * API endpoint EPAY
-     */
-    const ENDPOINT_EPAY = 'https://api.epay.ing.be/{version}/';
+    const ENDPOINT_EMS = 'https://api.onlinetest.emspay.eu/{version}/';
 
     public function __construct() {
         try {
