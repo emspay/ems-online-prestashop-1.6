@@ -1,4 +1,4 @@
-# ING PSP plugin for Prestashop 1.6.x
+# EMS PAY plugin for Prestashop 1.6.x
 This is the offical EMS Pay plugin.
 
 ## About
