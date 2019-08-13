@@ -225,7 +225,7 @@ class emspayBanktransfer extends PaymentModule
 
         $extra_vars = array(
             '{bankwire_owner}' => "EMS PAY",
-            '{bankwire_details}' => "NL13INGB0005300060",
+            '{bankwire_details}' => "NL79ABNA0842577610",
             '{bankwire_address}' => $this->l('Use the following reference when paying for your order:')." ".$bankReference,
         );
 
