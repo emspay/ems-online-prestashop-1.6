@@ -430,7 +430,7 @@ class emspayKlarna extends PaymentModule
                 'vat_percentage' => ((int) $product['rate'] * 100),
                 'merchant_order_line_id' => $product['unique_id']
             ], function ($var) {
-                return !is_null($var);
+                return !empty($var);
             });
         }
 
