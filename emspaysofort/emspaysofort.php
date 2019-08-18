@@ -41,7 +41,7 @@ class emspaysofort extends PaymentModule
             }
         }
 
-        $this->displayName = $this->l('EMS PAY SOFORT');
+        $this->displayName = $this->l('EMS Online SOFORT');
         $this->description = $this->l('Accept payments for your products using SOFORT.');
         $this->confirmUninstall = $this->l('Are you sure about removing these details?');
 

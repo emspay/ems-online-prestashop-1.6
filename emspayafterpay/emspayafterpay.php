@@ -43,8 +43,8 @@ class emspayAfterpay extends PaymentModule
             }
         }
         
-        $this->displayName = $this->l('EMS PAY AfterPay');
-        $this->description = $this->l('Accept payments for your products using EMS PAY AfterPay');
+        $this->displayName = $this->l('EMS Online AfterPay');
+        $this->description = $this->l('Accept payments for your products using EMS Online AfterPay');
         $this->confirmUninstall = $this->l('Are you sure about removing these details?');
 
         if (!count(Currency::checkPaymentCurrencies($this->id))) {
@@ -98,7 +98,7 @@ class emspayAfterpay extends PaymentModule
         $fields_form = array(
             'form' => array(
                 'legend' => array(
-                    'title' => $this->l('EMS PAY Settings'),
+                    'title' => $this->l('EMS Online Settings'),
                     'icon' => 'icon-envelope'
                 ),
                 'input' => array(

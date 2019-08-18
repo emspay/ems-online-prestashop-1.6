@@ -41,8 +41,8 @@ class emspayBanktransfer extends PaymentModule
             }
         }
 
-        $this->displayName = $this->l('EMS PAY Banktransfer');
-        $this->description = $this->l('Accept payments for your products using EMS PAY Banktransfer');
+        $this->displayName = $this->l('EMS Online Banktransfer');
+        $this->description = $this->l('Accept payments for your products using EMS Online Banktransfer');
         $this->confirmUninstall = $this->l('Are you sure about removing these details?');
 
         if (!count(Currency::checkPaymentCurrencies($this->id))) {
@@ -132,7 +132,7 @@ class emspayBanktransfer extends PaymentModule
                 'total_to_pay' => Tools::displayPrice($params['total_to_pay'], $params['currencyObj'], false),
                 'gingerbanktransferIBAN' => 'NL79ABNA0842577610',
                 'gingerbanktransferAddress' => '',
-                'gingerbanktransferOwner' => 'EMS PAY',
+                'gingerbanktransferOwner' => 'THIRD PARTY FUNDS EMS',
                 'status' => 'ok',
                 'reference' => $row['reference'],
             ));
@@ -224,7 +224,7 @@ class emspayBanktransfer extends PaymentModule
         $bankReference = $response->transactions()->current()->paymentMethodDetails()->reference()->toString();
 
         $extra_vars = array(
-            '{bankwire_owner}' => "EMS PAY",
+            '{bankwire_owner}' => "THIRD PARTY FUNDS EMS",
             '{bankwire_details}' => "NL79ABNA0842577610",
             '{bankwire_address}' => $this->l('Use the following reference when paying for your order:')." ".$bankReference,
         );
@@ -256,7 +256,7 @@ class emspayBanktransfer extends PaymentModule
     public function sendPrivateMessage($bankReference)
     {
         $new_message = new Message();
-        $new_message->message = $this->l('EMS PAY Bank Transfer Reference: ').$bankReference;
+        $new_message->message = $this->l('EMS Online Bank Transfer Reference: ').$bankReference;
         $new_message->id_order = $this->currentOrder;
         $new_message->private = 1;
         $new_message->add();

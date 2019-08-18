@@ -41,7 +41,7 @@ class emspaypaypal extends PaymentModule
             }
         }
 
-        $this->displayName = $this->l('EMS PAY PayPal');
+        $this->displayName = $this->l('EMS Online PayPal');
         $this->description = $this->l('Accept payments for your products using PayPal.');
         $this->confirmUninstall = $this->l('Are you sure about removing these details?');
 

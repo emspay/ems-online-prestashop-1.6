@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <module>
 	<name>emspaysofort</name>
-	<displayName><![CDATA[EMS PAY SOFORT]]></displayName>
+	<displayName><![CDATA[EMS Online SOFORT]]></displayName>
 	<version><![CDATA[1.7.1]]></version>
 	<description><![CDATA[Accept payments for your products using SOFORT banking.]]></description>
 	<author><![CDATA[Ginger Payments]]></author>

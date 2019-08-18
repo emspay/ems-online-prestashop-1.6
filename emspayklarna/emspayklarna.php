@@ -43,8 +43,8 @@ class emspayKlarna extends PaymentModule
             }
         }
 
-        $this->displayName = $this->l('EMS PAY Klarna');
-        $this->description = $this->l('Accept payments for your products using EMS PAY Klarna');
+        $this->displayName = $this->l('EMS Online Klarna');
+        $this->description = $this->l('Accept payments for your products using EMS Online Klarna');
         $this->confirmUninstall = $this->l('Are you sure about removing these details?');
 
         if (!count(Currency::checkPaymentCurrencies($this->id))) {
@@ -210,7 +210,7 @@ class emspayKlarna extends PaymentModule
         $fields_form = array(
             'form' => array(
                 'legend' => array(
-                    'title' => $this->l('EMS PAY Settings'),
+                    'title' => $this->l('EMS Online Settings'),
                     'icon' => 'icon-envelope'
                 ),
                 'input' => array(

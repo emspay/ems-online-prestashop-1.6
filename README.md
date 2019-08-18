@@ -1,9 +1,9 @@
-# EMS PAY plugin for Prestashop 1.6.x
-This is the offical EMS Pay plugin.
+# EMS Online plugin for Prestashop 1.6.x
+This is the offical EMS Online plugin.
 
 ## About
 
-By integrating your webshop with EMS PAY you can accept payments from your customers in an easy and trusted manner with all relevant payment methods supported.
+By integrating your webshop with EMS Online you can accept payments from your customers in an easy and trusted manner with all relevant payment methods supported.
 
 ## Version number
 Version 1.0.0

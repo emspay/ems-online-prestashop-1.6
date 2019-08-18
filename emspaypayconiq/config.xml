@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <module>
 	<name>emspaypayconiq</name>
-	<displayName><![CDATA[EMS PAY PAYCONIQ]]></displayName>
+	<displayName><![CDATA[EMS Online PAYCONIQ]]></displayName>
 	<version><![CDATA[1.7.1]]></version>
 	<description><![CDATA[Accept payments for your products using PAYCONIQ.]]></description>
 	<author><![CDATA[Ginger Payments]]></author>

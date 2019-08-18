@@ -33,8 +33,8 @@ class emspay extends PaymentModule
 
         parent::__construct();
 
-        $this->displayName = $this->l('EMS PAY');
-        $this->description = $this->l('Accept payments for your products using EMS PAY. Install this module first');
+        $this->displayName = $this->l('EMS Online');
+        $this->description = $this->l('Accept payments for your products using EMS Online. Install this module first');
         $this->confirmUninstall = $this->l('Are you sure about removing these details?');
 
         if (!count(Currency::checkPaymentCurrencies($this->id))) {
@@ -137,7 +137,7 @@ class emspay extends PaymentModule
         $fields_form = array(
             'form' => array(
                 'legend' => array(
-                    'title' => $this->l('EMS PAY Settings'),
+                    'title' => $this->l('EMS Online Settings'),
                     'icon' => 'icon-envelope'
                 ),
                 'input' => array(

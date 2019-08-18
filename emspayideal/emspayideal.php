@@ -41,8 +41,8 @@ class emspayIdeal extends PaymentModule
             }
         }
 
-        $this->displayName = $this->l('EMS PAY iDEAL');
-        $this->description = $this->l('Accept payments for your products using EMS PAY iDEAL.');
+        $this->displayName = $this->l('EMS Online iDEAL');
+        $this->description = $this->l('Accept payments for your products using EMS Online iDEAL.');
         $this->confirmUninstall = $this->l('Are you sure about removing these details?');
 
         if (!count(Currency::checkPaymentCurrencies($this->id))) {

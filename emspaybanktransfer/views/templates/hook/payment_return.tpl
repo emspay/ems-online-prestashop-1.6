@@ -9,7 +9,7 @@
 	<br /><br />
 	{l s='To complete your order, transfer the amount using the information below' mod='emspaybanktransfer'}
 	<br /><br />- {l s='Amount:' mod='emspaybanktransfer'} <span class="price"><strong>{$total_to_pay}</strong></span>
-	<br /><br />- {l s='Account holder: ' mod='emspaybanktransfer'}  <strong>EMS PAY</strong>
+	<br /><br />- {l s='Account holder: ' mod='emspaybanktransfer'}  <strong>THIRD PARTY FUNDS EMS</strong>
 	<br /><br />- {l s='Account IBAN: ' mod='emspaybanktransfer'}  <strong>NL79ABNA0842577610</strong>
 	<br /><br />- {l s='Do not forget to insert the reference %s in the subject of your banktransfer.' sprintf=$reference mod='emspaybanktransfer'}
 	<br /><br />{l s='An email has been sent with this information.' mod='emspaybanktransfer'}

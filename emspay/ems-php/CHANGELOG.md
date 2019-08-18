@@ -14,7 +14,7 @@
 
 * Added Payconiq Payment Method
 
-* Updated License content to reflect EMS Bank N.V
+* Updated License content to reflect EMS
 
 
 ** 1.3.1 **

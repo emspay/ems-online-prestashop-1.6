@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <module>
 	<name>emspay</name>
-	<displayName><![CDATA[EMS PAY]]></displayName>
+	<displayName><![CDATA[EMS Online]]></displayName>
 	<version><![CDATA[1.7.1]]></version>
-	<description><![CDATA[Accept payments for your products using EMS PAY. Install this module first]]></description>
+	<description><![CDATA[Accept payments for your products using EMS Online. Install this module first]]></description>
 	<author><![CDATA[Ginger Payments]]></author>
 	<tab><![CDATA[payments_gateways]]></tab>
 	<confirmUninstall><![CDATA[Are you sure about removing these details?]]></confirmUninstall>

@@ -39,7 +39,7 @@ class emspaypayconiq extends PaymentModule
             }
         }
 
-        $this->displayName = $this->l('EMS PAY PAYCONIQ');
+        $this->displayName = $this->l('EMS Online PAYCONIQ');
         $this->description = $this->l('Accept payments for your products using PAYCONIQ.');
         $this->confirmUninstall = $this->l('Are you sure about removing these details?');
 

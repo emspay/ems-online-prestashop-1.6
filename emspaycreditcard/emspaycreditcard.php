@@ -41,7 +41,7 @@ class emspayCreditcard extends PaymentModule
             }
         }
 
-        $this->displayName = $this->l('EMS PAY Creditcard');
+        $this->displayName = $this->l('EMS Online Creditcard');
         $this->description = $this->l('Accept payments for your products using creditcard.');
         $this->confirmUninstall = $this->l('Are you sure about removing these details?');
 
