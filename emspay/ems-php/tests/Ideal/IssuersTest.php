@@ -69,7 +69,7 @@ final class IssuersTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 'id' => 'INGBNL2A',
-                'name' => 'EMS Bank',
+                'name' => 'ING Bank',
                 'list_type' => 'Nederland'
             ]
         ];
