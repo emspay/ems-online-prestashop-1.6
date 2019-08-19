@@ -2,13 +2,13 @@
 
 global $_MODULE;
 $_MODULE = array();
-$_MODULE['<{emspayklarna}prestashop>emspayklarna_426d4ef95f212af805c05cc79002a6bb'] = 'EMS PAY Klarna';
-$_MODULE['<{emspayklarna}prestashop>emspayklarna_ac4f32ae4919a183ae3f495dac85ec70'] = 'Akzeptiere Zahlungen für Ihre Produkte mit Klarna';
+$_MODULE['<{emspayklarna}prestashop>emspayklarna_734085f85a07b545cdba2d8a853dc0e3'] = 'EMS Online Klarna';
+$_MODULE['<{emspayklarna}prestashop>emspayklarna_515f0e748cb4ead124eef033ff9b8a7c'] = 'Akzeptiere Zahlungen für Ihre Produkte mit Klarna';
 $_MODULE['<{emspayklarna}prestashop>emspayklarna_cbe0a99684b145e77f3e14174ac212e3'] = 'Sind Sie sicher, diese Details zu entfernen?';
 $_MODULE['<{emspayklarna}prestashop>emspayklarna_a02758d758e8bec77a33d7f392eb3f8a'] = 'Keine Währung ist für dieses Modul eingestellt worden. Sie können das einstellen in das Localization / Currencies Menu.';
 $_MODULE['<{emspayklarna}prestashop>emspayklarna_c888438d14855d7d96a2724ee9c306bd'] = 'Einstellungen aktualisiert';
 $_MODULE['<{emspayklarna}prestashop>emspayklarna_88a47151e698cf0da0d958781bff7c15'] = 'Bezahlen bei Klarna';
-$_MODULE['<{emspayklarna}prestashop>emspayklarna_b09c67977572a1f9c8bea1f92a388d4b'] = 'EMS PAY Einstellungen';
+$_MODULE['<{emspayklarna}prestashop>emspayklarna_09b61a6273a9e570a8b89cf6a9cc4376'] = 'EMS Online Einstellungen';
 $_MODULE['<{emspayklarna}prestashop>emspayklarna_56af9b52b08f15a62ff06112edd7e4d2'] = 'IP-Adresse(n) für Prüfung.';
 $_MODULE['<{emspayklarna}prestashop>emspayklarna_74b144e97c43a5768ecaf3f008fd211b'] = 'Sie können spezifische IP-Adressen angeben, für die Klarna sichtbar ist, zB wenn Sie Klarna testen möchten, können Sie IP-Adressen als 128.0.0.1, 255.255.255.255 eingeben. Wenn Sie nichts ausfüllen, dann ist Klarna für alle IP-Adressen sichtbar.';
 $_MODULE['<{emspayklarna}prestashop>emspayklarna_c9cc8cce247e49bae79f15173ce97354'] = 'Speichern';
@@ -22,7 +22,7 @@ $_MODULE['<{emspayklarna}prestashop>success_68a489dbc8079a40832c3d558fcfb069'] =
 $_MODULE['<{emspayklarna}prestashop>success_0749858f7cf8461ff22c7bbc96b42533'] = 'Ihre Bezahlung ist erfolgreich abgeschlossen.';
 $_MODULE['<{emspayklarna}prestashop>success_28ebe42c2122892cda50da869aa9cf4a'] = 'Vielen Dank für Ihre Bestellung. Ihre Bezahlung ist erfolgreich abgeschlossen.';
 $_MODULE['<{emspayklarna}prestashop>success_1818231910ed0358308b7a8010f720a3'] = 'Die Rechnung wird zu Ihre E-Mail Adresse geschickt.';
-$_MODULE['<{emspayklarna}prestashop>infos_f35c3cf0022fdefe01d9af80914bc910'] = 'Akzeptiere Zahlungen für Ihre Produkte mit Klarna.';
+$_MODULE['<{emspayklarna}prestashop>infos_fc10f8cebd12266d3ef047925fb6688d'] = 'Mit diesem Modul können Sie Zahlungen mit EMS Online Klarna akzeptieren';
 $_MODULE['<{emspayklarna}prestashop>infos_69e681a7023aad18cb152629cf760492'] = 'Die Bestellung wird aktualisiert, nachdem der Kunde erfolgreich bezahlt.';
 $_MODULE['<{emspayklarna}prestashop>payment_88a47151e698cf0da0d958781bff7c15'] = 'Bezahlen mit Klarna';
 $_MODULE['<{emspayklarna}prestashop>payment_return_68a489dbc8079a40832c3d558fcfb069'] = 'Ihre bestellung bei %s';

@@ -2,14 +2,14 @@
 
 global $_MODULE;
 $_MODULE = array();
-$_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_e45937a38f1bc7cfd7b75621cb14cae1'] = 'EMS PAY Banküberweisung';
-$_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_42ffd5610caeb3a3669cc32d3c37f98b'] = 'Akzeptiere Zahlungen für Ihre Produkte mit EMS Banküberweisung.';
+$_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_e7ec7bf7d9dc25c33b09f6ea03905fb3'] = 'EMS Online Banküberweisung';
+$_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_e103c52e308e5e3b705906aa73165388'] = 'Akzeptiere Zahlungen für Ihre Produkte mit EMS Online Banküberweisung.';
 $_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_cbe0a99684b145e77f3e14174ac212e3'] = 'Sind Sie sicher, diese Details zu entfernen?';
 $_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_a02758d758e8bec77a33d7f392eb3f8a'] = 'Keine Währung ist für dieses Modul eingestellt worden. Sie können das einstellen in das Localization / Currencies Menu.';
 $_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_572b221ec653032250100cefd10a31eb'] = 'Bezahlen bei Banküberweisung';
 $_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_7853e11acea9a6109b2f1c00cdb4041e'] = 'Ihre Bestellung bei';
 $_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_0d8a5a85d378a2c248326eac1b045556'] = 'Verwenden Sie die folgende Referenz, beim Zahlen für Ihre Bestellung:';
-$_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_d438503a23d967ac1bfbeee3e174bca0'] = 'Zahlungsreferenz :';
+$_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_218fa8ba064e0a843fb30108aeef5562'] = 'Zahlungsreferenz :';
 $_MODULE['<{emspaybanktransfer}prestashop>error_68a489dbc8079a40832c3d558fcfb069'] = 'Ihre bestellung bei %s';
 $_MODULE['<{emspaybanktransfer}prestashop>error_5023dbc72719b0d03162a18fda6db2b3'] = 'Leider ist ein Fehler bei der Verarbeitung Ihrer Bezahlung aufgetreten.';
 $_MODULE['<{emspaybanktransfer}prestashop>error_7dc1ee1a41f69f4027a773780c058b07'] = 'Bitte klick hier um eine andere Zahlungsart zu wahlen.';

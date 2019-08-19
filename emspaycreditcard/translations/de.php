@@ -2,7 +2,7 @@
 
 global $_MODULE;
 $_MODULE = array();
-$_MODULE['<{emspaycreditcard}prestashop>emspaycreditcard_6db82dddb37a6285b43e419ca64ca423'] = 'EMS PAY Kreditkarte.';
+$_MODULE['<{emspaycreditcard}prestashop>emspaycreditcard_c2beb329c255a7e5a351dec34b4f620a'] = 'EMS Online Kreditkarte.';
 $_MODULE['<{emspaycreditcard}prestashop>emspaycreditcard_1f85d0dc4f3c772b9a8f3432eeed98b3'] = 'Akzeptiere Zahlungen für Ihre Produkte mit Kreditkarte.';
 $_MODULE['<{emspaycreditcard}prestashop>emspaycreditcard_cbe0a99684b145e77f3e14174ac212e3'] = 'Sind Sie sicher, diese Details zu entfernen?';
 $_MODULE['<{emspaycreditcard}prestashop>emspaycreditcard_a02758d758e8bec77a33d7f392eb3f8a'] = 'Keine Währung ist für dieses Modul eingestellt worden. Sie können das einstellen in das Localization / Currencies Menu.';

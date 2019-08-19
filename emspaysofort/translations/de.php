@@ -2,7 +2,7 @@
 
 global $_MODULE;
 $_MODULE = array();
-$_MODULE['<{emspaysofort}prestashop>emspaysofort_4e14356078492e74bd9db7b73ca7c59a'] = 'EMS PAY SOFORT';
+$_MODULE['<{emspaysofort}prestashop>emspaysofort_77d972e09403cfdb1d3861bc978e0a1f'] = 'EMS Online SOFORT';
 $_MODULE['<{emspaysofort}prestashop>emspaysofort_f34a3858b182ac360b1f979670db1af6'] = 'Akzeptiere Zahlungen für Ihre Produkte mit SOFORT.';
 $_MODULE['<{emspaysofort}prestashop>emspaysofort_cbe0a99684b145e77f3e14174ac212e3'] = 'Sind Sie sicher, diese Details zu entfernen?';
 $_MODULE['<{emspaysofort}prestashop>emspaysofort_a02758d758e8bec77a33d7f392eb3f8a'] = 'Keine Währung ist für dieses Modul eingestellt worden. Sie können das einstellen in das Localization / Currencies Menu.';

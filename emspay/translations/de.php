@@ -2,18 +2,13 @@
 
 global $_MODULE;
 $_MODULE = array();
-$_MODULE['<{emspay}prestashop>emspay_5fb2baa143b10d64460fa57666d6abe5'] = 'EMS PAY';
-$_MODULE['<{emspay}prestashop>emspay_49879354a8ea9c94584e9ce7d3bcd2ff'] = 'Akzeptieren Sie Zahlungen für Ihre Produkte mit EMS PAY. Installiere dieses Modul zuerst.';
+$_MODULE['<{emspay}prestashop>emspay_54bdf55654357409e76a292a3d80dc8e'] = 'EMS Online';
+$_MODULE['<{emspay}prestashop>emspay_f83176ca26c53c96c50ba32aaad58729'] = 'Akzeptieren Sie Zahlungen für Ihre Produkte mit EMS Online. Installiere dieses Modul zuerst.';
 $_MODULE['<{emspay}prestashop>emspay_cbe0a99684b145e77f3e14174ac212e3'] = 'Sind Sie über das Entfernen dieser Details sicher?';
 $_MODULE['<{emspay}prestashop>emspay_a02758d758e8bec77a33d7f392eb3f8a'] = 'Keine Währung ist für dieses Modul eingestellt worden. Sie können das einstellen in das Localization / Currencies Menu.';
 $_MODULE['<{emspay}prestashop>emspay_d45643f729d7f403fc99195d167b7dca'] = 'API Schlüssel ist erforderlich.';
-$_MODULE['<{emspay}prestashop>emspay_dd418c402d9df2f5c9cee38c60c6a2a3'] = 'EMS PAY Produkt ist erforderlich.';
 $_MODULE['<{emspay}prestashop>emspay_c888438d14855d7d96a2724ee9c306bd'] = 'Einstellungen aktualisiert.';
-$_MODULE['<{emspay}prestashop>emspay_b09c67977572a1f9c8bea1f92a388d4b'] = 'EMS PAY Einstellungen';
-$_MODULE['<{emspay}prestashop>emspay_a1fa27779242b4902f7ae3bdd5c6d508'] = 'EMS PAY Produkt';
-$_MODULE['<{emspay}prestashop>emspay_7e858f7ae99f1431164a22973eb6ffda'] = 'Kassa Compleet';
-$_MODULE['<{emspay}prestashop>emspay_081d60287de236d7f50b78b00ffa4c34'] = 'EMS Checkout';
-$_MODULE['<{emspay}prestashop>emspay_f2a534d504f841d76bf87e1a227db34d'] = 'EMS ePay';
+$_MODULE['<{emspay}prestashop>emspay_09b61a6273a9e570a8b89cf6a9cc4376'] = 'EMS Online Einstellungen';
 $_MODULE['<{emspay}prestashop>emspay_72050a2fc6b64df39833fe4f0268a334'] = 'Löst Frage, wenn curl.cacert Pfad nicht in PHP.ini eingestellt wird.';
 $_MODULE['<{emspay}prestashop>emspay_deb7cb91dd8a3c49c3ee67d71355a561'] = 'cURL CA bündel benutzen.';
 $_MODULE['<{emspay}prestashop>emspay_16192b8b71d2a73adc7a335f0cf4c9e2'] = 'Generiere automatisch eine Webhook URL an die API';
