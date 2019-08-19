@@ -25,7 +25,7 @@ $_MODULE['<{emspayafterpay}prestashop>success_68a489dbc8079a40832c3d558fcfb069']
 $_MODULE['<{emspayafterpay}prestashop>success_87040f095177fc49993a5a5b73b192bc'] = 'Ihre Bezahlung ist erfolgreich abgeschlossen.';
 $_MODULE['<{emspayafterpay}prestashop>success_16891dce5ec838b66b3dd66dc552ae90'] = 'Vielen Dank für Ihre Bestellung. Ihre Bezahlung ist erfolgreich abgeschlossen.';
 $_MODULE['<{emspayafterpay}prestashop>success_1818231910ed0358308b7a8010f720a3'] = 'Die Rechnung wird zu Ihre E-Mail Adresse geschickt.';
-$_MODULE['<{emspayafterpay}prestashop>infos_4c352fe7ed39117f0cc5fc5135abb65d'] = 'Mit diesem Modul können Sie Zahlungen mit EMS Online AfterPay akzeptieren';
+$_MODULE['<{emspayafterpay}prestashop>infos_4c352fe7ed39117f0cc5fc5135abb65d'] = 'Akzeptiere Zahlungen für Ihre Produkte mit AfterPay.';
 $_MODULE['<{emspayafterpay}prestashop>infos_69e681a7023aad18cb152629cf760492'] = 'Die Bestellung wird aktualisiert, nachdem der Kunde erfolgreich bezahlt.';
 $_MODULE['<{emspayafterpay}prestashop>payment_nl_be_57dfa2850a7497291f013e49ee184a44'] = 'Bezahlen mit AfterPay';
 $_MODULE['<{emspayafterpay}prestashop>payment_nl_be_1d8cd2bfc6943dcf70236f7d351572a0'] = 'Nutzungsbedingungen';
