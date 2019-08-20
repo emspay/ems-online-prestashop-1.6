@@ -2,7 +2,7 @@
 
 global $_MODULE;
 $_MODULE = array();
-$_MODULE['<{emspaybancontact}prestashop>emspaybancontact_b4f4c9a97d82c0c6c0d4f4d2c9ba2c21'] = 'EMS PAY Bancontact';
+$_MODULE['<{emspaybancontact}prestashop>emspaybancontact_b4f4c9a97d82c0c6c0d4f4d2c9ba2c21'] = 'EMS Online Bancontact';
 $_MODULE['<{emspaybancontact}prestashop>emspaybancontact_97348bde8427d75a39530b746a85219f'] = 'Accepter les versements en utilisant Bancontact dans votre boutique en ligne. ';
 $_MODULE['<{emspaybancontact}prestashop>emspaybancontact_cbe0a99684b145e77f3e14174ac212e3'] = 'Êtes-vous sûr de supprimer ces détails?';
 $_MODULE['<{emspaybancontact}prestashop>emspaybancontact_a02758d758e8bec77a33d7f392eb3f8a'] = 'Aucune devise a été définie pour ce module. S\'il vous plaît configurer ce dans le menu Localisations / section Currencies.';
