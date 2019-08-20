@@ -2,7 +2,7 @@
 
 global $_MODULE;
 $_MODULE = array();
-$_MODULE['<{emspayafterpay}prestashop>emspayafterpay_198c24be6d3d9f23cad9ae032b2c4351'] = 'EMS Online AfterPay	';
+$_MODULE['<{emspayafterpay}prestashop>emspayafterpay_198c24be6d3d9f23cad9ae032b2c4351'] = 'EMS Online AfterPay';
 $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_04700e46bee5253f8bc10e587caa8c7f'] = 'Accept payments for your products using EMS Online AfterPay';
 $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_cbe0a99684b145e77f3e14174ac212e3'] = 'Are you sure about removing these details?';
 $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_a02758d758e8bec77a33d7f392eb3f8a'] = 'No currency has been set for this module. Please configure this in the Localizations menu/Currencies section.';
