@@ -2,8 +2,8 @@
 
 global $_MODULE;
 $_MODULE = array();
-$_MODULE['<{emspayideal}prestashop>emspayideal_dcaeefb2bc12776e03b28e608529849b'] = 'EMS PAY iDEAL';
-$_MODULE['<{emspayideal}prestashop>emspayideal_2ed8049059e1c9e83562c2da2efaa983'] = 'Met deze module kunt u iDEAL betalingen accepteren. ';
+$_MODULE['<{emspayideal}prestashop>emspayideal_40c781a1db255cc43111b536e85c1c77'] = 'EMS Online iDEAL';
+$_MODULE['<{emspayideal}prestashop>emspayideal_d25f4544b1855337c771d695b3a6ed7a'] = 'Met deze module kunt u iDEAL betalingen accepteren.';
 $_MODULE['<{emspayideal}prestashop>emspayideal_cbe0a99684b145e77f3e14174ac212e3'] = 'Weet u zeker dat u deze gegevens wenst te verwijderen';
 $_MODULE['<{emspayideal}prestashop>emspayideal_a02758d758e8bec77a33d7f392eb3f8a'] = 'Er is geen valuta ingesteld voor deze module. U kunt dit instellen in het Localization / Currencies menu.';
 $_MODULE['<{emspayideal}prestashop>emspayideal_7481ccc2277cf3116c8e6ce58a9177b3'] = 'Betaal met iDEAL';

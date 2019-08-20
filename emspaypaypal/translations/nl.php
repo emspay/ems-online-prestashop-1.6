@@ -2,7 +2,7 @@
 
 global $_MODULE;
 $_MODULE = array();
-$_MODULE['<{emspaypaypal}prestashop>emspaypaypal_fe33fe7b15e1f8dbc4bf8466a8c08ba2'] = 'EMS PAY PayPal';
+$_MODULE['<{emspaypaypal}prestashop>emspaypaypal_35c7c96ce3e506fff1710dd92dc27417'] = 'EMS Online PayPal';
 $_MODULE['<{emspaypaypal}prestashop>emspaypaypal_a996e6373c03cd2d6daeecdd4e1eb725'] = 'Met deze module kunt u PayPal betalingen accepteren.';
 $_MODULE['<{emspaypaypal}prestashop>emspaypaypal_cbe0a99684b145e77f3e14174ac212e3'] = 'Weet u zeker dat u deze gegevens wenst te verwijderen';
 $_MODULE['<{emspaypaypal}prestashop>emspaypaypal_a02758d758e8bec77a33d7f392eb3f8a'] = 'Er is geen valuta ingesteld voor deze module. U kunt dit instellen in het Localization / Currencies menu.';

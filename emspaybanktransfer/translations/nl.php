@@ -2,14 +2,14 @@
 
 global $_MODULE;
 $_MODULE = array();
-$_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_e45937a38f1bc7cfd7b75621cb14cae1'] = 'EMS PAY Bankoverboeking';
-$_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_42ffd5610caeb3a3669cc32d3c37f98b'] = 'Met deze module kunt u overboekingen betalingen accepteren via EMS. ';
+$_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_e7ec7bf7d9dc25c33b09f6ea03905fb3'] = 'EMS Online Bankoverboeking';
+$_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_e103c52e308e5e3b705906aa73165388'] = 'Met deze module kunt u overboekingen betalingen accepteren via EMS Online.';
 $_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_cbe0a99684b145e77f3e14174ac212e3'] = 'Weet u zeker dat u deze details wilt verwijderen?';
 $_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_a02758d758e8bec77a33d7f392eb3f8a'] = 'Er is geen valuta ingesteld voor deze module. U kunt dit instellen in het Localization / Currencies menu.';
 $_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_572b221ec653032250100cefd10a31eb'] = 'Betalen met bankoverboeking';
 $_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_7853e11acea9a6109b2f1c00cdb4041e'] = 'Uw bestelling bij';
 $_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_0d8a5a85d378a2c248326eac1b045556'] = 'Gebruik het volgende kenmerk bij uw overschrijving:';
-$_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_d438503a23d967ac1bfbeee3e174bca0'] = 'Betalingskenmerk :';
+$_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_218fa8ba064e0a843fb30108aeef5562'] = 'Betalingskenmerk :';
 $_MODULE['<{emspaybanktransfer}prestashop>error_68a489dbc8079a40832c3d558fcfb069'] = 'Uw bestelling bij %s';
 $_MODULE['<{emspaybanktransfer}prestashop>error_5023dbc72719b0d03162a18fda6db2b3'] = 'Helaas is er een fout opgetreden tijdens het verwerken van uw betaling. Onze excuses voor het ongemak.';
 $_MODULE['<{emspaybanktransfer}prestashop>error_7dc1ee1a41f69f4027a773780c058b07'] = 'Klik hier om een andere betaalmethode te selecteren.';
