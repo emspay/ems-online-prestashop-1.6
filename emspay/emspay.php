@@ -230,7 +230,7 @@ class emspay extends PaymentModule
             'EMS_PAY_APIKEY_TEST' => Tools::getValue('EMS_PAY_APIKEY_TEST', Configuration::get('EMS_PAY_APIKEY_TEST')),
             'EMS_PAY_AFTERPAY_APIKEY_TEST' => Tools::getValue('EMS_PAY_AFTERPAY_APIKEY_TEST', Configuration::get('EMS_PAY_AFTERPAY_APIKEY_TEST')),
             'EMS_PAY_BUNDLE_CA' => Tools::getValue('EMS_PAY_BUNDLE_CA', Configuration::get('EMS_PAY_BUNDLE_CA')),
-            'EMS_PAY_USE_WEBHOOK' => Tools::getValue('EMS_PAY_USE_WEBHOOK', Configuration::get('EMS_PAY_USE_WEBHOOK'))
+            'EMS_PAY_USE_WEBHOOK' => Tools::getValue('EMS_PAY_USE_WEBHOOK', (Configuration::hasKey('EMS_PAY_USE_WEBHOOK')) ? Configuration::get('EMS_PAY_USE_WEBHOOK') : true)
         );
     }
 
