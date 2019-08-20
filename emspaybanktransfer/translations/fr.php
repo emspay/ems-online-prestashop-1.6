@@ -2,14 +2,14 @@
 
 global $_MODULE;
 $_MODULE = array();
-$_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_e45937a38f1bc7cfd7b75621cb14cae1'] = 'EMS PAY Virement Bancaire';
-$_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_42ffd5610caeb3a3669cc32d3c37f98b'] = 'Accepter les versements en utilisant Virement Bancaire dans votre boutique en ligne.';
+$_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_e7ec7bf7d9dc25c33b09f6ea03905fb3'] = 'EMS Online Virement Bancaire';
+$_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_e103c52e308e5e3b705906aa73165388'] = 'Accepter les versements en utilisant Virement Bancaire dans votre boutique en ligne.';
 $_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_cbe0a99684b145e77f3e14174ac212e3'] = 'Êtes-vous sûr de supprimer ces détails?';
 $_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_a02758d758e8bec77a33d7f392eb3f8a'] = 'Aucune devise a été définie pour ce module. S\'il vous plaît configurer ce dans le menu Localisations / section Currencies.';
 $_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_572b221ec653032250100cefd10a31eb'] = 'Payer par Virement Bancaire';
 $_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_7853e11acea9a6109b2f1c00cdb4041e'] = 'Votre commande à';
 $_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_0d8a5a85d378a2c248326eac1b045556'] = 'Utilisez la référence suivante pour payer votre commande:';
-$_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_d438503a23d967ac1bfbeee3e174bca0'] = 'Référence :';
+$_MODULE['<{emspaybanktransfer}prestashop>emspaybanktransfer_218fa8ba064e0a843fb30108aeef5562'] = 'Référence :';
 $_MODULE['<{emspaybanktransfer}prestashop>error_68a489dbc8079a40832c3d558fcfb069'] = 'Votre commande à %s';
 $_MODULE['<{emspaybanktransfer}prestashop>error_5023dbc72719b0d03162a18fda6db2b3'] = 'Il y avait une erreur lors du traitement de votre commande. Nous nous excusons pour le dérangement.';
 $_MODULE['<{emspaybanktransfer}prestashop>error_7dc1ee1a41f69f4027a773780c058b07'] = 'Cliquez ici pour choisir une autre méthode de paiement.';

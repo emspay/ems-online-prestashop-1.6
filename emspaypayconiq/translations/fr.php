@@ -2,7 +2,7 @@
 
 global $_MODULE;
 $_MODULE = array();
-$_MODULE['<{emspaypayconiq}prestashop>emspaypayconiq_d047708e9dbab4f7c9bfeba9121c54f0'] = 'EMS PAY Payconiq';
+$_MODULE['<{emspaypayconiq}prestashop>emspaypayconiq_28a4fa9fb4c5d1eb5f78ee9af4b35a96'] = 'EMS Online PAYCONIQ';
 $_MODULE['<{emspaypayconiq}prestashop>emspaypayconiq_d442ffc36743a9c04e02f98cef21dcda'] = 'Accepter les versements en utilisant Payconiq dans votre boutique en ligne.';
 $_MODULE['<{emspaypayconiq}prestashop>emspaypayconiq_cbe0a99684b145e77f3e14174ac212e3'] = 'Êtes-vous sûr de supprimer ces détails?';
 $_MODULE['<{emspaypayconiq}prestashop>emspaypayconiq_a02758d758e8bec77a33d7f392eb3f8a'] = 'Aucune devise a été définie pour ce module. S\'il vous plaît configurer ce dans le menu Localisations / section Currencies.';

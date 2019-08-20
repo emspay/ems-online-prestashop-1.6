@@ -2,12 +2,12 @@
 
 global $_MODULE;
 $_MODULE = array();
-$_MODULE['<{emspayafterpay}prestashop>emspayafterpay_04268e26552e537b1fc275641b248613'] = 'EMS PAY AfterPay';
-$_MODULE['<{emspayafterpay}prestashop>emspayafterpay_88263eae6aa4291afb8d2c08e96555b8'] = 'Accepter les versements en utilisant AfterPay dans votre boutique.';
+$_MODULE['<{emspayafterpay}prestashop>emspayafterpay_198c24be6d3d9f23cad9ae032b2c4351'] = 'EMS Online AfterPay';
+$_MODULE['<{emspayafterpay}prestashop>emspayafterpay_04700e46bee5253f8bc10e587caa8c7f'] = 'Accepter les versements en utilisant AfterPay dans votre boutique.';
 $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_cbe0a99684b145e77f3e14174ac212e3'] = 'Êtes-vous sûr de supprimer ces détails?';
 $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_a02758d758e8bec77a33d7f392eb3f8a'] = 'Aucune devise a été définie pour ce module. S\'il vous plaît configurer ce dans le menu Localisations / section Currencies.';
 $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_c888438d14855d7d96a2724ee9c306bd'] = 'Paramètres mis à jour';
-$_MODULE['<{emspayafterpay}prestashop>emspayafterpay_b09c67977572a1f9c8bea1f92a388d4b'] = 'Paramètres du EMS PAY';
+$_MODULE['<{emspayafterpay}prestashop>emspayafterpay_09b61a6273a9e570a8b89cf6a9cc4376'] = 'Paramètres du EMS Online';
 $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_56af9b52b08f15a62ff06112edd7e4d2'] = 'L\'adresse IP pour tester le methode du paiement';
 $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_bcf1ecb8263994876e86706f70205200'] = 'Vous pouvez spécifier des adresses IP spécifiques pour lesquelles AfterPay est visible, par exemple si vous souhaitez tester AfterPay, vous pouvez saisir des adresses IP comme 128.0.0.1, 255.255.255.255. Si vous remplissez rien, alors, AfterPay est visible à toutes les adresses IP.';
 $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_c9cc8cce247e49bae79f15173ce97354'] = 'Enregistrer';
@@ -25,7 +25,7 @@ $_MODULE['<{emspayafterpay}prestashop>success_68a489dbc8079a40832c3d558fcfb069']
 $_MODULE['<{emspayafterpay}prestashop>success_87040f095177fc49993a5a5b73b192bc'] = 'Le paiement en utilisant AfterPay est réussie';
 $_MODULE['<{emspayafterpay}prestashop>success_16891dce5ec838b66b3dd66dc552ae90'] = 'Merci beaucoup pour votre commande. Le paiement en utilisant AfterPay est réussie.';
 $_MODULE['<{emspayafterpay}prestashop>success_1818231910ed0358308b7a8010f720a3'] = 'La facture sera envoyée à votre adresse email.';
-$_MODULE['<{emspayafterpay}prestashop>infos_1f47d286e29b251cc4becf045c37fcb5'] = 'Accepter les versements en utilisant AfterPay dans votre boutique';
+$_MODULE['<{emspayafterpay}prestashop>infos_4c352fe7ed39117f0cc5fc5135abb65d'] = 'Accepter les versements en utilisant AfterPay dans votre boutique';
 $_MODULE['<{emspayafterpay}prestashop>infos_69e681a7023aad18cb152629cf760492'] = 'Après que le client paie avec succès, la commande sera mis à jour.';
 $_MODULE['<{emspayafterpay}prestashop>payment_nl_be_57dfa2850a7497291f013e49ee184a44'] = 'Payer par AfterPay';
 $_MODULE['<{emspayafterpay}prestashop>payment_nl_be_1d8cd2bfc6943dcf70236f7d351572a0'] = 'Conditions générales';
