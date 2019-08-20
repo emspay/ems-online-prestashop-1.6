@@ -3,7 +3,7 @@
 global $_MODULE;
 $_MODULE = array();
 $_MODULE['<{emspay}prestashop>emspay_54bdf55654357409e76a292a3d80dc8e'] = 'EMS Online';
-$_MODULE['<{emspay}prestashop>emspay_f83176ca26c53c96c50ba32aaad58729'] = 'Accepteer betalingen met EMS PAY, installeer deze module eerst';
+$_MODULE['<{emspay}prestashop>emspay_f83176ca26c53c96c50ba32aaad58729'] = 'Accepteer betalingen met EMS Online, installeer deze module eerst';
 $_MODULE['<{emspay}prestashop>emspay_cbe0a99684b145e77f3e14174ac212e3'] = 'Weet u zeker dat u deze gegevens wilt verwijderen?';
 $_MODULE['<{emspay}prestashop>emspay_a02758d758e8bec77a33d7f392eb3f8a'] = 'Er is geen valuta ingesteld voor deze module. U kunt dit instellen in het Localization / Currencies menu.';
 $_MODULE['<{emspay}prestashop>emspay_d45643f729d7f403fc99195d167b7dca'] = 'De API key is verplicht';
