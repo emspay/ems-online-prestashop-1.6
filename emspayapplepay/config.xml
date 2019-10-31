@@ -3,7 +3,7 @@
 	<name>emspayapplepay</name>
 	<displayName><![CDATA[ EMS Online ApplePay]]></displayName>
 	<version><![CDATA[1.7.1]]></version>
-	<description><![CDATA[Accept payments for your products using applepay.]]></description>
+	<description><![CDATA[Accept payments for your products using ApplePay.]]></description>
 	<author><![CDATA[Ginger Payments]]></author>
 	<tab><![CDATA[payments_gateways]]></tab>
 	<confirmUninstall><![CDATA[Are you sure about removing these details?]]></confirmUninstall>
