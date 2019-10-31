@@ -13,7 +13,9 @@ $payment_method_mapping = array(
     "afterpay" => "Afterpay",
     "applepay" => "Applepay",
 );
-
+/**
+ * step by step
+ */
 
 $input = json_decode(file_get_contents("php://input"), true);
 $ginger_order_id = $input['order_id'];
