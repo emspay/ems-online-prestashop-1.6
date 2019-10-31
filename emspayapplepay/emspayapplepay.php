@@ -101,7 +101,7 @@ class emspayApplePay extends PaymentModule
 
         return array(
             'cta_text' => $this->l('Pay by Apple Pay'),
-            'logo' => Media::getMediaPath(dirname(__FILE__).'/emspay_applepay.png'),
+            'logo' => Media::getMediaPath(dirname(__FILE__).'/logo.png'),
             'action' => $this->context->link->getModuleLink($this->name, 'validation', array(), true)
         );
     }
