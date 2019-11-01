@@ -13,7 +13,7 @@ a.emspayapplepay::after {
       color: #777; 
 }
 a.emspayapplepay {
-      background: url({$base_dir}modules/emspayapplepay/logo_bestelling.png) 15px 12px no-repeat
+      background: url({$base_dir}modules/emspayapplepay/logo.png) 15px 12px no-repeat
 }
 </style>
 <div class="row">
