@@ -166,7 +166,7 @@ class emspayApplePay extends PaymentModule
                 ['plugin' => $this->getPluginVersion()], // Extra information
                 $webhookUrl                             // Webhook URL
             );
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return Tools::displayError($exception->getMessage());
         }
 
