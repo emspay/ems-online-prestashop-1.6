@@ -10,17 +10,29 @@ a.emspayapplepay::after {
       font-size: 25px;
       height: 22px;
       width: 14px;
-      color: #777; 
+      color: #777;
 }
-a.emspayapplepay {
-      background: url({$base_dir}modules/emspayapplepay/logo.png) 15px 12px no-repeat
+a.emspayapplepay{
+      padding-left: 0px !important;
 }
+      span.applelogo{
+            margin-left: 15px;
+      }
+      span.applelogo img{
+            width: 64px;
+            height: auto;
+      }
+      span.appletitle{
+            padding-left: 20px;
+      }
 </style>
 <div class="row">
       <div class="col-xs-12">
             <p class="payment_module">
+
                   <a class="emspayapplepay" href="{$link->getModuleLink('emspayapplepay', 'payment')|escape:'html'}" title="{l s='Pay by Apple Pay' mod='emspayapplepay'}">
-                        {l s='Pay by Apple Pay' mod='emspayapplepay'}</span>
+                        <span class="applelogo"><img src={$base_dir}modules/emspayapplepay/logo_bestelling.png></span>
+                        <span class="appletitle">{l s='Pay by Apple Pay' mod='emspayapplepay'}<span>
                   </a>
             </p>
       </div>
