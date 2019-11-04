@@ -3,7 +3,7 @@
 global $_MODULE;
 $_MODULE = array();
 $_MODULE['<{emspayapplepay}prestashop>emspayapplepay_cdd479999df28c0f5a2c544bb6bc3408'] = 'Apple Pay - EMS Online';
-$_MODULE['<{emspayapplepay}prestashop>emspayapplepay_677e93129d58fd0b90ebb39cce06d4d6'] = 'Accepteer betalingen voor uw producten met ApplePay.';
+$_MODULE['<{emspayapplepay}prestashop>emspayapplepay_677e93129d58fd0b90ebb39cce06d4d6'] = 'Accepteer betalingen voor uw producten met Apple Pay.';
 $_MODULE['<{emspayapplepay}prestashop>emspayapplepay_cbe0a99684b145e77f3e14174ac212e3'] = ' Weet u zeker dat u deze details wilt verwijderen?';
 $_MODULE['<{emspayapplepay}prestashop>emspayapplepay_a02758d758e8bec77a33d7f392eb3f8a'] = 'Er is geen valuta ingesteld voor deze module.';
 $_MODULE['<{emspayapplepay}prestashop>emspayapplepay_111999b13ca63380771744ea02c4906b'] = 'Pay by Apple Pay';
