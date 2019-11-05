@@ -274,7 +274,7 @@ final class Client
     }
 
     /**
-     * Create a new apple pay order.
+     * Create a new Apple Pay order.
      *
      * @param $amount
      * @param $currency
