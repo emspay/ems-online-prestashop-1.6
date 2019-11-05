@@ -10,8 +10,10 @@ $payment_method_mapping = array(
     "klarna" => "Klarna",
     "paypal" => "PayPal",
     "payconiq" => "Payconiq",
-    "afterpay" => "Afterpay"
+    "afterpay" => "Afterpay",
+    "applepay" => "Applepay",
 );
+
 
 $input = json_decode(file_get_contents("php://input"), true);
 $ginger_order_id = $input['order_id'];
