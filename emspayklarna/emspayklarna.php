@@ -136,7 +136,7 @@ class emspayKlarna extends PaymentModule
         $ems_klarna_show_for_ip = Configuration::get('EMS_KLARNA_SHOW_FOR_IP');
         if (strlen($ems_klarna_show_for_ip)) {
             $ip_whitelist = array_map('trim', explode(",", $ems_klarna_show_for_ip));
-            if (!in_array($_SERVER['REMOTE_ADDR'], $ip_whitelist)) {
+            if (!in_array(filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP), $ip_whitelist)) {
                 return;
             }
         }
