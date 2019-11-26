@@ -44,4 +44,4 @@ Enter the IP addresses that you want to whitelist, separate the addresses by a c
 If you want to offer Afterpay / Klarna to all your customers, you can leave the field empty.
 
 7. Once the modules are installed you can offer the payment methods in your webshop.
-8. Compatibility: OpenCart 1.6
+8. Compatibility: PrestaShop 1.6
