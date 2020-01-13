@@ -359,6 +359,8 @@ final class Order
     }
 
     /**
+     * Create a new Order with the Klarna Pay Later payment method
+     *
      * @param integer $amount Amount in cents.
      * @param string $currency A valid currency code.
      * @param string $description A description of the order.
@@ -372,7 +374,7 @@ final class Order
      *
      * @return Order
      */
-    public static function createWithKlarna(
+    public static function createWithKlarnaPayLater(
         $amount,
         $currency,
         $description = null,
@@ -387,7 +389,7 @@ final class Order
         return static::create(
             $amount,
             $currency,
-            PaymentMethod::KLARNA,
+            PaymentMethod::KLARNA_PAY_LATER,
             [],
             $description,
             $merchantOrderId,

@@ -371,7 +371,7 @@ final class Client
      *
      * @return Order The newly created order.
      */
-    public function createKlarnaOrder(
+    public function createKlarnaPayLaterOrder(
         $amount,
         $currency,
         $description = null,
@@ -384,7 +384,7 @@ final class Client
         $orderLines = null
     ) {
         return $this->postOrder(
-            Order::createWithKlarna(
+            Order::createWithKlarnaPayLater(
                 $amount,
                 $currency,
                 $description,
