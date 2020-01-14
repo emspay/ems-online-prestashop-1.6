@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <module>
-	<name>emspaysofort</name>
-	<displayName><![CDATA[EMS Online SOFORT]]></displayName>
+	<name>emspayklarnapaynow</name>
+	<displayName><![CDATA[EMS Online Klarna Pay Now]]></displayName>
 	<version><![CDATA[1.7.1]]></version>
-	<description><![CDATA[Accept payments for your products using SOFORT banking.]]></description>
+	<description><![CDATA[Accept payments for your products using Klarna Pay Now banking.]]></description>
 	<author><![CDATA[Ginger Payments]]></author>
 	<tab><![CDATA[payments_gateways]]></tab>
 	<confirmUninstall><![CDATA[Are you sure about removing these details?]]></confirmUninstall>

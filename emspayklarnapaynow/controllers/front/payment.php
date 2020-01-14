@@ -1,6 +1,6 @@
 <?php
 
-class emspaySofortPaymentModuleFrontController extends ModuleFrontController
+class emspayKlarnaPayNowPaymentModuleFrontController extends ModuleFrontController
 {
     public $ssl = true;
     public $display_column_left = false;

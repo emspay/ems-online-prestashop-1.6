@@ -7,7 +7,7 @@ if (!defined('_PS_VERSION_')) {
 require_once(_PS_MODULE_DIR_.'/emspay/ems-php/vendor/autoload.php');
 require_once(_PS_MODULE_DIR_.'/emspay/emspay.php');
 
-class emspaysofort extends PaymentModule
+class emspayklarnapaynow extends PaymentModule
 {
     private $_html = '';
     private $_postErrors = array();
@@ -16,7 +16,7 @@ class emspaysofort extends PaymentModule
 
     public function __construct()
     {
-        $this->name = 'emspaysofort';
+        $this->name = 'emspayklarnapaynow';
         $this->tab = 'payments_gateways';
         $this->version = '1.7.1';
         $this->author = 'Ginger Payments';
@@ -41,8 +41,8 @@ class emspaysofort extends PaymentModule
             }
         }
 
-        $this->displayName = $this->l('EMS Online SOFORT');
-        $this->description = $this->l('Accept payments for your products using SOFORT.');
+        $this->displayName = $this->l('EMS Online Klarna Pay Now');
+        $this->description = $this->l('Accept payments for your products using Klarna Pay Now.');
         $this->confirmUninstall = $this->l('Are you sure about removing these details?');
 
         if (!count(Currency::checkPaymentCurrencies($this->id))) {
@@ -155,7 +155,7 @@ class emspaysofort extends PaymentModule
         $returnURL = $this->getReturnURL($cart);
 
         try {
-            $response = $this->ginger->createSofortOrder(
+            $response = $this->ginger->createKlarnaPayNowOrder(
                 $totalInCents,                          // Amount in cents
                 $currency,                              // Currency
                 [],
@@ -204,7 +204,7 @@ class emspaysofort extends PaymentModule
 		            ('".$cart->id."', 
 		            '".$response->id()->toString()."', 
 		            '".$this->context->customer->secure_key."', 
-		            'emspaysofort'
+		            'emspayklarnapaynow'
 		        );
             ");
         }

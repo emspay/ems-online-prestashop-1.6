@@ -275,7 +275,7 @@ final class Order
     }
 
     /**
-     * Create a new Order with the SOFORT payment method.
+     * Create a new Order with the Klarna Pay Now payment method.
      *
      * @param integer $amount Amount in cents.
      * @param string $currency A valid currency code.
@@ -290,7 +290,7 @@ final class Order
      *
      * @return Order
      */
-    public static function createWithSofort(
+    public static function createWithKlarnaPayNow(
         $amount,
         $currency,
         array $paymentMethodDetails = [],
@@ -305,7 +305,7 @@ final class Order
         return static::create(
             $amount,
             $currency,
-            PaymentMethod::SOFORT,
+            PaymentMethod::KLARNA_PAY_NOW,
             $paymentMethodDetails,
             $description,
             $merchantOrderId,
