@@ -6,7 +6,7 @@ use GingerPayments\Payment\Iban;
 use GingerPayments\Payment\SwiftBic;
 use GingerPayments\Payment\Order\Transaction\PaymentMethodDetails;
 use GingerPayments\Payment\Order\Transaction\PaymentMethodDetails\ConsumerName;
-use GingerPayments\Payment\Order\Transaction\PaymentMethodDetails\SofortPaymentMethodDetails\TransactionId;
+use GingerPayments\Payment\Order\Transaction\PaymentMethodDetails\KlarnaPayNowPaymentMethodDetails\TransactionId;
 
 final class KlarnaPayNowPaymentMethodDetails implements PaymentMethodDetails
 {
