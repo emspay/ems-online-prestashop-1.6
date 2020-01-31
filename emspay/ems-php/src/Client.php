@@ -146,7 +146,7 @@ final class Client
     }
 
     /**
-     * Create a new SOFORT order.
+     * Create a new Klarna Pay Now order.
      *
      * @param integer $amount Amount in cents.
      * @param string $currency A valid currency code.
@@ -160,7 +160,7 @@ final class Client
      *
      * @return Order The newly created order.
      */
-    public function createSofortOrder(
+    public function createKlarnaPayNowOrder(
         $amount,
         $currency,
         array $paymentMethodDetails = [],
@@ -173,7 +173,7 @@ final class Client
         $webhookUrl = null
     ) {
         return $this->postOrder(
-            Order::createWithSofort(
+            Order::createWithKlarnaPayNow(
                 $amount,
                 $currency,
                 $paymentMethodDetails,
@@ -371,7 +371,7 @@ final class Client
      *
      * @return Order The newly created order.
      */
-    public function createKlarnaOrder(
+    public function createKlarnaPayLaterOrder(
         $amount,
         $currency,
         $description = null,
@@ -384,7 +384,7 @@ final class Client
         $orderLines = null
     ) {
         return $this->postOrder(
-            Order::createWithKlarna(
+            Order::createWithKlarnaPayLater(
                 $amount,
                 $currency,
                 $description,
