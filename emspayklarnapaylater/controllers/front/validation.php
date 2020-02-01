@@ -17,6 +17,7 @@ class emspayKlarnaPayLaterValidationModuleFrontController extends ModuleFrontCon
         $cart_id = Tools::getValue('id_cart');
         switch ($ginger_order_status) {
             case 'processing':
+            case 'new':
             case 'completed':
                 if (isset($cart_id)) {
                     Tools::redirect(
