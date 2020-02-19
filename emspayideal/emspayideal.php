@@ -163,14 +163,14 @@ class emspayIdeal extends PaymentModule
             ? _PS_BASE_URL_.__PS_BASE_URI__.'modules/emspay/webhook.php'
             : null;
         $returnURL = $this->getReturnURL($cart);
-
+        $merchant_order_id = $this->currentOrder;
         try {
             $response = $this->ginger->createIdealOrder(
                 $totalInCents,                            // Amount in cents
                 $currency,                                // Currency
                 $_POST['issuerid'],                       // Issuer Id
                 $description,                             // Description
-                $this->currentOrder,                      // Merchant Order Id
+                $merchant_order_id,                      // Merchant Order Id
                 $returnURL,                               // Return URL
                 null,                                     // Expiration Period
                 $customer,                                // Customer information
@@ -194,7 +194,6 @@ class emspayIdeal extends PaymentModule
         }
 
         $this->saveEMSOrderId($response, $cart);
-
         header('Location: '.$response->firstTransactionPaymentUrl()->toString());
     }
 
