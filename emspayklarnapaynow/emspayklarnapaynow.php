@@ -129,7 +129,6 @@ class emspayklarnapaynow extends PaymentModule
 
         $customer = array(
             'address' => implode("\n", array_filter(array(
-                $presta_address->company,
                 $presta_address->address1,
                 $presta_address->address2,
                 $presta_address->postcode." ".$presta_address->city,
@@ -139,7 +138,7 @@ class emspayklarnapaynow extends PaymentModule
             'email_address' => $presta_customer->email,
             'first_name' => $presta_customer->firstname,
             'last_name' => $presta_customer->lastname,
-            'merchant_customer_id' => $cart->id_customer,
+            'merchant_customer_id' => (string) $cart->id_customer,
             'phone_numbers' => array_values(array_unique(array(
                 (string) $presta_address->phone_mobile
             ))),

@@ -1,8 +1,8 @@
 <?php
 
-namespace GingerPayments\Payment\Tests\Order\Transaction\PaymentMethodDetails\SofortPaymentMethodDetails;
+namespace GingerPayments\Payment\Tests\Order\Transaction\PaymentMethodDetails\KlarnaPayNowPaymentMethodDetails;
 
-use GingerPayments\Payment\Order\Transaction\PaymentMethodDetails\SofortPaymentMethodDetails\TransactionId;
+use GingerPayments\Payment\Order\Transaction\PaymentMethodDetails\KlarnaPayNowPaymentMethodDetails\TransactionId;
 
 final class TransactionIdTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,7 +12,7 @@ final class TransactionIdTest extends \PHPUnit_Framework_TestCase
     public function itShouldInstantiateFromAValidString()
     {
         $this->assertInstanceOf(
-            'GingerPayments\Payment\Order\Transaction\PaymentMethodDetails\SofortPaymentMethodDetails\TransactionId',
+            'GingerPayments\Payment\Order\Transaction\PaymentMethodDetails\KlarnaPayNowPaymentMethodDetails\TransactionId',
             TransactionId::fromString('DFGHDFGIFGJERGOWJ21')
         );
     }

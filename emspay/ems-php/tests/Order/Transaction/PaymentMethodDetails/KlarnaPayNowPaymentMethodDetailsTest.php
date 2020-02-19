@@ -4,7 +4,7 @@ namespace GingerPayments\Payment\Tests\Order\Transaction\PaymentMethodDetails;
 
 use GingerPayments\Payment\Order\Transaction\PaymentMethodDetails\KlarnaPayNowPaymentMethodDetails;
 
-final class SofortPaymentMethodDetailsTest extends \PHPUnit_Framework_TestCase
+final class KlarnaPayNowPaymentMethodDetailsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
