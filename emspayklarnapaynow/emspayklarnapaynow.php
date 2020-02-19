@@ -128,11 +128,10 @@ class emspayklarnapaynow extends PaymentModule
         $presta_country = new Country((int) $presta_address->id_country);
 
         $customer = array(
-            'address' => implode(" ", array_filter(array(
+            'address' => implode("\n", array_filter(array(
                 $presta_address->address1,
                 $presta_address->address2,
-                $presta_address->postcode,
-                $presta_address->city,
+                $presta_address->postcode." ".$presta_address->city,
             ))),
             'address_type' => 'customer',
             'country' => $presta_country->iso_code,
