@@ -139,7 +139,7 @@ class emspayklarnapaynow extends PaymentModule
             'email_address' => $presta_customer->email,
             'first_name' => $presta_customer->firstname,
             'last_name' => $presta_customer->lastname,
-            'merchant_customer_id' => $cart->id_customer,
+            'merchant_customer_id' => (string) $cart->id_customer,
             'phone_numbers' => array_values(array_unique(array(
                 (string) $presta_address->phone_mobile
             ))),
