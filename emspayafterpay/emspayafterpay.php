@@ -4,7 +4,7 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-require_once(_PS_MODULE_DIR_.'/emspay/ems-php/vendor/autoload.php');
+require_once(_PS_MODULE_DIR_.'/emspay/ginger-php/vendor/autoload.php');
 require_once(_PS_MODULE_DIR_.'/emspay/emspay.php');
 require_once(_PS_MODULE_DIR_.'/emspay/lib/emspayhelper.php');
 require_once(_PS_MODULE_DIR_.'/emspay/lib/clientfactory.php');
@@ -22,6 +22,7 @@ class emspayAfterpay extends PaymentModule
     public function __construct()
     {
         $this->name = 'emspayafterpay';
+	  $this->method_id = 'afterpay';
         $this->tab = 'payments_gateways';
         $this->version = '1.7.1';
         $this->author = 'Ginger Payments';
@@ -282,38 +283,41 @@ class emspayAfterpay extends PaymentModule
         $orderLines = $this->getOrderLines($cart);
         $description = $this->getOrderDescription();
         $totalInCents = EmspayHelper::getAmountInCents($cart->getOrderTotal(true));
-        $currency = \GingerPayments\Payment\Currency::EUR;
+        $currency = EmspayHelper::getPaymentCurrency();
         $webhookUrl = EmspayHelper::getWebHookUrl();
  
         try {
-            $response = $this->ginger->createAfterPayOrder(
-                $totalInCents,                                                      // Amount in cents
-                $currency,                                                          // Currency
-                $description,                                                       // Description
-                $this->currentOrder,                                                // Merchant Order Id
-                null,                                                               // Return URL
-                null,                                                               // Expiration Period
-                $customer,                                                          // Customer information
-                ['plugin' => EmspayHelper::getPluginVersionText($this->version)],   // Extra information
-                $webhookUrl,                                                        // Webhook URL
-                $orderLines                                                         // Order lines
-            );
+            $response = $this->ginger->createOrder([
+		    'amount' => $totalInCents,                                                      // Amount in cents
+		    'currency' => $currency,                                                        // Currency
+		    'transactions' => [
+		        [
+		            'payment_method' => $this->method_id						// Payment method
+		        ]
+		    ],
+		    'description' => $description,                                                  // Description
+		    'merchant_order_id' => $this->currentOrder,                                     // Merchant Order Id
+		    'return_url' => $this->getReturnURL($cart),                                            // Return URL
+		    'customer' => $customer,                                                        // Customer information
+		    'extra' => ['plugin' => EmspayHelper::getPluginVersionText($this->version)],   	// Extra information
+		    'webhook_url' => $webhookUrl,                                                   // Webhook URL
+		    'order_lines' => $orderLines                                                    // Order lines
+            ]);
         } catch (\Exception $exception) {
             return Tools::displayError($exception->getMessage());
         }
 
-        if ($response->status()->isError()) {
-            return $response->transactions()->current()->reason()->toString();
+        if ($response['status'] == 'error') {
+            return Tools::displayError($response['transactions'][0]['reason']);
         }
  
-        if (!$response->getId()) {
+        if (!$response['id']) {
             return Tools::displayError("Error: Response did not include id!");
         }
         
         $this->saveEMSOrderId($response, $cart);
-        $orderData = $this->ginger->getOrder($response->getId());
-        $orderData->merchantOrderId($this->currentOrder);
-        $this->ginger->updateOrder($orderData);
+        $orderData = $this->ginger->getOrder($response['id']);
+        $this->ginger->updateOrder($response['id'].'/',$orderData);
 
         header('Location: '.$this->getReturnURL($cart, $response));
     }
@@ -365,10 +369,10 @@ class emspayAfterpay extends PaymentModule
                 'ean' => $this->getProductEAN($product),
                 'url' => $this->getProductURL($product),
                 'name' => $product['name'],
-                'type' => \GingerPayments\Payment\Order\OrderLine\Type::PHYSICAL,
+                'type' => EmspayHelper::PHYSICAL,
                 'amount' => EmspayHelper::getAmountInCents(Tools::ps_round($product['price_wt'], 2)),
-                'currency' => \GingerPayments\Payment\Currency::EUR,
-                'quantity' => $product['cart_quantity'],
+                'currency' => EmspayHelper::getPaymentCurrency(),
+                'quantity' => (int)$product['cart_quantity'],
                 'image_url' => $this->getProductCoverImage($product),
                 'vat_percentage' => ((int) $product['rate'] * 100),
                 'merchant_order_line_id' => $product['unique_id']
@@ -395,9 +399,9 @@ class emspayAfterpay extends PaymentModule
     {
         return [
             'name' => $this->l("Shipping Fee"),
-            'type' => \GingerPayments\Payment\Order\OrderLine\Type::SHIPPING_FEE,
+            'type' => EmspayHelper::SHIPPING_FEE,
             'amount' => EmspayHelper::getAmountInCents($shippingFee),
-            'currency' => \GingerPayments\Payment\Currency::EUR,
+            'currency' => EmspayHelper::getPaymentCurrency(),
             'vat_percentage' => EmspayHelper::getAmountInCents($this->getShippingTaxRate($cart)),
             'quantity' => 1,
             'merchant_order_line_id' => count($cart->getProducts()) + 1
@@ -512,7 +516,7 @@ class emspayAfterpay extends PaymentModule
      */
     public function saveEMSOrderId($response, $cart)
     {
-        if ($response->id()->toString()) {
+        if ($response['id']) {
             $db = Db::getInstance();
             $db->Execute("DELETE FROM `"._DB_PREFIX_."emspay` WHERE `id_cart` = ".$cart->id);
             $db->Execute("
@@ -520,7 +524,7 @@ class emspayAfterpay extends PaymentModule
 		            (`id_cart`, `ginger_order_id`, `key`, `payment_method`, `id_order`)
 		        VALUES (
 		            '".$cart->id."', 
-		            '".$response->getId()."', 
+		            '".$response['id']."', 
 		            '".$this->context->customer->secure_key."', 
 		            '".$this->name."', 
 		            '".$this->currentOrder."'
@@ -534,45 +538,28 @@ class emspayAfterpay extends PaymentModule
      * @param $response
      * @return string
      */
-    public function getReturnURL($cart, $response)
+    public function getReturnURL($cart, $response=[])
     {
-        if (version_compare(_PS_VERSION_, '1.5') <= 0) {
-            return $this->getReturnUrlForV15($cart->id, $response->getId());
-        }
-        return $this->getReturnUrlForV16($cart->id, $response->getId());
-    }
-    
-    /**
-     * @param int $cartId
-     * @param string $responseId
-     * @return string
-     */
-    protected function getReturnUrlForV15($cartId, $responseId)
-    {
-        return (Configuration::get('PS_SSL_ENABLED') ? 'https://' : 'http://')
-                .htmlspecialchars($_SERVER['HTTP_HOST'], ENT_COMPAT, 'UTF-8').__PS_BASE_URI__
-                .'order-confirmation.php?id_cart='.$cartId
-                .'&id_module='.$this->id
-                .'&id_order='.$this->currentOrder
-                .'&order_id='.$responseId;
-    }
-    
-    /**
-     * @param int $cartId
-     * @param string $responseId
-     * @return string
-     */
-    protected function getReturnUrlForV16($cartId, $responseId)
-    {
-        return Context::getContext()->link->getModuleLink(
-                'emspayafterpay',
-                'validation',
-                [
-                    'id_cart' => $cartId,
-                    'id_module' => $this->id,
-                    'order_id' => $responseId
-                ]
-            );
+	  if (version_compare(_PS_VERSION_, '1.5') <= 0) {
+		$returnURL = (Configuration::get('PS_SSL_ENABLED') ? 'https://' : 'http://')
+			.htmlspecialchars($_SERVER['HTTP_HOST'], ENT_COMPAT, 'UTF-8').__PS_BASE_URI__
+			.'order-confirmation.php?id_cart='.$cart->id
+			.'&id_module='.$this->id
+			.'&id_order='.$this->currentOrder;
+		if(!empty($response)) $returnURL.='&order_id='.$response['id'];
+	  } else {
+		$returnURL = Context::getContext()->link->getModuleLink(
+			'emspaybanktransfer',
+			'validation',
+			[
+				'id_cart' => $cart->id,
+				'id_module' => $this->id,
+				'order_id' => !empty($response)?$response['id']:''
+			]
+		);
+	  }
+
+	  return $returnURL;
     }
     
     /**

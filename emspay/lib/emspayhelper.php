@@ -5,7 +5,15 @@
  */
 class EmspayHelper
 {
-    
+
+    /**
+     * GINGER_ENDPOINT used for create Ginger client
+     */
+    const GINGER_ENDPOINT = 'https://api.online.emspay.eu';
+
+    const PHYSICAL = 'physical';
+    const SHIPPING_FEE = 'shipping_fee';
+
     /**
      * @param string $amount
      * @return int
@@ -35,15 +43,39 @@ class EmspayHelper
     }
     
     /**
-     * @param type $array
+     * @param array $array
      * @return array
      */
     public static function getArrayWithoutNullValues($array)
     {
-        return array_values(
-                \GingerPayments\Payment\Common\ArrayFunctions::withoutNullValues(
-                    array_unique($array)
-                )
-            );
+	  static $fn = __FUNCTION__;
+
+	  foreach (array_unique($array) as $key => $value) {
+		if (is_array($value)) {
+		    $array[$key] = self::$fn($array[$key]);
+		}
+
+		if (empty($array[$key]) && $array[$key] !== '0' && $array[$key] !== 0) {
+		    unset($array[$key]);
+		}
+	  }
+	  return array_values($array);
+    }
+
+    /**
+     * @return string
+     */
+    public static function getPaymentCurrency()
+    {
+	  return 'EUR';
+    }
+
+    /**
+     * Get CA certificate path
+     *
+     * @return bool|string
+     */
+    public static function getCaCertPath(){
+	  return realpath(_PS_MODULE_DIR_ . '/emspay/ginger-php/assets/cacert.pem');
     }
 }

@@ -1,11 +1,14 @@
 <?php
 
+use Ginger\Ginger;
+
 if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-require_once(_PS_MODULE_DIR_.'/emspay/ems-php/vendor/autoload.php');
+require_once(_PS_MODULE_DIR_.'/emspay/ginger-php/vendor/autoload.php');
 require_once(_PS_MODULE_DIR_.'/emspay/emspay.php');
+require_once(_PS_MODULE_DIR_ . '/emspay/lib/emspayhelper.php');
 
 class emspayIdeal extends PaymentModule
 {
@@ -17,6 +20,7 @@ class emspayIdeal extends PaymentModule
     public function __construct()
     {
         $this->name = 'emspayideal';
+	  $this->method_id = 'ideal';
         $this->tab = 'payments_gateways';
         $this->version = '1.7.1';
         $this->author = 'Ginger Payments';
@@ -30,12 +34,14 @@ class emspayIdeal extends PaymentModule
 
         if (Configuration::get('EMS_PAY_APIKEY')) {
             try {
-                $this->ginger = \GingerPayments\Payment\Ginger::createClient(
-                    Configuration::get('EMS_PAY_APIKEY')
-                );
-                if (Configuration::get('EMS_PAY_BUNDLE_CA')) {
-                    $this->ginger->useBundledCA();
-                }
+		    $this->ginger = Ginger::createClient(
+			    EmspayHelper::GINGER_ENDPOINT,
+			    Configuration::get('EMS_PAY_APIKEY'),
+			    (null !== \Configuration::get('EMS_PAY_BUNDLE_CA')) ?
+				    [
+					    CURLOPT_CAINFO => EmspayHelper::getCaCertPath()
+				    ] : []
+		    );
             } catch (\Assert\InvalidArgumentException $exception) {
                 $this->warning = $exception->getMessage();
             }
@@ -84,7 +90,7 @@ class emspayIdeal extends PaymentModule
         $issuers = [];
 
         try {
-            $issuers = $this->ginger->getIdealIssuers()->toArray();
+		$issuers = $this->ginger->getIdealIssuers();
         } catch (\Exception $e) {
             $this->context->controller->errors[] = $this->l($e->getMessage());
         }
@@ -157,44 +163,51 @@ class emspayIdeal extends PaymentModule
         );
 
         $description = sprintf($this->l('Your order at')." %s", Configuration::get('PS_SHOP_NAME'));
-        $totalInCents = self::getAmountInCents($cart->getOrderTotal(true));
-        $currency = \GingerPayments\Payment\Currency::EUR;
+        $totalInCents = EmspayHelper::getAmountInCents($cart->getOrderTotal(true));
+        $currency = EmspayHelper::getPaymentCurrency();
         $webhookUrl = Configuration::get('EMS_PAY_USE_WEBHOOK')
             ? _PS_BASE_URL_.__PS_BASE_URI__.'modules/emspay/webhook.php'
             : null;
         $returnURL = $this->getReturnURL($cart);
-        $merchant_order_id = $this->currentOrder;
         try {
-            $response = $this->ginger->createIdealOrder(
-                $totalInCents,                            // Amount in cents
-                $currency,                                // Currency
-                $_POST['issuerid'],                       // Issuer Id
-                $description,                             // Description
-                $merchant_order_id,                      // Merchant Order Id
-                $returnURL,                               // Return URL
-                null,                                     // Expiration Period
-                $customer,                                // Customer information
-                ['plugin' => $this->getPluginVersion()],  // Extra information
-                $webhookUrl                               // Webhook URL
-            );
+            $response = $this->ginger->createOrder([
+		    'amount' => $totalInCents,                                                       // Amount in cents
+		    'currency' => $currency,                                                         // Currency
+		    'transactions' => [
+		        [
+		            'payment_method' => $this->method_id,						 // Payment method
+		            'payment_method_details' => ['issuer_id' => (string)$_POST['issuerid']]
+		        ]
+		    ],
+		    'description' => $description,                                                   // Description
+		    'merchant_order_id' => $this->currentOrder,                                      // Merchant Order Id
+		    'return_url' => $returnURL,                                                      // Return URL
+		    'customer' => $customer,                                                         // Customer information
+		    'extra' => ['plugin' => EmspayHelper::getPluginVersionText($this->version)],   	 // Extra information
+		    'webhook_url' => $webhookUrl                                                     // Webhook URL
+		]);
         } catch (\Exception $exception) {
             return Tools::displayError($exception->getMessage());
         }
 
-        if ($response->status()->isError()) {
-            return $response->transactions()->current()->reason()->toString();
+        if ($response['status'] == 'error') {
+            return Tools::displayError($response['transactions'][0]['reason']);
         }
 
-        if (!$response->getId()) {
+        if (!$response['id']) {
             return Tools::displayError("Error: Response did not include id!");
         }
 
-        if (!$response->firstTransactionPaymentUrl()) {
-            return Tools::displayError("Error: Response did not include payment url!");
-        }
+	  $pay_url = array_key_exists(0, $response['transactions'])
+		  ? $response['transactions'][0]['payment_url']
+		  : null;
+
+	  if (!$pay_url) {
+		return Tools::displayError("Error: Response did not include payment url!");
+	  }
 
         $this->saveEMSOrderId($response, $cart);
-        header('Location: '.$response->firstTransactionPaymentUrl()->toString());
+        header('Location: '.$pay_url);
     }
 
     /**
@@ -203,7 +216,7 @@ class emspayIdeal extends PaymentModule
      */
     public function saveEMSOrderId($response, $cart)
     {
-        if ($response->id()->toString()) {
+        if ($response['id']) {
             $db = Db::getInstance();
             $db->Execute("DELETE FROM `"._DB_PREFIX_."emspay` WHERE `id_cart` = ".$cart->id);
             $db->Execute("
@@ -211,7 +224,7 @@ class emspayIdeal extends PaymentModule
 		            (`id_cart`, `ginger_order_id`, `key`, `payment_method`)
 		        VALUES
 		            ('".$cart->id."', 
-		            '".$response->id()->toString()."', 
+		            '".$response['id']."', 
 		            '".$this->context->customer->secure_key."', 
 		            'emspayideal'
 		        );
@@ -251,11 +264,6 @@ class emspayIdeal extends PaymentModule
             return;
         }
         return $this->display(__FILE__, 'payment_return.tpl');
-    }
-
-    public static function getAmountInCents($amount)
-    {
-        return (int) round($amount * 100);
     }
     
     /**

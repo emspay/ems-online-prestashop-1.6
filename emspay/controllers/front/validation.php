@@ -1,6 +1,9 @@
 <?php
 
-require_once(_PS_MODULE_DIR_.'/emspay/ems-php/vendor/autoload.php');
+use Ginger\Ginger;
+
+require_once(_PS_MODULE_DIR_.'/emspay/ginger-php/vendor/autoload.php');
+require_once(_PS_MODULE_DIR_ . '/emspay/lib/emspayhelper.php');
 
 class emspayValidationModuleFrontController extends ModuleFrontController
 {
@@ -74,13 +77,16 @@ class emspayValidationModuleFrontController extends ModuleFrontController
      */
     public function checkOrderStatus($orderId)
     {
-        $ginger = \GingerPayments\Payment\Ginger::createClient(
-            Configuration::get('EMS_PAY_APIKEY')
-        );
-        if (Configuration::get('EMS_PAY_BUNDLE_CA')) {
-            $ginger->useBundledCA();
-        }
+	  $ginger = Ginger::createClient(
+		  EmspayHelper::GINGER_ENDPOINT,
+		  Configuration::get('EMS_PAY_APIKEY'),
+		  (null !== \Configuration::get('EMS_PAY_BUNDLE_CA')) ?
+			  [
+				  CURLOPT_CAINFO => EmspayHelper::getCaCertPath()
+			  ] : []
+	  );
+        $ginger_order = $ginger->getOrder($orderId);
 
-        return $ginger->getOrder($orderId)->getStatus();
+        return $ginger_order['status'];
     }
 }

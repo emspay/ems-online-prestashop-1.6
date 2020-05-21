@@ -1,11 +1,14 @@
 <?php
 
+use Ginger\Ginger;
+
 if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-require_once(_PS_MODULE_DIR_.'/emspay/ems-php/vendor/autoload.php');
+require_once(_PS_MODULE_DIR_.'/emspay/ginger-php/vendor/autoload.php');
 require_once(_PS_MODULE_DIR_.'/emspay/emspay.php');
+require_once(_PS_MODULE_DIR_.'/emspay/lib/emspayhelper.php');
 
 class emspayKlarnaPayLater extends PaymentModule
 {
@@ -17,6 +20,7 @@ class emspayKlarnaPayLater extends PaymentModule
     public function __construct()
     {
         $this->name = 'emspayklarnapaylater';
+	  $this->method_id = 'klarna-pay-later';
         $this->tab = 'payments_gateways';
         $this->version = '1.7.1';
         $this->author = 'Ginger Payments';
@@ -32,12 +36,14 @@ class emspayKlarnaPayLater extends PaymentModule
 
         if ($apiKey) {
             try {
-                $this->ginger = \GingerPayments\Payment\Ginger::createClient(
-                    $apiKey
-                );
-                if (Configuration::get('EMS_PAY_BUNDLE_CA')) {
-                    $this->ginger->useBundledCA();
-                }
+		    $this->ginger = Ginger::createClient(
+			    EmspayHelper::GINGER_ENDPOINT,
+			    Configuration::get('EMS_PAY_APIKEY'),
+			    (null !== \Configuration::get('EMS_PAY_BUNDLE_CA')) ?
+				    [
+					    CURLOPT_CAINFO => EmspayHelper::getCaCertPath()
+				    ] : []
+		    );
             } catch (\Assert\InvalidArgumentException $exception) {
                 $this->warning = $exception->getMessage();
             }
@@ -267,32 +273,36 @@ class emspayKlarnaPayLater extends PaymentModule
         $customer['locale'] = $locale;
         $orderLines = $this->getOrderLines($cart);
         $description = sprintf($this->l('Your order at')." %s", Configuration::get('PS_SHOP_NAME'));
-        $totalInCents = self::getAmountInCents($cart->getOrderTotal(true));
-        $currency = \GingerPayments\Payment\Currency::EUR;
+        $totalInCents = EmspayHelper::getAmountInCents($cart->getOrderTotal(true));
+        $currency = EmspayHelper::getPaymentCurrency();
         $webhookUrl = self::getWebHookUrl();
         try {
-            $response = $this->ginger->createKlarnaPayLaterOrder(
-                $totalInCents,                          // Amount in cents
-                $currency,                              // Currency
-                $description,                           // Description
-                $this->currentOrder,                    // Merchant Order Id
-                null,                                   // Return URL
-                null,                                   // Expiration Period
-                $customer,                              // Customer information
-                ['plugin' => $this->getPluginVersion()], // Extra information
-                $webhookUrl,                            // Webhook URL
-                $orderLines                             // Order lines
-            );
+            $response = $this->ginger->createOrder([
+			'amount' => $totalInCents,                                                      // Amount in cents
+			'currency' => $currency,                                                        // Currency
+			'transactions' => [
+				[
+					'payment_method' => $this->method_id					  // Payment method
+				]
+			],
+			'description' => $description,                                                  // Description
+			'merchant_order_id' => $this->currentOrder,                                     // Merchant Order Id
+			'return_url' => $this->getReturnURL($cart),                                     // Return URL
+			'customer' => $customer,                                                        // Customer information
+			'extra' => ['plugin' => EmspayHelper::getPluginVersionText($this->version)],    // Extra information
+			'webhook_url' => $webhookUrl,                                                   // Webhook URL
+			'order_lines' => $orderLines                                                    // Order lines
+		]);
 
         } catch (\Exception $exception) {
             return Tools::displayError($exception->getMessage());
         }
 
-        if ($response->status()->isError()) {
-            return $response->transactions()->current()->reason()->toString();
+        if ($response['status'] == 'error') {
+            return Tools::displayError($response['transactions'][0]['reason']);
         }
 
-        if (!$response->getId()) {
+        if (!$response['id']) {
             return Tools::displayError("Error: Response did not include id!");
         }
 
@@ -305,9 +315,6 @@ class emspayKlarnaPayLater extends PaymentModule
         );
 
         $this->saveEMSOrderId($response, $cart);
-        $orderData = $this->ginger->getOrder($response->getId());
-        $orderData->merchantOrderId($this->currentOrder);
-        $this->ginger->updateOrder($orderData);
 
         header('Location: '.$this->getReturnURL($cart, $response));
     }
@@ -318,7 +325,7 @@ class emspayKlarnaPayLater extends PaymentModule
      */
     public function saveEMSOrderId($response, $cart)
     {
-        if ($response->id()->toString()) {
+        if ($response['id']) {
             $db = Db::getInstance();
             $db->Execute("DELETE FROM `"._DB_PREFIX_."emspay` WHERE `id_cart` = ".$cart->id);
             $db->Execute("
@@ -326,7 +333,7 @@ class emspayKlarnaPayLater extends PaymentModule
 		            (`id_cart`, `ginger_order_id`, `key`, `payment_method`, `id_order`)
 		        VALUES (
 		            '".$cart->id."', 
-		            '".$response->getId()."', 
+		            '".$response['id']."', 
 		            '".$this->context->customer->secure_key."', 
 		            'emspayklarnapaylater', 
 		            '".$this->currentOrder."'
@@ -340,15 +347,15 @@ class emspayKlarnaPayLater extends PaymentModule
      * @param $response
      * @return string
      */
-    public function getReturnURL($cart, $response)
+    public function getReturnURL($cart, $response=[])
     {
         if (version_compare(_PS_VERSION_, '1.5') <= 0) {
             $returnURL = (Configuration::get('PS_SSL_ENABLED') ? 'https://' : 'http://')
                 .htmlspecialchars($_SERVER['HTTP_HOST'], ENT_COMPAT, 'UTF-8').__PS_BASE_URI__
                 .'order-confirmation.php?id_cart='.$cart->id
                 .'&id_module='.$this->id
-                .'&id_order='.$this->currentOrder
-                .'&order_id='.$response->getId();
+                .'&id_order='.$this->currentOrder;
+            if(!empty($response)) $returnURL.='&order_id='.$response['id'];
         } else {
             $returnURL = Context::getContext()->link->getModuleLink(
                 'emspayklarnapaylater',
@@ -356,21 +363,12 @@ class emspayKlarnaPayLater extends PaymentModule
                 [
                     'id_cart' => $cart->id,
                     'id_module' => $this->id,
-                    'order_id' => $response->getId()
+                    'order_id' => !empty($response)?$response['id']:''
                 ]
             );
         }
 
         return $returnURL;
-    }
-
-    /**
-     * @param $amount
-     * @return int
-     */
-    public static function getAmountInCents($amount)
-    {
-        return (int) round($amount * 100);
     }
 
     /**
@@ -397,7 +395,7 @@ class emspayKlarnaPayLater extends PaymentModule
             'last_name' => $presta_customer->lastname,
             'merchant_customer_id' => $cart->id_customer,
             'phone_numbers' => array_values(
-                \GingerPayments\Payment\Common\ArrayFunctions::withoutNullValues(
+		    EmspayHelper::getArrayWithoutNullValues(
                     array_unique([
                         (string) $presta_address->phone,
                         (string) $presta_address->phone_mobile
@@ -422,10 +420,10 @@ class emspayKlarnaPayLater extends PaymentModule
                 'ean' => $this->getProductEAN($product),
                 'url' => $this->getProductURL($product),
                 'name' => $product['name'],
-                'type' => \GingerPayments\Payment\Order\OrderLine\Type::PHYSICAL,
-                'amount' => self::getAmountInCents(Tools::ps_round($product['price_wt'], 2)),
-                'currency' => \GingerPayments\Payment\Currency::EUR,
-                'quantity' => $product['cart_quantity'],
+                'type' => EmspayHelper::PHYSICAL,
+                'amount' => EmspayHelper::getAmountInCents(Tools::ps_round($product['price_wt'], 2)),
+                'currency' => EmspayHelper::getPaymentCurrency(),
+                'quantity' => (int)$product['cart_quantity'],
                 'image_url' => $this->getProductCoverImage($product),
                 'vat_percentage' => ((int) $product['rate'] * 100),
                 'merchant_order_line_id' => $product['unique_id']
@@ -472,10 +470,10 @@ class emspayKlarnaPayLater extends PaymentModule
     {
         return [
             'name' => $this->l("Shipping Fee"),
-            'type' => \GingerPayments\Payment\Order\OrderLine\Type::SHIPPING_FEE,
-            'amount' => self::getAmountInCents($shippingFee),
-            'currency' => \GingerPayments\Payment\Currency::EUR,
-            'vat_percentage' => self::getAmountInCents($this->getShippingTaxRate($cart)),
+            'type' => EmspayHelper::SHIPPING_FEE,
+            'amount' => EmspayHelper::getAmountInCents($shippingFee),
+            'currency' => EmspayHelper::getPaymentCurrency(),
+            'vat_percentage' => EmspayHelper::getAmountInCents($this->getShippingTaxRate($cart)),
             'quantity' => 1,
             'merchant_order_line_id' => count($cart->getProducts()) + 1
         ];

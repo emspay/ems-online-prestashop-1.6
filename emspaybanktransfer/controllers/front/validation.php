@@ -1,19 +1,25 @@
 <?php
 
-require_once(_PS_MODULE_DIR_.'/emspay/ems-php/vendor/autoload.php');
+use Ginger\Ginger;
+
+require_once(_PS_MODULE_DIR_.'/emspay/ginger-php/vendor/autoload.php');
+require_once(_PS_MODULE_DIR_ . '/emspay/lib/emspayhelper.php');
 
 class emspayBanktransferValidationModuleFrontController extends ModuleFrontController
 {
     public function postProcess()
     {
-        $ginger = \GingerPayments\Payment\Ginger::createClient(
-            Configuration::get('EMS_PAY_APIKEY')
-        );
-        if (Configuration::get('EMS_PAY_BUNDLE_CA')) {
-            $ginger->useBundledCA();
-        }        
+	  $ginger = Ginger::createClient(
+		  EmspayHelper::GINGER_ENDPOINT,
+		  Configuration::get('EMS_PAY_APIKEY'),
+		  (null !== \Configuration::get('EMS_PAY_BUNDLE_CA')) ?
+			  [
+				  CURLOPT_CAINFO => EmspayHelper::getCaCertPath()
+			  ] : []
+	  );
+	  $ginger_order = $ginger->getOrder(Tools::getValue('order_id'));
 
-        $ginger_order_status = $ginger->getOrder(Tools::getValue('order_id'))->getStatus();
+	  $ginger_order_status = $ginger_order['status'];
         $cart_id = Tools::getValue('id_cart');
 
         switch ($ginger_order_status) {
