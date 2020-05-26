@@ -1,7 +1,5 @@
 <?php
 
-use Ginger\Ginger;
-
 if (!defined('_PS_VERSION_')) {
     exit;
 }
@@ -12,8 +10,6 @@ require_once(_PS_MODULE_DIR_.'/emspay/lib/emspayhelper.php');
 
 class emspaybancontact extends PaymentModule
 {
-    private $_html = '';
-    private $_postErrors = array();
     public $extra_mail_vars;
     public $ginger;
 
@@ -34,7 +30,7 @@ class emspaybancontact extends PaymentModule
 
         if (Configuration::get('EMS_PAY_APIKEY')) {
             try {
-		    $this->ginger = Ginger::createClient(
+		    $this->ginger = \Ginger\Ginger::createClient(
 			    EmspayHelper::GINGER_ENDPOINT,
 			    Configuration::get('EMS_PAY_APIKEY'),
 			    (null !== \Configuration::get('EMS_PAY_BUNDLE_CA')) ?

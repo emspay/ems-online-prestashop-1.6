@@ -1,7 +1,5 @@
 <?php
 
-use Ginger\Ginger;
-
 if (!defined('_PS_VERSION_')) {
     exit;
 }
@@ -9,11 +7,11 @@ if (!defined('_PS_VERSION_')) {
 require_once(_PS_MODULE_DIR_.'/emspay/ginger-php/vendor/autoload.php');
 require_once(_PS_MODULE_DIR_.'/emspay/emspay.php');
 require_once(_PS_MODULE_DIR_.'/emspay/lib/emspayhelper.php');
+require_once(_PS_MODULE_DIR_.'/emspay/lib/clientfactory.php');
 
 class emspayKlarnaPayLater extends PaymentModule
 {
     private $_html = '';
-    private $_postErrors = array();
     public $extra_mail_vars;
     public $ginger;
 
@@ -34,21 +32,13 @@ class emspayKlarnaPayLater extends PaymentModule
 
         $apiKey = Configuration::get('EMS_PAY_APIKEY_TEST') ?: Configuration::get('EMS_PAY_APIKEY');
 
-        if ($apiKey) {
-            try {
-		    $this->ginger = Ginger::createClient(
-			    EmspayHelper::GINGER_ENDPOINT,
-			    Configuration::get('EMS_PAY_APIKEY'),
-			    (null !== \Configuration::get('EMS_PAY_BUNDLE_CA')) ?
-				    [
-					    CURLOPT_CAINFO => EmspayHelper::getCaCertPath()
-				    ] : []
-		    );
-            } catch (\Assert\InvalidArgumentException $exception) {
-                $this->warning = $exception->getMessage();
-            }
-        }
-
+	  if ($apiKey) {
+		try {
+		    $this->ginger = ClientFactory::create(ClientFactory::KLARNA_TEST_API_KEY_ENABLED_CLIENT);
+		} catch (\Assert\InvalidArgumentException $exception) {
+		    $this->warning = $exception->getMessage();
+		}
+	  }
         $this->displayName = $this->l('EMS Online Klarna Pay Later');
         $this->description = $this->l('Accept payments for your products using EMS Online Klarna Pay Later');
         $this->confirmUninstall = $this->l('Are you sure about removing these details?');

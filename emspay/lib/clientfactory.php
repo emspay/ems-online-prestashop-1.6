@@ -1,7 +1,5 @@
 <?php
 
-use Ginger\Ginger;
-
 /**
  * Simple Ginger client facorty
  */
@@ -25,7 +23,7 @@ class ClientFactory
                 $apiKey  = Configuration::get('EMS_PAY_APIKEY_TEST') ? : Configuration::get('EMS_PAY_APIKEY');
                 break;
             case self::AFTERPAY_TEST_API_KEY_ENABLED_CLIENT:
-                $apiKey  = Configuration::get('EMS_PAY_AFTERPAY_APIKEY_TEST') ? : Configuration::get('EMS_PAY_AFTERPAY_APIKEY_TEST');
+                $apiKey  = Configuration::get('EMS_PAY_AFTERPAY_APIKEY_TEST') ? : Configuration::get('EMS_PAY_APIKEY');
                 break;
             case self::STANDARD_CLIENT:
             default:
@@ -33,7 +31,7 @@ class ClientFactory
                 break;
         }
         
-        $ginger = Ginger::createClient(
+        $ginger = \Ginger\Ginger::createClient(
 			 EmspayHelper::GINGER_ENDPOINT,
 			 $apiKey,
 			 (null !== \Configuration::get('EMS_PAY_BUNDLE_CA')) ?

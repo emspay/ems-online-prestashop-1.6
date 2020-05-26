@@ -1,7 +1,5 @@
 <?php
 
-use Ginger\Ginger;
-
 if (!defined('_PS_VERSION_')) {
     exit;
 }
@@ -51,7 +49,7 @@ class emspay extends PaymentModule
     protected function initiateAllowedProducts()
     {
         if (Configuration::get('EMS_PAY_APIKEY')) {
-		$this->ginger = Ginger::createClient(
+		$this->ginger = \Ginger\Ginger::createClient(
 			EmspayHelper::GINGER_ENDPOINT,
 			Configuration::get('EMS_PAY_APIKEY'),
 			(null !== \Configuration::get('EMS_PAY_BUNDLE_CA')) ?
