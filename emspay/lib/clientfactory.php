@@ -27,7 +27,7 @@ class ClientFactory
                 break;
             case self::STANDARD_CLIENT:
             default:
-                $apiKey = Configuration::get('EMS_PAY_APIKEY_TEST');
+                $apiKey = Configuration::get('EMS_PAY_APIKEY');
                 break;
         }
         
