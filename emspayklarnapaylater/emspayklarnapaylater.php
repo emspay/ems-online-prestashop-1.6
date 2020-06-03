@@ -304,9 +304,17 @@ class emspayKlarnaPayLater extends PaymentModule
             $this->context->customer->secure_key
         );
 
+	  $pay_url = array_key_exists(0, $response['transactions'])
+		  ? $response['transactions'][0]['payment_url']
+		  : null;
+
+	  if (!$pay_url) {
+		return Tools::displayError("Error: Response did not include payment url!");
+	  }
+
         $this->saveEMSOrderId($response, $cart);
 
-        header('Location: '.$this->getReturnURL($cart, $response));
+        header('Location: '.$pay_url);
     }
 
     /**

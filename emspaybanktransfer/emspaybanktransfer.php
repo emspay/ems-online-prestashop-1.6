@@ -197,7 +197,7 @@ class emspayBanktransfer extends PaymentModule
 			'currency' => $currency,                                                        // Currency
 			'transactions' => [
 				[
-					'payment_method' => $this->method_id						// Payment method
+					'payment_method' => $this->method_id					  // Payment method
 				]
 			],
 			'description' => $description,                                                  // Description
@@ -241,7 +241,7 @@ class emspayBanktransfer extends PaymentModule
 
         $this->saveEMSOrderId($response, $cart);
         $orderData = $this->ginger->getOrder($response['id']);
-        $this->ginger->updateOrder($response['id'].'/',$orderData);
+        $this->ginger->updateOrder($response['id'], $orderData);
         $this->sendPrivateMessage($bankReference);
 
         header('Location: '.$this->getReturnURL($cart, $response));

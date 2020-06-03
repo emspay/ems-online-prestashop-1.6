@@ -89,6 +89,6 @@ if ($order_details['status'] == "completed") {
         Db::getInstance()->update('emspay', array("id_order" => $id_order),
             '`ginger_order_id` = "'.Db::getInstance()->escape($ginger_order_id).'"');
 
-        $emspay->ginger->updateOrder($id_order.'/',$order_details);
+        $emspay->ginger->updateOrder($id_order,$order_details);
     }
 }

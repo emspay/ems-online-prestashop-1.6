@@ -317,7 +317,7 @@ class emspayAfterpay extends PaymentModule
         
         $this->saveEMSOrderId($response, $cart);
         $orderData = $this->ginger->getOrder($response['id']);
-        $this->ginger->updateOrder($response['id'].'/',$orderData);
+        $this->ginger->updateOrder($response['id'], $orderData);
 
         header('Location: '.$this->getReturnURL($cart, $response));
     }
