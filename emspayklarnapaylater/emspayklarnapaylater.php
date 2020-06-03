@@ -296,14 +296,6 @@ class emspayKlarnaPayLater extends PaymentModule
             return Tools::displayError("Error: Response did not include id!");
         }
 
-        $this->validateOrder(
-            $cart->id,
-            Configuration::get('PS_OS_PREPARATION'),
-            $cart->getOrderTotal(true),
-            $this->displayName, null, array(), null, false,
-            $this->context->customer->secure_key
-        );
-
 	  $pay_url = array_key_exists(0, $response['transactions'])
 		  ? $response['transactions'][0]['payment_url']
 		  : null;
@@ -311,6 +303,14 @@ class emspayKlarnaPayLater extends PaymentModule
 	  if (!$pay_url) {
 		return Tools::displayError("Error: Response did not include payment url!");
 	  }
+
+        $this->validateOrder(
+            $cart->id,
+            Configuration::get('PS_OS_PREPARATION'),
+            $cart->getOrderTotal(true),
+            $this->displayName, null, array(), null, false,
+            $this->context->customer->secure_key
+        );
 
         $this->saveEMSOrderId($response, $cart);
 
