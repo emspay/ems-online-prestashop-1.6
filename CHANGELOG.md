@@ -10,7 +10,7 @@
 * Renamed Klarna to Klarna Pay Later
 
 
-** 1.7.2 **
+** 1.0.4 **
 
 * Updated SDK
 * Add American Express

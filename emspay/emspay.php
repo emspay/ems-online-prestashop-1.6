@@ -24,7 +24,7 @@ class emspay extends PaymentModule
     {
         $this->name = 'emspay';
         $this->tab = 'payments_gateways';
-        $this->version = '1.7.2';
+        $this->version = '1.0.4';
         $this->author = 'Ginger Payments';
         $this->controllers = array('payment', 'validation');
         $this->is_eu_compatible = 1;
