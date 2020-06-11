@@ -4,21 +4,22 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-require_once(_PS_MODULE_DIR_.'/emspay/ems-php/vendor/autoload.php');
+require_once(_PS_MODULE_DIR_.'/emspay/ginger-php/vendor/autoload.php');
 require_once(_PS_MODULE_DIR_.'/emspay/emspay.php');
+require_once(_PS_MODULE_DIR_.'/emspay/lib/emspayhelper.php');
+
 
 class emspayApplePay extends PaymentModule
 {
-    private $_html = '';
-    private $_postErrors = array();
     public $extra_mail_vars;
     public $ginger;
 
     public function __construct()
     {
         $this->name = 'emspayapplepay';
+	  $this->method_id = 'apple-pay';
         $this->tab = 'payments_gateways';
-        $this->version = '1.7.1';
+        $this->version = '1.8.0';
         $this->author = 'Ginger Payments';
         $this->controllers = array('payment', 'validation');
         $this->is_eu_compatible = 1;
@@ -28,20 +29,22 @@ class emspayApplePay extends PaymentModule
 
         parent::__construct();
 
-        if (Configuration::get('EMS_PAY_APIKEY')) {
-            try {
-                $this->ginger = \GingerPayments\Payment\Ginger::createClient(
-                    Configuration::get('EMS_PAY_APIKEY')
-                );
-                if (Configuration::get('EMS_PAY_BUNDLE_CA')) {
-                    $this->ginger->useBundledCA();
-                }
-            } catch (\Assert\InvalidArgumentException $exception) {
-                $this->warning = $exception->getMessage();
-            }
-        }
+	  if (Configuration::get('EMS_PAY_APIKEY')) {
+		try {
+		    $this->ginger = \Ginger\Ginger::createClient(
+			    EmspayHelper::GINGER_ENDPOINT,
+			    Configuration::get('EMS_PAY_APIKEY'),
+			    (null !== \Configuration::get('EMS_PAY_BUNDLE_CA')) ?
+				    [
+					    CURLOPT_CAINFO => EmspayHelper::getCaCertPath()
+				    ] : []
+		    );
+		} catch (\Assert\InvalidArgumentException $exception) {
+		    $this->warning = $exception->getMessage();
+		}
+	  }
 
-        $this->displayName = $this->l('Apple Pay - EMS Online');
+        $this->displayName = $this->l('EMS Online Apple Pay');
         $this->description = $this->l('Accept payments for your products using ApplePay.');
         $this->confirmUninstall = $this->l('Are you sure about removing these details?');
 
@@ -147,44 +150,52 @@ class emspayApplePay extends PaymentModule
         );
 
         $description = sprintf($this->l('Your order at')." %s", Configuration::get('PS_SHOP_NAME'));
-        $totalInCents = self::getAmountInCents($cart->getOrderTotal(true));
-        $currency = \GingerPayments\Payment\Currency::EUR;
+        $totalInCents = EmspayHelper::getAmountInCents($cart->getOrderTotal(true));
+        $currency = EmspayHelper::getPaymentCurrency();
         $webhookUrl = Configuration::get('EMS_PAY_USE_WEBHOOK')
             ? _PS_BASE_URL_.__PS_BASE_URI__.'modules/emspay/webhook.php'
             : null;
         $returnURL = $this->getReturnURL($cart);
 
         try {
-            $response = $this->ginger->createApplePayOrder(
-                $totalInCents,                          // Amount in cents
-                $currency,                              // Currency
-                $description,                           // Description
-                $this->currentOrder,                    // Merchant Order Id
-                $returnURL,                             // Return URL
-                null,                                   // Expiration Period
-                $customer,                              // Customer Information
-                ['plugin' => $this->getPluginVersion()], // Extra information
-                $webhookUrl                             // Webhook URL
-            );
+            $response = $this->ginger->createOrder([
+		    'amount' => $totalInCents,                                                      // Amount in cents
+		    'currency' => $currency,                                                        // Currency
+		    'transactions' => [
+		        [
+				'payment_method' => $this->method_id						// Payment method
+		        ]
+		    ],
+		    'description' => $description,                                                  // Description
+		    'merchant_order_id' => $this->currentOrder,                                     // Merchant Order Id
+		    'return_url' => $returnURL,                                                     // Return URL
+		    'customer' => $customer,                                                        // Customer information
+		    'extra' => ['plugin' => EmspayHelper::getPluginVersionText($this->version)],   	// Extra information
+		    'webhook_url' => $webhookUrl                                                    // Webhook URL
+            ]);
         } catch (\Exception $exception) {
             return Tools::displayError($exception->getMessage());
         }
 
-        if ($response->status()->isError()) {
-            return $response->transactions()->current()->reason()->toString();
+        if ($response['status'] == 'error') {
+            return Tools::displayError($response['transactions'][0]['reason']);
         }
 
-        if (!$response->getId()) {
+        if (!$response['id']) {
             return Tools::displayError("Error: Response did not include id!");
         }
 
-        if (!$response->firstTransactionPaymentUrl()) {
-            return Tools::displayError("Error: Response did not include payment url!");
-        }
+	  $pay_url = array_key_exists(0, $response['transactions'])
+		  ? $response['transactions'][0]['payment_url']
+		  : null;
+
+	  if (!$pay_url) {
+		return Tools::displayError("Error: Response did not include payment url!");
+	  }
 
         $this->saveEMSOrderId($response, $cart);
 
-        header('Location: '.$response->firstTransactionPaymentUrl()->toString());
+        header('Location: '.$pay_url);
     }
 
     /**
@@ -193,7 +204,7 @@ class emspayApplePay extends PaymentModule
      */
     public function saveEMSOrderId($response, $cart)
     {
-        if ($response->id()->toString()) {
+        if ($response['id']) {
             $db = Db::getInstance();
             $db->Execute("DELETE FROM `"._DB_PREFIX_."emspay` WHERE `id_cart` = ".$cart->id);
             $db->Execute("
@@ -201,7 +212,7 @@ class emspayApplePay extends PaymentModule
 		            (`id_cart`, `ginger_order_id`, `key`, `payment_method`)
 		        VALUES
 		            ('".$cart->id."', 
-		            '".$response->id()->toString()."', 
+		            '".$response['id']."', 
 		            '".$this->context->customer->secure_key."', 
 		            'emspayapplepay'
 		        );
@@ -243,11 +254,6 @@ class emspayApplePay extends PaymentModule
         return $this->display(__FILE__, 'payment_return.tpl');
     }
 
-    public static function getAmountInCents($amount)
-    {
-        return (int) round($amount * 100);
-    }
-    
     /**
      * @return string
      */

@@ -2,7 +2,7 @@
 <module>
 	<name>emspaycreditcard</name>
 	<displayName><![CDATA[ EMS Online Creditcard]]></displayName>
-	<version><![CDATA[1.7.1]]></version>
+	<version><![CDATA[1.8.0]]></version>
 	<description><![CDATA[Accept payments for your products using creditcard.]]></description>
 	<author><![CDATA[Ginger Payments]]></author>
 	<tab><![CDATA[payments_gateways]]></tab>
