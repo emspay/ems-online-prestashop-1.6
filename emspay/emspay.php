@@ -4,7 +4,7 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-require_once(_PS_MODULE_DIR_.'/emspay/ems-php/vendor/autoload.php');
+require_once(_PS_MODULE_DIR_.'/emspay/ginger-php/vendor/autoload.php');
 
 class emspay extends PaymentModule
 {
@@ -24,7 +24,7 @@ class emspay extends PaymentModule
     {
         $this->name = 'emspay';
         $this->tab = 'payments_gateways';
-        $this->version = '1.7.1';
+        $this->version = '1.8.0';
         $this->author = 'Ginger Payments';
         $this->controllers = array('payment', 'validation');
         $this->is_eu_compatible = 1;
@@ -49,12 +49,14 @@ class emspay extends PaymentModule
     protected function initiateAllowedProducts()
     {
         if (Configuration::get('EMS_PAY_APIKEY')) {
-            $this->ginger = \GingerPayments\Payment\Ginger::createClient(
-                Configuration::get('EMS_PAY_APIKEY')
-            );
-            if (Configuration::get('EMS_PAY_BUNDLE_CA')) {
-                $this->ginger->useBundledCA();
-            }            
+		$this->ginger = \Ginger\Ginger::createClient(
+			EmspayHelper::GINGER_ENDPOINT,
+			Configuration::get('EMS_PAY_APIKEY'),
+			(null !== \Configuration::get('EMS_PAY_BUNDLE_CA')) ?
+				[
+					CURLOPT_CAINFO => EmspayHelper::getCaCertPath()
+				] : []
+		);
 
             $allowedProducts = $this->ginger->getAllowedProducts();
 

@@ -1,16 +1,15 @@
 <?php
 
-require_once(_PS_MODULE_DIR_.'/emspay/ems-php/vendor/autoload.php');
+require_once(_PS_MODULE_DIR_.'/emspay/ginger-php/vendor/autoload.php');
 require_once(_PS_MODULE_DIR_.'/emspay/lib/clientfactory.php');
 
 class emspayAfterpayValidationModuleFrontController extends ModuleFrontController
 {
     public function postProcess()
     {
-        $gingerOrderStatus = ClientFactory::create(ClientFactory::AFTERPAY_TEST_API_KEY_ENABLED_CLIENT)
-                ->getOrder(Tools::getValue('order_id'))
-                ->getStatus();
-        
+        $gingerOrder = ClientFactory::create(ClientFactory::AFTERPAY_TEST_API_KEY_ENABLED_CLIENT)
+                ->getOrder(Tools::getValue('order_id'));
+	  $gingerOrderStatus = $gingerOrder['status'];
         switch ($gingerOrderStatus) {
             case 'completed':
                 $this->processCompletedStatus(Tools::getValue('id_cart'));

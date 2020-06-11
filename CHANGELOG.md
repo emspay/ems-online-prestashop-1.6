@@ -8,3 +8,11 @@
 
 * Renamed Sofort to Klarna Pay Now
 * Renamed Klarna to Klarna Pay Later
+
+
+** 1.8.0 **
+
+* Updated SDK
+* Add American Express
+* Add Tikkie Payment Request
+* Add WeChat

@@ -13,7 +13,7 @@ class ClientFactory
      * Method creats an instance of Ginger Client
      * 
      * @param string $type
-     * @return \GingerPayments\Payment\Client
+     * @return \Ginger\ApiClient
      * @since v1.6.0
      */
     public static function create($type)
@@ -27,14 +27,18 @@ class ClientFactory
                 break;
             case self::STANDARD_CLIENT:
             default:
-                $apiKey = Configuration::get('EMS_PAY_APIKEY_TEST');
+                $apiKey = Configuration::get('EMS_PAY_APIKEY');
                 break;
         }
         
-        $ginger = \GingerPayments\Payment\Ginger::createClient($apiKey);
-        if (Configuration::get('EMS_PAY_BUNDLE_CA')) {
-            $ginger->useBundledCA();
-        }
+        $ginger = \Ginger\Ginger::createClient(
+			 EmspayHelper::GINGER_ENDPOINT,
+			 $apiKey,
+			 (null !== \Configuration::get('EMS_PAY_BUNDLE_CA')) ?
+			 [
+			 	CURLOPT_CAINFO => EmspayHelper::getCaCertPath()
+			 ] : []
+	  	);
         return $ginger;
     }
 }
