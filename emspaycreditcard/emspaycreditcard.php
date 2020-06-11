@@ -18,7 +18,7 @@ class emspayCreditcard extends PaymentModule
         $this->name = 'emspaycreditcard';
 	  $this->method_id = 'credit-card';
         $this->tab = 'payments_gateways';
-        $this->version = '1.7.1';
+        $this->version = '1.8.0';
         $this->author = 'Ginger Payments';
         $this->controllers = array('payment', 'validation');
         $this->is_eu_compatible = 1;

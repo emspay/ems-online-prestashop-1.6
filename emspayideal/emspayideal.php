@@ -18,7 +18,7 @@ class emspayIdeal extends PaymentModule
         $this->name = 'emspayideal';
 	  $this->method_id = 'ideal';
         $this->tab = 'payments_gateways';
-        $this->version = '1.7.1';
+        $this->version = '1.8.0';
         $this->author = 'Ginger Payments';
         $this->controllers = array('payment', 'validation');
         $this->is_eu_compatible = 1;

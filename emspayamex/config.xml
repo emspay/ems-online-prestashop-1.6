@@ -2,7 +2,7 @@
 <module>
 	<name>emspayamex</name>
 	<displayName><![CDATA[American Express - EMS Online]]></displayName>
-	<version><![CDATA[1.7.1]]></version>
+	<version><![CDATA[1.8.0]]></version>
 	<description><![CDATA[Accept payments for your products using American Express.]]></description>
 	<author><![CDATA[Ginger Payments]]></author>
 	<tab><![CDATA[payments_gateways]]></tab>
