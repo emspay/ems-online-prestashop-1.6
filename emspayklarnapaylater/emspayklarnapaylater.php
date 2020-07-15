@@ -20,7 +20,7 @@ class emspayKlarnaPayLater extends PaymentModule
         $this->name = 'emspayklarnapaylater';
 	  $this->method_id = 'klarna-pay-later';
         $this->tab = 'payments_gateways';
-        $this->version = '1.8.0';
+        $this->version = '1.8.1';
         $this->author = 'Ginger Payments';
         $this->controllers = array('payment', 'validation');
         $this->is_eu_compatible = 1;
