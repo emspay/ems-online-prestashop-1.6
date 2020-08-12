@@ -11,7 +11,7 @@ $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_09b61a6273a9e570a8b89cf6a9c
 $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_56af9b52b08f15a62ff06112edd7e4d2'] = 'L\'adresse IP pour tester le methode du paiement';
 $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_bcf1ecb8263994876e86706f70205200'] = 'Vous pouvez spécifier des adresses IP spécifiques pour lesquelles AfterPay est visible, par exemple si vous souhaitez tester AfterPay, vous pouvez saisir des adresses IP comme 128.0.0.1, 255.255.255.255. Si vous remplissez rien, alors, AfterPay est visible à toutes les adresses IP.';
 $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_c6ae57e79b7c88c68acdcb768cfbf12e'] = 'Pays disponibles pour AfterPay';
-$_MODULE['<{emspayafterpay}prestashop>emspayafterpay_9de6f1566c478698e39174cb456ab29b'] = 'Pour autoriser AfterPay à être utilisé pour tout autre pays, ajoutez simplement son code de pays (dans la norme ISO 2) au champ \"Pays disponibles pour AfterPay\". Exemple: BE, NL, FR';
+$_MODULE['<{emspayafterpay}prestashop>emspayafterpay_9de6f1566c478698e39174cb456ab29b'] = 'Pour autoriser AfterPay à être utilisé pour tout autre pays, ajoutez simplement son code de pays (dans la norme ISO 2) au champ \"Pays disponibles pour AfterPay\". Exemple: BE, NL, FR Si le champ est vide, AfterPay sera disponible pour tous les pays.';
 $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_c9cc8cce247e49bae79f15173ce97354'] = 'Enregistrer';
 $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_57dfa2850a7497291f013e49ee184a44'] = 'Payer par AfterPay';
 $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_7853e11acea9a6109b2f1c00cdb4041e'] = 'Votre commande à';

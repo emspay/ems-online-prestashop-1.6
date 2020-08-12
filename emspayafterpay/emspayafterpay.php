@@ -199,7 +199,7 @@ class emspayAfterpay extends PaymentModule
 
         $userCountry = $this->getUserCountryFromAddressId($params['cart']->id_address_invoice);
 
-        if (!$this->CountryAccess($params['cart']->id_address_invoice)){
+        if (!$this->countryAccess($params['cart']->id_address_invoice)){
             return;
         }
         if ($this->isValidCountry($userCountry)) {
@@ -272,16 +272,15 @@ class emspayAfterpay extends PaymentModule
      *
      * @return boolean
      */
-    protected function CountryAccess($idusercountry)
+    protected function countryAccess($idusercountry)
     {
         $ems_afterpay_country_access = Configuration::get('EMS_AFTERPAY_COUNTRY_ACCESS');
-        if (strlen($ems_afterpay_country_access)) {
-            $countrylist =  explode(",",str_replace(' ','',$ems_afterpay_country_access));
-            if (in_array($this->getUserCountryFromAddressId($idusercountry), $countrylist)) {
-                return true;
-            }
+        if (empty($ems_afterpay_country_access)) {
+            return true;
+        } else {
+            $countrylist =  array_map("trim", explode(',',$ems_afterpay_country_access));
+            return in_array($this->getUserCountryFromAddressId($idusercountry), $countrylist);
         }
-        return false;
     }
 
     public function hookDisplayPaymentEU($params)
