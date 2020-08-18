@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <module>
 	<name>emspaycreditcard</name>
-	<displayName><![CDATA[ EMS Online Creditcard]]></displayName>
+	<displayName><![CDATA[EMS Online - Credit Card]]></displayName>
 	<version><![CDATA[1.8.1]]></version>
-	<description><![CDATA[Accept payments for your products using creditcard.]]></description>
+	<description><![CDATA[Accept payments for your products using Credit Card.]]></description>
 	<author><![CDATA[Ginger Payments]]></author>
 	<tab><![CDATA[payments_gateways]]></tab>
 	<confirmUninstall><![CDATA[Are you sure about removing these details?]]></confirmUninstall>
 	<is_configurable>0</is_configurable>
 	<need_instance>1</need_instance>
-	<limited_countries></limited_countries>
 </module>
