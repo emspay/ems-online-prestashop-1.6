@@ -17,7 +17,6 @@ class emspayAfterpay extends PaymentModule
     
     public $extra_mail_vars;
     public $ginger;
-    protected $allowedLocales = ['NL', 'BE'];
 
     public function __construct()
     {
@@ -202,23 +201,10 @@ class emspayAfterpay extends PaymentModule
         if (!$this->countryAccess($params['cart']->id_address_invoice)){
             return;
         }
-        if ($this->isValidCountry($userCountry)) {
+        if ($this->countryAccess($params['cart']->id_address_invoice)){
             $this->smarty->assign('terms_and_condition_url', $this->getTermsAndConditionUrlByCountryIsoLocale($userCountry));
             return $this->display(__FILE__, 'payment_nl_be.tpl');
         }
-        
-        return $this->display(__FILE__, 'payment_not_available.tpl');
-    }
-    
-    /**
-     * Method checks is afterpay pm available for the user locale
-     *
-     * @param type $isoLocale
-     * @return type
-     */
-    protected function isValidCountry($isoLocaleCode)
-    {
-        return (bool) in_array($isoLocaleCode, $this->allowedLocales);
     }
 
     /**
@@ -275,7 +261,7 @@ class emspayAfterpay extends PaymentModule
     protected function countryAccess($idusercountry)
     {
         $ems_afterpay_country_access = Configuration::get('EMS_AFTERPAY_COUNTRY_ACCESS');
-        if (empty($ems_afterpay_country_access)) {
+        if (is_null($ems_afterpay_country_access)) {
             return true;
         } else {
             $countrylist =  array_map("trim", explode(',',$ems_afterpay_country_access));

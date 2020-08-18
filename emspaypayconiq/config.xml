@@ -2,7 +2,7 @@
 <module>
 	<name>emspaypayconiq</name>
 	<displayName><![CDATA[EMS Online PAYCONIQ]]></displayName>
-	<version><![CDATA[1.8.0]]></version>
+	<version><![CDATA[1.8.1]]></version>
 	<description><![CDATA[Accept payments for your products using PAYCONIQ.]]></description>
 	<author><![CDATA[Ginger Payments]]></author>
 	<tab><![CDATA[payments_gateways]]></tab>

@@ -2,7 +2,7 @@
 <module>
 	<name>emspayklarnapaynow</name>
 	<displayName><![CDATA[EMS Online Klarna Pay Now]]></displayName>
-	<version><![CDATA[1.8.0]]></version>
+	<version><![CDATA[1.8.1]]></version>
 	<description><![CDATA[Accept payments for your products using Klarna Pay Now banking.]]></description>
 	<author><![CDATA[Ginger Payments]]></author>
 	<tab><![CDATA[payments_gateways]]></tab>
