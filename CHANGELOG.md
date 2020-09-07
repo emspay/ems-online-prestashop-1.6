@@ -16,3 +16,7 @@
 * Add American Express
 * Add Tikkie Payment Request
 * Add WeChat
+
+** 1.8.1 **
+
+* Added the ability for AfterPay to be available in the selected countries.

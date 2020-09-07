@@ -43,5 +43,7 @@ To do this click on the “Configure” button of EMS Online Afterpay or EMS Onl
 Enter the IP addresses that you want to whitelist, separate the addresses by a comma (“,”). The payment method Afterpay / Klarna will only be presented to customers who use a whitelisted IP address.
 If you want to offer Afterpay / Klarna to all your customers, you can leave the field empty.
 
+Only for AfterPay payment: To allow AfterPay to be used for any other country just add its country code (in ISO 2 standard) to the "Countries available for AfterPay" field. Example: BE, NL, FR
+
 7. Once the modules are installed you can offer the payment methods in your webshop.
 8. Compatibility: PrestaShop 1.6
