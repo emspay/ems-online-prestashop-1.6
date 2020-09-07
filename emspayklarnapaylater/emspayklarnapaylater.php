@@ -4,7 +4,7 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-require_once(_PS_MODULE_DIR_.'/emspay/ginger-php/vendor/autoload.php');
+require_once(_PS_MODULE_DIR_.'/emspay/vendor/autoload.php');
 require_once(_PS_MODULE_DIR_.'/emspay/emspay.php');
 require_once(_PS_MODULE_DIR_.'/emspay/lib/emspayhelper.php');
 require_once(_PS_MODULE_DIR_.'/emspay/lib/clientfactory.php');
