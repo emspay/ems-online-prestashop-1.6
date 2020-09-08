@@ -376,7 +376,8 @@ class emspayAfterpay extends PaymentModule
             'gender' => $gender,
             'birthdate' => $presta_customer->birthday,
             'ip_address' => Tools::getRemoteAddr(),
-            'locale' => $locale
+            'locale' => $locale,
+            'additional_addresses' => $this->getBillingAdress($cart)
         ];
     }
     
@@ -413,7 +414,29 @@ class emspayAfterpay extends PaymentModule
 
         return count($orderLines) > 0 ? $orderLines : null;
     }
-    
+
+    /**
+     * Get the PrestaStop Billing Address
+     *
+     * @param $cart
+     * @return array
+     */
+    protected function getBillingAddress($cart){
+
+        $presta_address = new Address((int) $cart->id_address_invoice);
+        $presta_country = new Country((int) $presta_address->id_country);
+
+        return [array_filter([
+            'address' => implode("\n", array_filter(array(
+                $presta_address->address1,
+                $presta_address->address2,
+                $presta_address->postcode." ".$presta_address->city,
+            ))),
+            'address_type' => 'billing',
+            'country' => $presta_country->iso_code,
+        ])];
+    }
+
     /**
      * @param $cart
      * @param $shippingFee
