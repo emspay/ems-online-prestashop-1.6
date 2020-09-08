@@ -377,7 +377,7 @@ class emspayAfterpay extends PaymentModule
             'birthdate' => $presta_customer->birthday,
             'ip_address' => Tools::getRemoteAddr(),
             'locale' => $locale,
-            'additional_addresses' => $this->getBillingAdress($cart)
+            'additional_addresses' => $this->getBillingAddress($cart)
         ];
     }
     
