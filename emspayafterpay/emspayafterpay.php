@@ -118,7 +118,7 @@ class emspayAfterpay extends PaymentModule
                         'label' => $this->l('Countries available for AfterPay.'),
                         'name' => 'EMS_AFTERPAY_COUNTRY_ACCESS',
                         'required' => true,
-                        'desc' => $this->l('To allow AfterPay to be used for any other country just add its country code (in ISO 2 standard) to the "Countries available for AfterPay" field. Example: BE, NL, FR'),
+                        'desc' => $this->l('To allow AfterPay to be used for any other country just add its country code (in ISO 2 standard) to the "Countries available for AfterPay" field. Example: BE, NL, FR If field is empty then AfterPay will be available for all countries.'),
                     ),
                 ),
                 'submit' => array(
