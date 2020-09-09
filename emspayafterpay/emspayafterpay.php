@@ -4,7 +4,7 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-require_once(_PS_MODULE_DIR_.'/emspay/ginger-php/vendor/autoload.php');
+require_once(_PS_MODULE_DIR_.'/emspay/vendor/autoload.php');
 require_once(_PS_MODULE_DIR_.'/emspay/emspay.php');
 require_once(_PS_MODULE_DIR_.'/emspay/lib/emspayhelper.php');
 require_once(_PS_MODULE_DIR_.'/emspay/lib/clientfactory.php');
@@ -118,7 +118,7 @@ class emspayAfterpay extends PaymentModule
                         'label' => $this->l('Countries available for AfterPay.'),
                         'name' => 'EMS_AFTERPAY_COUNTRY_ACCESS',
                         'required' => true,
-                        'desc' => $this->l('To allow AfterPay to be used for any other country just add its country code (in ISO 2 standard) to the "Countries available for AfterPay" field. Example: BE, NL, FR'),
+                        'desc' => $this->l('To allow AfterPay to be used for any other country just add its country code (in ISO 2 standard) to the "Countries available for AfterPay" field. Example: BE, NL, FR If field is empty then AfterPay will be available for all countries.'),
                     ),
                 ),
                 'submit' => array(
@@ -376,7 +376,8 @@ class emspayAfterpay extends PaymentModule
             'gender' => $gender,
             'birthdate' => $presta_customer->birthday,
             'ip_address' => Tools::getRemoteAddr(),
-            'locale' => $locale
+            'locale' => $locale,
+            'additional_addresses' => $this->getBillingAddress($cart)
         ];
     }
     
@@ -413,7 +414,29 @@ class emspayAfterpay extends PaymentModule
 
         return count($orderLines) > 0 ? $orderLines : null;
     }
-    
+
+    /**
+     * Get the PrestaStop Billing Address
+     *
+     * @param $cart
+     * @return array
+     */
+    protected function getBillingAddress($cart){
+
+        $presta_address = new Address((int) $cart->id_address_invoice);
+        $presta_country = new Country((int) $presta_address->id_country);
+
+        return [array_filter([
+            'address' => implode("\n", array_filter(array(
+                $presta_address->address1,
+                $presta_address->address2,
+                $presta_address->postcode." ".$presta_address->city,
+            ))),
+            'address_type' => 'billing',
+            'country' => $presta_country->iso_code,
+        ])];
+    }
+
     /**
      * @param $cart
      * @param $shippingFee
