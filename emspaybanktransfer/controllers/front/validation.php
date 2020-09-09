@@ -1,6 +1,6 @@
 <?php
 
-require_once(_PS_MODULE_DIR_.'/emspay/ginger-php/vendor/autoload.php');
+require_once(_PS_MODULE_DIR_.'/emspay/vendor/autoload.php');
 require_once(_PS_MODULE_DIR_ . '/emspay/lib/emspayhelper.php');
 
 class emspayBanktransferValidationModuleFrontController extends ModuleFrontController

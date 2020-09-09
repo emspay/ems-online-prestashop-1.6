@@ -4,7 +4,7 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-require_once(_PS_MODULE_DIR_.'/emspay/ginger-php/vendor/autoload.php');
+require_once(_PS_MODULE_DIR_.'/emspay/vendor/autoload.php');
 require_once(_PS_MODULE_DIR_.'/emspay/emspay.php');
 require_once(_PS_MODULE_DIR_.'/emspay/lib/emspayhelper.php');
 
@@ -18,7 +18,7 @@ class emspayTikkiePaymentRequest extends PaymentModule
         $this->name = 'emspaytikkiepaymentrequest';
         $this->method_id = 'tikkie-payment-request';
         $this->tab = 'payments_gateways';
-        $this->version = '1.8.0';
+        $this->version = '1.8.1';
         $this->author = 'Ginger Payments';
         $this->controllers = array('payment', 'validation');
         $this->is_eu_compatible = 1;

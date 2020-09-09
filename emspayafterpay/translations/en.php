@@ -10,6 +10,8 @@ $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_c888438d14855d7d96a2724ee9c
 $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_09b61a6273a9e570a8b89cf6a9cc4376'] = 'EMS Online Settings	';
 $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_56af9b52b08f15a62ff06112edd7e4d2'] = 'IP address(es) for testing.';
 $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_bcf1ecb8263994876e86706f70205200'] = 'You can specify specific IP addresses for which AfterPay is visible, for example if you want to test AfterPay you can type IP addresses as 128.0.0.1, 255.255.255.255. If you fill in nothing, then, AfterPay is visible to all IP addresses.';
+$_MODULE['<{emspayafterpay}prestashop>emspayafterpay_c6ae57e79b7c88c68acdcb768cfbf12e'] = 'Countries available for AfterPay.';
+$_MODULE['<{emspayafterpay}prestashop>emspayafterpay_9de6f1566c478698e39174cb456ab29b'] = 'To allow AfterPay to be used for any other country just add its country code (in ISO 2 standard) to the \"Countries available for AfterPay\" field. Example: BE, NL, FR If field is empty then AfterPay will be available for all countries.';
 $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_c9cc8cce247e49bae79f15173ce97354'] = 'Save';
 $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_57dfa2850a7497291f013e49ee184a44'] = 'Pay by AfterPay';
 $_MODULE['<{emspayafterpay}prestashop>emspayafterpay_7853e11acea9a6109b2f1c00cdb4041e'] = 'Your order at';
@@ -30,8 +32,6 @@ $_MODULE['<{emspayafterpay}prestashop>infos_69e681a7023aad18cb152629cf760492'] =
 $_MODULE['<{emspayafterpay}prestashop>payment_nl_be_57dfa2850a7497291f013e49ee184a44'] = 'Pay by AfterPay';
 $_MODULE['<{emspayafterpay}prestashop>payment_nl_be_1d8cd2bfc6943dcf70236f7d351572a0'] = 'Terms & Conditions';
 $_MODULE['<{emspayafterpay}prestashop>payment_nl_be_8e6734aab837d2fafcdb18708d00d977'] = 'Agree and Proceed';
-$_MODULE['<{emspayafterpay}prestashop>payment_not_available_57dfa2850a7497291f013e49ee184a44'] = 'Pay by AfterPay';
-$_MODULE['<{emspayafterpay}prestashop>payment_not_available_be6b835f44d33af353959da9423c3fa9'] = 'Unfortunately, you cannot use AfterPay as Afterpay is only available for addresses in the Netherlands and Belgium. Please use the correct address or select another payment method.';
 $_MODULE['<{emspayafterpay}prestashop>payment_return_68a489dbc8079a40832c3d558fcfb069'] = 'Your order at %s';
 $_MODULE['<{emspayafterpay}prestashop>payment_return_87040f095177fc49993a5a5b73b192bc'] = 'AfterPay Payment Success';
 $_MODULE['<{emspayafterpay}prestashop>payment_return_bddd470742bc2329733e489ed05a8ba1'] = 'Your order is complete.';

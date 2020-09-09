@@ -4,7 +4,7 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-require_once(_PS_MODULE_DIR_.'/emspay/ginger-php/vendor/autoload.php');
+require_once(_PS_MODULE_DIR_.'/emspay/vendor/autoload.php');
 
 class emspay extends PaymentModule
 {
@@ -24,7 +24,7 @@ class emspay extends PaymentModule
     {
         $this->name = 'emspay';
         $this->tab = 'payments_gateways';
-        $this->version = '1.8.0';
+        $this->version = '1.8.1';
         $this->author = 'Ginger Payments';
         $this->controllers = array('payment', 'validation');
         $this->is_eu_compatible = 1;

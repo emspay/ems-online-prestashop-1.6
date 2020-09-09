@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <module>
 	<name>emspaypayconiq</name>
-	<displayName><![CDATA[EMS Online PAYCONIQ]]></displayName>
-	<version><![CDATA[1.8.0]]></version>
-	<description><![CDATA[Accept payments for your products using PAYCONIQ.]]></description>
+	<displayName><![CDATA[EMS Online - Payconiq]]></displayName>
+	<version><![CDATA[1.8.1]]></version>
+	<description><![CDATA[Accept payments for your products using Payconiq.]]></description>
 	<author><![CDATA[Ginger Payments]]></author>
 	<tab><![CDATA[payments_gateways]]></tab>
 	<confirmUninstall><![CDATA[Are you sure about removing these details?]]></confirmUninstall>
 	<is_configurable>0</is_configurable>
 	<need_instance>1</need_instance>
-	<limited_countries></limited_countries>
 </module>

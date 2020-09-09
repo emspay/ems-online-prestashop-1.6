@@ -4,7 +4,7 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-require_once(_PS_MODULE_DIR_.'/emspay/ginger-php/vendor/autoload.php');
+require_once(_PS_MODULE_DIR_.'/emspay/vendor/autoload.php');
 require_once(_PS_MODULE_DIR_.'/emspay/emspay.php');
 require_once(_PS_MODULE_DIR_.'/emspay/lib/emspayhelper.php');
 require_once(_PS_MODULE_DIR_.'/emspay/lib/clientfactory.php');
@@ -17,14 +17,13 @@ class emspayAfterpay extends PaymentModule
     
     public $extra_mail_vars;
     public $ginger;
-    protected $allowedLocales = ['NL', 'BE'];
 
     public function __construct()
     {
         $this->name = 'emspayafterpay';
-	  $this->method_id = 'afterpay';
+	    $this->method_id = 'afterpay';
         $this->tab = 'payments_gateways';
-        $this->version = '1.8.0';
+        $this->version = '1.8.1';
         $this->author = 'Ginger Payments';
         $this->controllers = array('payment', 'validation');
         $this->is_eu_compatible = 1;
@@ -55,6 +54,8 @@ class emspayAfterpay extends PaymentModule
     
     public function install()
     {
+        Configuration::updateValue('EMS_AFTERPAY_COUNTRY_ACCESS', trim('NL, BE'));
+
         if (!parent::install()
             || !$this->registerHook('payment')
             || !$this->registerHook('displayPaymentEU')
@@ -85,6 +86,8 @@ class emspayAfterpay extends PaymentModule
     {
         if (Tools::isSubmit('btnSubmit')) {
             Configuration::updateValue('EMS_AFTERPAY_SHOW_FOR_IP', trim(Tools::getValue('EMS_AFTERPAY_SHOW_FOR_IP')));
+            Configuration::updateValue('EMS_AFTERPAY_COUNTRY_ACCESS', trim(Tools::getValue('EMS_AFTERPAY_COUNTRY_ACCESS')));
+
         }
         return $this->displayConfirmation($this->l('Settings updated'));
     }
@@ -109,6 +112,13 @@ class emspayAfterpay extends PaymentModule
                         'name' => 'EMS_AFTERPAY_SHOW_FOR_IP',
                         'required' => true,
                         'desc' => $this->l('You can specify specific IP addresses for which AfterPay is visible, for example if you want to test AfterPay you can type IP addresses as 128.0.0.1, 255.255.255.255. If you fill in nothing, then, AfterPay is visible to all IP addresses.'),
+                    ),
+                    array(
+                        'type' => 'text',
+                        'label' => $this->l('Countries available for AfterPay.'),
+                        'name' => 'EMS_AFTERPAY_COUNTRY_ACCESS',
+                        'required' => true,
+                        'desc' => $this->l('To allow AfterPay to be used for any other country just add its country code (in ISO 2 standard) to the "Countries available for AfterPay" field. Example: BE, NL, FR If field is empty then AfterPay will be available for all countries.'),
                     ),
                 ),
                 'submit' => array(
@@ -149,11 +159,18 @@ class emspayAfterpay extends PaymentModule
                 'EMS_AFTERPAY_SHOW_FOR_IP',
                 Configuration::get('EMS_AFTERPAY_SHOW_FOR_IP')
             ),
+            'EMS_AFTERPAY_COUNTRY_ACCESS' => Tools::getValue(
+                'EMS_AFTERPAY_COUNTRY_ACCESS',
+                Configuration::get('EMS_AFTERPAY_COUNTRY_ACCESS')
+            ),
         );
     }
 
     public function uninstall()
     {
+        Configuration::deleteByName('EMS_AFTERPAY_SHOW_FOR_IP');
+        Configuration::deleteByName('EMS_AFTERPAY_COUNTRY_ACCESS');
+
         if (!parent::uninstall()) {
             return false;
         }
@@ -180,24 +197,14 @@ class emspayAfterpay extends PaymentModule
         ));
 
         $userCountry = $this->getUserCountryFromAddressId($params['cart']->id_address_invoice);
-        
-        if ($this->isValidCountry($userCountry)) {
+
+        if (!$this->countryAccess($params['cart']->id_address_invoice)){
+            return;
+        }
+        if ($this->countryAccess($params['cart']->id_address_invoice)){
             $this->smarty->assign('terms_and_condition_url', $this->getTermsAndConditionUrlByCountryIsoLocale($userCountry));
             return $this->display(__FILE__, 'payment_nl_be.tpl');
         }
-        
-        return $this->display(__FILE__, 'payment_not_available.tpl');
-    }
-    
-    /**
-     * Method checks is afterpay pm available for the user locale
-     *
-     * @param type $isoLocale
-     * @return type
-     */
-    protected function isValidCountry($isoLocaleCode)
-    {
-        return (bool) in_array($isoLocaleCode, $this->allowedLocales);
     }
 
     /**
@@ -244,7 +251,24 @@ class emspayAfterpay extends PaymentModule
         }
         return false;
     }
-    
+
+    /**
+     * check if the EMS_AFTERPAY_COUNTY_ACCESS is set,
+     * if so, only display if user is from that counties
+     *
+     * @return boolean
+     */
+    protected function countryAccess($idusercountry)
+    {
+        $ems_afterpay_country_access = Configuration::get('EMS_AFTERPAY_COUNTRY_ACCESS');
+        if (is_null($ems_afterpay_country_access)) {
+            return true;
+        } else {
+            $countrylist =  array_map("trim", explode(',',$ems_afterpay_country_access));
+            return in_array($this->getUserCountryFromAddressId($idusercountry), $countrylist);
+        }
+    }
+
     public function hookDisplayPaymentEU($params)
     {
         if (!$this->active) {
@@ -352,7 +376,8 @@ class emspayAfterpay extends PaymentModule
             'gender' => $gender,
             'birthdate' => $presta_customer->birthday,
             'ip_address' => Tools::getRemoteAddr(),
-            'locale' => $locale
+            'locale' => $locale,
+            'additional_addresses' => $this->getBillingAddress($cart)
         ];
     }
     
@@ -389,7 +414,29 @@ class emspayAfterpay extends PaymentModule
 
         return count($orderLines) > 0 ? $orderLines : null;
     }
-    
+
+    /**
+     * Get the PrestaStop Billing Address
+     *
+     * @param $cart
+     * @return array
+     */
+    protected function getBillingAddress($cart){
+
+        $presta_address = new Address((int) $cart->id_address_invoice);
+        $presta_country = new Country((int) $presta_address->id_country);
+
+        return [array_filter([
+            'address' => implode("\n", array_filter(array(
+                $presta_address->address1,
+                $presta_address->address2,
+                $presta_address->postcode." ".$presta_address->city,
+            ))),
+            'address_type' => 'billing',
+            'country' => $presta_country->iso_code,
+        ])];
+    }
+
     /**
      * @param $cart
      * @param $shippingFee
