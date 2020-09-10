@@ -19,7 +19,7 @@ class emspayApplePay extends PaymentModule
         $this->name = 'emspayapplepay';
 	  $this->method_id = 'apple-pay';
         $this->tab = 'payments_gateways';
-        $this->version = '1.8.1';
+        $this->version = '1.9.0';
         $this->author = 'Ginger Payments';
         $this->controllers = array('payment', 'validation');
         $this->is_eu_compatible = 1;
