@@ -18,7 +18,7 @@ class emspayklarnapaynow extends PaymentModule
         $this->name = 'emspayklarnapaynow';
 	  $this->method_id = 'klarna-pay-now';
         $this->tab = 'payments_gateways';
-        $this->version = '1.9.0';
+        $this->version = '1.9.1';
         $this->author = 'Ginger Payments';
         $this->controllers = array('payment', 'validation');
         $this->is_eu_compatible = 1;
