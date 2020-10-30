@@ -150,9 +150,8 @@ class emspayWechat extends PaymentModule
         $description = sprintf($this->l('Your order at')." %s", Configuration::get('PS_SHOP_NAME'));
         $totalInCents = EmspayHelper::getAmountInCents($cart->getOrderTotal(true));
         $currency = EmspayHelper::getPaymentCurrency();
-        $webhookUrl = Configuration::get('EMS_PAY_USE_WEBHOOK')
-            ? _PS_BASE_URL_.__PS_BASE_URI__.'modules/emspay/webhook.php'
-            : null;
+        $webhookUrl = EmspayHelper::getWebHookUrl();
+
         $returnURL = $this->getReturnURL($cart);
 
         try {

@@ -265,7 +265,7 @@ class emspayKlarnaPayLater extends PaymentModule
         $description = sprintf($this->l('Your order at')." %s", Configuration::get('PS_SHOP_NAME'));
         $totalInCents = EmspayHelper::getAmountInCents($cart->getOrderTotal(true));
         $currency = EmspayHelper::getPaymentCurrency();
-        $webhookUrl = self::getWebHookUrl();
+        $webhookUrl = EmspayHelper::getWebHookUrl();
         try {
             $response = $this->ginger->createOrder([
 			'amount' => $totalInCents,                                                      // Amount in cents
@@ -501,16 +501,6 @@ class emspayKlarnaPayLater extends PaymentModule
         return $carrier->getTaxesRate(
             new Address((int) $this->context->cart->{Configuration::get('PS_TAX_ADDRESS_TYPE')})
         );
-    }
-
-    /**
-     * @return null|string
-     */
-    public static function getWebHookUrl()
-    {
-        return Configuration::get('EMS_PAY_USE_WEBHOOK')
-            ? _PS_BASE_URL_.__PS_BASE_URI__.'modules/emspay/webhook.php'
-            : null;
     }
     
     /**

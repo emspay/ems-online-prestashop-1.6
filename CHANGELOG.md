@@ -21,3 +21,7 @@
 
 * Added the ability for AfterPay to be available in the selected countries.
 * Replaced locally stored ginger-php library on composer library installer.
+
+** 1.9.1 ** 
+
+* Removed Webhook option from all payments.
