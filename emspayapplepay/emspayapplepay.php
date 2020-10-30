@@ -157,7 +157,7 @@ class emspayApplePay extends PaymentModule
         $returnURL = $this->getReturnURL($cart);
 
         try {
-            $response = $this->ginger->createOrder([
+            $response = $this->ginger->createOrder(array_filter([
 		    'amount' => $totalInCents,                                                      // Amount in cents
 		    'currency' => $currency,                                                        // Currency
 		    'transactions' => [
@@ -171,7 +171,7 @@ class emspayApplePay extends PaymentModule
 		    'customer' => $customer,                                                        // Customer information
 		    'extra' => ['plugin' => EmspayHelper::getPluginVersionText($this->version)],   	// Extra information
 		    'webhook_url' => $webhookUrl                                                    // Webhook URL
-            ]);
+            ]));
         } catch (\Exception $exception) {
             return Tools::displayError($exception->getMessage());
         }

@@ -267,7 +267,7 @@ class emspayKlarnaPayLater extends PaymentModule
         $currency = EmspayHelper::getPaymentCurrency();
         $webhookUrl = EmspayHelper::getWebHookUrl();
         try {
-            $response = $this->ginger->createOrder([
+            $response = $this->ginger->createOrder(array_filter([
 			'amount' => $totalInCents,                                                      // Amount in cents
 			'currency' => $currency,                                                        // Currency
 			'transactions' => [
@@ -282,7 +282,7 @@ class emspayKlarnaPayLater extends PaymentModule
 			'extra' => ['plugin' => EmspayHelper::getPluginVersionText($this->version)],    // Extra information
 			'webhook_url' => $webhookUrl,                                                   // Webhook URL
 			'order_lines' => $orderLines                                                    // Order lines
-		]);
+		]));
 
         } catch (\Exception $exception) {
             return Tools::displayError($exception->getMessage());
