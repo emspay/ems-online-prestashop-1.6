@@ -16,7 +16,7 @@ class emspaypaypal extends PaymentModule
     public function __construct()
     {
         $this->name = 'emspaypaypal';
-	  $this->method_id = 'paypal';
+	    $this->method_id = 'paypal';
         $this->tab = 'payments_gateways';
         $this->version = '1.9.1';
         $this->author = 'Ginger Payments';
@@ -152,7 +152,6 @@ class emspaypaypal extends PaymentModule
         $totalInCents = EmspayHelper::getAmountInCents($cart->getOrderTotal(true));
         $currency = EmspayHelper::getPaymentCurrency();
         $webhookUrl = EmspayHelper::getWebHookUrl();
-
         $returnURL = $this->getReturnURL($cart);
 
         try {

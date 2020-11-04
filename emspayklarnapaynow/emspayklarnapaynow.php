@@ -151,7 +151,6 @@ class emspayklarnapaynow extends PaymentModule
         $totalInCents = EmspayHelper::getAmountInCents($cart->getOrderTotal(true));
         $currency = EmspayHelper::getPaymentCurrency();
         $webhookUrl = EmspayHelper::getWebHookUrl();
-
         $returnURL = $this->getReturnURL($cart);
 
         try {

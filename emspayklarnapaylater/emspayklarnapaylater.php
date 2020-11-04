@@ -266,6 +266,8 @@ class emspayKlarnaPayLater extends PaymentModule
         $totalInCents = EmspayHelper::getAmountInCents($cart->getOrderTotal(true));
         $currency = EmspayHelper::getPaymentCurrency();
         $webhookUrl = EmspayHelper::getWebHookUrl();
+        $returnURL = $this->getReturnURL($cart);
+
         try {
             $response = $this->ginger->createOrder(array_filter([
 			'amount' => $totalInCents,                                                      // Amount in cents
@@ -277,7 +279,7 @@ class emspayKlarnaPayLater extends PaymentModule
 			],
 			'description' => $description,                                                  // Description
 			'merchant_order_id' => $this->currentOrder,                                     // Merchant Order Id
-			'return_url' => $this->getReturnURL($cart),                                     // Return URL
+			'return_url' => $returnURL,                                                     // Return URL
 			'customer' => $customer,                                                        // Customer information
 			'extra' => ['plugin' => EmspayHelper::getPluginVersionText($this->version)],    // Extra information
 			'webhook_url' => $webhookUrl,                                                   // Webhook URL
