@@ -3,10 +3,39 @@ This is the offical EMS Online plugin.
 
 ## About
 
-By integrating your webshop with EMS Online you can accept payments from your customers in an easy and trusted manner with all relevant payment methods supported.
+EMS helps entrepreneurs with the best, smartest and most efficient payment systems. Both 
+in your physical store and online in your webshop. With a wide range of payment methods 
+you can serve every customer.
 
+Why EMS?
+
+Via the EMS website you can create a free test account online 24/7 and try out the online 
+payment solution. EMS's online solution also offers the option of sending payment links and 
+accepting QR payments.
+
+The ideal online payment page for your webshop:
+- Free test account - available online 24/7
+- Wide range of payment methods
+- Easy integration via a plug-in or API
+- Free shopping cart plug-ins
+- Payment page in the look & feel of your webshop
+- Reports in the formats CAMT.053, MT940S, MT940 & CODA
+- One clear dashboard for all your payment, turnover data and administration functions
+
+Promotion promotion extended!
+
+Choose the EMS Online Payment Solution now
+and pay no subscription costs at € 9.95 throughout 2020!
+
+Start immediately with your test account
+Request it https://portal.emspay.eu/create-test-account?language=NL_NL 
+
+Satisfied after testing?
+Click on the yellow button [Begin→]
+ in the test portal and
+simply request your live account.
 ## Version number
-Version 1.9.0
+Version 1.9.1
 
 ## Pre-requisites to install the plug-ins: 
 - PHP v5.4 and above
@@ -22,8 +51,6 @@ You can use an sFTP or SCP program, for example, to upload the files. There are 
 4. Configure the EMS Online module
 - Enable the cURL CA bundle option.
 This fixes a cURL SSL Certificate issue that appears in some web-hosting environments where you do not have access to the PHP.ini file and therefore are not able to update server certificates.
-- Leave the 'Include Webhook URL with every order' option enabled.
-The plugin can automatically generate a webhook URL when a message is sent to the EMS API for new orders. To enable this option select ‘Include Webhook URL with every order’.
 - Copy the API key
 - Are you offering Afterpay on your pay page? In that case copy the API Key of your test webshop in the Afterpay Test API Key.
 When your Afterpay application was approved an extra test webshop was created for you to use in your test with Afterpay. The name of this webshop starts with ‘TEST Afterpay’.
