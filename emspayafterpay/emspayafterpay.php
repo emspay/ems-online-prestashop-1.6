@@ -23,7 +23,7 @@ class emspayAfterpay extends PaymentModule
         $this->name = 'emspayafterpay';
 	    $this->method_id = 'afterpay';
         $this->tab = 'payments_gateways';
-        $this->version = '1.9.0';
+        $this->version = '1.9.1';
         $this->author = 'Ginger Payments';
         $this->controllers = array('payment', 'validation');
         $this->is_eu_compatible = 1;
@@ -309,9 +309,10 @@ class emspayAfterpay extends PaymentModule
         $totalInCents = EmspayHelper::getAmountInCents($cart->getOrderTotal(true));
         $currency = EmspayHelper::getPaymentCurrency();
         $webhookUrl = EmspayHelper::getWebHookUrl();
+        $returnURL = $this->getReturnURL($cart);
  
         try {
-            $response = $this->ginger->createOrder([
+            $response = $this->ginger->createOrder(array_filter([
 		    'amount' => $totalInCents,                                                      // Amount in cents
 		    'currency' => $currency,                                                        // Currency
 		    'transactions' => [
@@ -321,17 +322,17 @@ class emspayAfterpay extends PaymentModule
 		    ],
 		    'description' => $description,                                                  // Description
 		    'merchant_order_id' => $this->currentOrder,                                     // Merchant Order Id
-		    'return_url' => $this->getReturnURL($cart),                                            // Return URL
+		    'return_url' => $returnURL,                                            // Return URL
 		    'customer' => $customer,                                                        // Customer information
 		    'extra' => ['plugin' => EmspayHelper::getPluginVersionText($this->version)],   	// Extra information
 		    'webhook_url' => $webhookUrl,                                                   // Webhook URL
 		    'order_lines' => $orderLines                                                    // Order lines
-            ]);
+            ]));
         } catch (\Exception $exception) {
             return Tools::displayError($exception->getMessage());
         }
 
-        if ($response['status'] == 'error') {
+        if (in_array($response['status'] ,['processing', 'error'])) {
             return Tools::displayError($response['transactions'][0]['reason']);
         }
  

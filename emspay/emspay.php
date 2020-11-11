@@ -24,7 +24,7 @@ class emspay extends PaymentModule
     {
         $this->name = 'emspay';
         $this->tab = 'payments_gateways';
-        $this->version = '1.9.0';
+        $this->version = '1.9.1';
         $this->author = 'Ginger Payments';
         $this->controllers = array('payment', 'validation');
         $this->is_eu_compatible = 1;
@@ -102,7 +102,6 @@ class emspay extends PaymentModule
             Configuration::updateValue('EMS_PAY_APIKEY', trim(Tools::getValue('EMS_PAY_APIKEY')));
             Configuration::updateValue('EMS_PAY_APIKEY_TEST', trim(Tools::getValue('EMS_PAY_APIKEY_TEST')));
             Configuration::updateValue('EMS_PAY_AFTERPAY_APIKEY_TEST', trim(Tools::getValue('EMS_PAY_AFTERPAY_APIKEY_TEST')));
-            Configuration::updateValue('EMS_PAY_USE_WEBHOOK', Tools::getValue('EMS_PAY_USE_WEBHOOK'));
             Configuration::updateValue('EMS_PAY_BUNDLE_CA', Tools::getValue('EMS_PAY_BUNDLE_CA'));
         }
         $this->_html .= $this->displayConfirmation($this->l('Settings updated'));
@@ -153,22 +152,6 @@ class emspay extends PaymentModule
                                 array(
                                     'id' => 'BUNDLE_CA',
                                     'name' => $this->l('Use cURL CA bundle'),
-                                    'val' => '1'
-                                ),
-                            ),
-                            'id' => 'id',
-                            'name' => 'name'
-                        )
-                    ),
-                    array(
-                        'type' => 'checkbox',
-                        'name' => 'EMS_PAY',
-                        'desc' => $this->l('Automatically provide webhook URL to the API'),
-                        'values' => array(
-                            'query' => array(
-                                array(
-                                    'id' => 'USE_WEBHOOK',
-                                    'name' => $this->l('Include Webhook URL with every order'),
                                     'val' => '1'
                                 ),
                             ),
@@ -233,7 +216,6 @@ class emspay extends PaymentModule
             'EMS_PAY_APIKEY_TEST' => Tools::getValue('EMS_PAY_APIKEY_TEST', Configuration::get('EMS_PAY_APIKEY_TEST')),
             'EMS_PAY_AFTERPAY_APIKEY_TEST' => Tools::getValue('EMS_PAY_AFTERPAY_APIKEY_TEST', Configuration::get('EMS_PAY_AFTERPAY_APIKEY_TEST')),
             'EMS_PAY_BUNDLE_CA' => Tools::getValue('EMS_PAY_BUNDLE_CA', Configuration::get('EMS_PAY_BUNDLE_CA')),
-            'EMS_PAY_USE_WEBHOOK' => Tools::getValue('EMS_PAY_USE_WEBHOOK', (Configuration::hasKey('EMS_PAY_USE_WEBHOOK')) ? Configuration::get('EMS_PAY_USE_WEBHOOK') : true)
         );
     }
 

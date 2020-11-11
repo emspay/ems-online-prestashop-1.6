@@ -18,7 +18,7 @@ class emspayCreditcard extends PaymentModule
         $this->name = 'emspaycreditcard';
 	  $this->method_id = 'credit-card';
         $this->tab = 'payments_gateways';
-        $this->version = '1.9.0';
+        $this->version = '1.9.1';
         $this->author = 'Ginger Payments';
         $this->controllers = array('payment', 'validation');
         $this->is_eu_compatible = 1;
@@ -151,13 +151,11 @@ class emspayCreditcard extends PaymentModule
         $description = sprintf($this->l('Your order at')." %s", Configuration::get('PS_SHOP_NAME'));
         $totalInCents = EmspayHelper::getAmountInCents($cart->getOrderTotal(true));
         $currency = EmspayHelper::getPaymentCurrency();
-        $webhookUrl = Configuration::get('EMS_PAY_USE_WEBHOOK')
-            ? _PS_BASE_URL_.__PS_BASE_URI__.'modules/emspay/webhook.php'
-            : null;
+        $webhookUrl = EmspayHelper::getWebHookUrl();
         $returnURL = $this->getReturnURL($cart);
 
         try {
-            $response = $this->ginger->createOrder([
+            $response = $this->ginger->createOrder(array_filter([
 		    'amount' => $totalInCents,                                                      // Amount in cents
 		    'currency' => $currency,                                                        // Currency
 		    'transactions' => [
@@ -171,7 +169,7 @@ class emspayCreditcard extends PaymentModule
 		    'customer' => $customer,                                                        // Customer information
 		    'extra' => ['plugin' => EmspayHelper::getPluginVersionText($this->version)],   	// Extra information
 		    'webhook_url' => $webhookUrl                                                    // Webhook URL
-		]);
+		]));
         } catch (\Exception $exception) {
             return Tools::displayError($exception->getMessage());
         }

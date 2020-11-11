@@ -20,7 +20,7 @@ class emspayKlarnaPayLater extends PaymentModule
         $this->name = 'emspayklarnapaylater';
 	  $this->method_id = 'klarna-pay-later';
         $this->tab = 'payments_gateways';
-        $this->version = '1.9.0';
+        $this->version = '1.9.1';
         $this->author = 'Ginger Payments';
         $this->controllers = array('payment', 'validation');
         $this->is_eu_compatible = 1;
@@ -265,9 +265,11 @@ class emspayKlarnaPayLater extends PaymentModule
         $description = sprintf($this->l('Your order at')." %s", Configuration::get('PS_SHOP_NAME'));
         $totalInCents = EmspayHelper::getAmountInCents($cart->getOrderTotal(true));
         $currency = EmspayHelper::getPaymentCurrency();
-        $webhookUrl = self::getWebHookUrl();
+        $webhookUrl = EmspayHelper::getWebHookUrl();
+        $returnURL = $this->getReturnURL($cart);
+
         try {
-            $response = $this->ginger->createOrder([
+            $response = $this->ginger->createOrder(array_filter([
 			'amount' => $totalInCents,                                                      // Amount in cents
 			'currency' => $currency,                                                        // Currency
 			'transactions' => [
@@ -277,12 +279,12 @@ class emspayKlarnaPayLater extends PaymentModule
 			],
 			'description' => $description,                                                  // Description
 			'merchant_order_id' => $this->currentOrder,                                     // Merchant Order Id
-			'return_url' => $this->getReturnURL($cart),                                     // Return URL
+			'return_url' => $returnURL,                                                     // Return URL
 			'customer' => $customer,                                                        // Customer information
 			'extra' => ['plugin' => EmspayHelper::getPluginVersionText($this->version)],    // Extra information
 			'webhook_url' => $webhookUrl,                                                   // Webhook URL
 			'order_lines' => $orderLines                                                    // Order lines
-		]);
+		]));
 
         } catch (\Exception $exception) {
             return Tools::displayError($exception->getMessage());
@@ -501,16 +503,6 @@ class emspayKlarnaPayLater extends PaymentModule
         return $carrier->getTaxesRate(
             new Address((int) $this->context->cart->{Configuration::get('PS_TAX_ADDRESS_TYPE')})
         );
-    }
-
-    /**
-     * @return null|string
-     */
-    public static function getWebHookUrl()
-    {
-        return Configuration::get('EMS_PAY_USE_WEBHOOK')
-            ? _PS_BASE_URL_.__PS_BASE_URI__.'modules/emspay/webhook.php'
-            : null;
     }
     
     /**

@@ -28,9 +28,7 @@ class EmspayHelper
      */
     public static function getWebHookUrl()
     {
-        return Configuration::get('EMS_PAY_USE_WEBHOOK')
-            ? _PS_BASE_URL_.__PS_BASE_URI__.'modules/emspay/webhook.php'
-            : null;
+        return _PS_BASE_URL_.__PS_BASE_URI__.'modules/emspay/webhook.php';
     }
     
     /**
