@@ -49,7 +49,7 @@ $order_details = $emspay->ginger->getOrder($ginger_order_id);
 
 echo "WEBHOOK: Found status: ".$order_details['status']."\n";
 
-if ($order_details['status'] == "completed") {
+if ($order_details['status']) {
 
     if (!empty($row['id_order'])) {
         echo "WEBHOOK: id_order was not empty but: ".$row['id_order']."\n";
