@@ -105,7 +105,7 @@ if (!empty($order_details)) {
         Db::getInstance()->update('emspay', array("id_order" => $id_order),
             '`ginger_order_id` = "'.Db::getInstance()->escape($ginger_order_id).'"');
 
-        $order_details['merchant_customer_id'] = $id_order;
+        $order_details['merchant_order_id'] = $id_order;
         $emspay->ginger->updateOrder($ginger_order_id, $order_details);
     }
 }
