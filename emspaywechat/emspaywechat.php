@@ -18,7 +18,7 @@ class emspayWechat extends PaymentModule
         $this->name = 'emspaywechat';
         $this->method_id = 'wechat';
         $this->tab = 'payments_gateways';
-        $this->version = '1.9.1';
+        $this->version = '1.9.2';
         $this->author = 'Ginger Payments';
         $this->controllers = array('payment', 'validation');
         $this->is_eu_compatible = 1;
