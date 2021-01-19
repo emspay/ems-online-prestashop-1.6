@@ -47,29 +47,45 @@ $emspay = new $row['payment_method']();
 
 $order_details = $emspay->ginger->getOrder($ginger_order_id);
 
-echo "WEBHOOK: Found status: ".$order_details['status']."\n";
+if (!empty($order_details)) {
 
-if ($order_details['status'] == "completed") {
+    echo "WEBHOOK: Found status: " . $order_details['status'] . "\n";
 
     if (!empty($row['id_order'])) {
-        echo "WEBHOOK: id_order was not empty but: ".$row['id_order']."\n";
+        echo "WEBHOOK: id_order was not empty but: " . $row['id_order'] . "\n";
 
         if (empty(Context::getContext()->link)) {
             Context::getContext()->link = new link();
         } // workaround a prestashop bug so email is sent
         $order = new Order((int) $row['id_order']);
 
-        // only update order state if differs
-        if ($order->current_state != (int) Configuration::get('PS_OS_PAYMENT')) {
-            echo "WEBHOOK: updating status, old status was: ".$order->current_state."\n";
+        switch ($order_details['status']) {
+            case 'new':
+            case 'processing':
+                $order_status = (int) Configuration::get('PS_OS_PREPARATION');
+                break;
 
-            $new_history = new OrderHistory();
-            $new_history->id_order = (int) $order->id;
-            $order_status = (int) Configuration::get('PS_OS_PAYMENT');
-            $new_history->changeIdOrderState((int) $order_status, $order, true);
-            $new_history->addWithemail(true);
+            case 'completed':
+                $order_status = (int) Configuration::get('PS_OS_PAYMENT');
+                break;
+
+            case 'error':
+                $order_status = (int) Configuration::get('PS_OS_ERROR');
+                break;
+
+            case 'cancelled':
+            case 'expired':
+                $order_status = (int) Configuration::get('PS_OS_CANCELED');
+                break;
         }
-    } else {
+
+        echo "WEBHOOK: updating status, old status was: " . $order->current_state . "\n";
+
+        $new_history = new OrderHistory();
+        $new_history->id_order = (int) $order->id;
+        $new_history->changeIdOrderState($order_status, $order, true);
+        $new_history->addWithemail(true);
+    }  else {
         echo "WEBHOOK: id_order is empty\n";
 
         // check if the cart id already is an order
@@ -89,6 +105,7 @@ if ($order_details['status'] == "completed") {
         Db::getInstance()->update('emspay', array("id_order" => $id_order),
             '`ginger_order_id` = "'.Db::getInstance()->escape($ginger_order_id).'"');
 
-        $emspay->ginger->updateOrder($id_order,$order_details);
+        $order_details['merchant_order_id'] = $id_order;
+        $emspay->ginger->updateOrder($ginger_order_id, $order_details);
     }
 }
