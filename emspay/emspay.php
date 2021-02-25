@@ -71,7 +71,11 @@ class emspay extends PaymentModule
 
         $emspay_install = new emspayInstall();
 
-        if (!parent::install() || !$emspay_install->createTables() || !$emspay_install->createOrderState()) {
+        if (!parent::install()
+            || !$emspay_install->createTables()
+            || !$emspay_install->createOrderState()
+            || !$this->registerHook('actionProductCancel')
+            || !$this->registerHook('OrderSlip')) {
             return false;
         }
 
