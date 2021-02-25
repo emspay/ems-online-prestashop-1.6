@@ -255,7 +255,6 @@ class emspay extends PaymentModule
      */
     public function hookActionProductCancel($params)
     {
-        echo '<pre>';
         try {
             $orderId = $params['order']->id;
             $productPrice = filter_input(INPUT_POST, 'product_price_tax_incl', FILTER_VALIDATE_FLOAT);
