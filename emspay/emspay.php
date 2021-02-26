@@ -248,8 +248,7 @@ class emspay extends PaymentModule
                                      $params['order']->id_cart,
                                      $params['order']->module);
             }
-        } catch
-        (Exception $e) {
+        } catch (Exception $e) {
             echo $e->getMessage();
         }
     }
