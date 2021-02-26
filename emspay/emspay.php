@@ -289,8 +289,7 @@ class emspay extends PaymentModule
                 }
             }
 
-            $cancelQuantity = array_shift($cancelQuantityPost['cancelQuantity']);
-            $amount = EmspayHelper::getAmountInCents($productPrice * $cancelQuantity);
+            $amount = EmspayHelper::getAmountInCents($productPrice);
 
             $this->productRefund($orderId,
                                  (int) $amount,
