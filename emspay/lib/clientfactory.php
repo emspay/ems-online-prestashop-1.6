@@ -1,6 +1,5 @@
 <?php
 
-require_once(_PS_MODULE_DIR_ . '/emspay/lib/emspayhelper.php');
 
 /**
  * Simple Ginger client facorty

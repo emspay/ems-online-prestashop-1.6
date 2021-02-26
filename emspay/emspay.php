@@ -5,6 +5,7 @@ if (!defined('_PS_VERSION_')) {
 }
 
 require_once(_PS_MODULE_DIR_.'/emspay/vendor/autoload.php');
+require_once(_PS_MODULE_DIR_ . '/emspay/lib/emspayhelper.php');
 require_once(_PS_MODULE_DIR_ . '/emspay/lib/clientfactory.php');
 
 class emspay extends PaymentModule
