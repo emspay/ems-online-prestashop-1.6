@@ -2,7 +2,7 @@
 <module>
 	<name>emspaytikkiepaymentrequest</name>
 	<displayName><![CDATA[EMS Online - Tikkie Payment Request]]></displayName>
-	<version><![CDATA[1.9.3]]></version>
+	<version><![CDATA[1.9.4]]></version>
 	<description><![CDATA[Accept payments for your products using Tikkie Payment Request.]]></description>
 	<author><![CDATA[Ginger Payments]]></author>
 	<tab><![CDATA[payments_gateways]]></tab>
