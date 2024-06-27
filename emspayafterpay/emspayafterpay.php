@@ -23,7 +23,7 @@ class emspayAfterpay extends PaymentModule
         $this->name = 'emspayafterpay';
 	    $this->method_id = 'afterpay';
         $this->tab = 'payments_gateways';
-        $this->version = '1.9.3';
+        $this->version = '1.9.4';
         $this->author = 'Ginger Payments';
         $this->controllers = array('payment', 'validation');
         $this->is_eu_compatible = 1;

@@ -34,3 +34,7 @@
 ** 1.9.3 ** 
 
 * Added refund functionality.
+
+** 1.9.4 **
+
+* Removed ideal issuers select
